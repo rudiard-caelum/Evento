@@ -5,8 +5,9 @@
 	<persistence-unit name="eventoDB">
 
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		
+
 		<class>br.com.caelum.evento.domain.Usuario</class>
+		<class>br.com.caelum.evento.domain.Evento</class>
 
 		<properties>
 
