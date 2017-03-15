@@ -1,9 +1,8 @@
 package br.com.caelum.evento.util;
 
-import static org.junit.Assert.assertNotNull;
-
 import javax.persistence.EntityManager;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class JPAUtilTest {
@@ -11,7 +10,7 @@ public class JPAUtilTest {
 	@Test
 	public void deveCriaEntityManager() {
 		EntityManager manager = new JPAUtil().getEntityManager();
-		assertNotNull(manager);
+		Assert.assertNotNull(manager);
 		manager.close();
 	}
 
