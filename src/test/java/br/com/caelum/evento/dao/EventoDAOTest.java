@@ -4,7 +4,6 @@ import java.util.Random;
 
 import org.joda.time.DateTime;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import br.com.caelum.evento.domain.Evento;
@@ -52,7 +51,6 @@ public class EventoDAOTest {
 		this.usuarioEvento = new Usuario();
 	}
 
-	@Ignore
 	@Test
 	public void deveInserirEvento() {
 		this.setEvento(this.evento);
@@ -65,7 +63,6 @@ public class EventoDAOTest {
 		}
 	}
 
-	@Ignore
 	@Test
 	public void deveAlterarDescricao() {
 		this.excluiEvento = false;
@@ -88,7 +85,6 @@ public class EventoDAOTest {
 		Assert.assertNull(this.usuarioEvento);
 	}
 
-	@Ignore
 	@Test
 	public void deveBuscarId() {
 		this.excluiEvento = false;
@@ -97,7 +93,6 @@ public class EventoDAOTest {
 		this.excluirEvento();
 	}
 
-	@Ignore
 	@Test
 	public void deveBuscarString() {
 		this.excluiEvento = false;
@@ -106,7 +101,6 @@ public class EventoDAOTest {
 		this.excluirEvento();
 	}
 
-	@Ignore
 	@Test
 	public void deveListarUsuarios() {
 		this.excluiEvento = false;
