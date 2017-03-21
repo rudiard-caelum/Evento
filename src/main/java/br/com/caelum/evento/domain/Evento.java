@@ -1,6 +1,7 @@
 package br.com.caelum.evento.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,17 +11,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.Type;
-import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 @Entity
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = "nome", name = "unq_nome") })
 public class Evento implements Serializable {
 
-	private static final long serialVersionUID = -4881425218522926364L;
+	private static final long serialVersionUID = 3167570039846930250L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,8 +49,13 @@ public class Evento implements Serializable {
 	@Column(length = 200, nullable = false)
 	private String logo;
 
-	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-	private DateTime data;
+	@Column(nullable = false)
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
+	private LocalDate data = new LocalDate();
+
+	@OneToMany(mappedBy = "evento")
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private List<Palestra> palestras;
 
 	public Long getId() {
 		return id;
@@ -104,12 +113,20 @@ public class Evento implements Serializable {
 		this.logo = logo;
 	}
 
-	public DateTime getData() {
+	public LocalDate getData() {
 		return data;
 	}
 
-	public void setData(DateTime data) {
+	public void setData(LocalDate data) {
 		this.data = data;
+	}
+
+	public List<Palestra> getPalestras() {
+		return palestras;
+	}
+
+	public void setPalestras(List<Palestra> palestras) {
+		this.palestras = palestras;
 	}
 
 	@Override
@@ -122,6 +139,7 @@ public class Evento implements Serializable {
 		result = prime * result + ((local == null) ? 0 : local.hashCode());
 		result = prime * result + ((logo == null) ? 0 : logo.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((palestras == null) ? 0 : palestras.hashCode());
 		result = prime * result + ((site == null) ? 0 : site.hashCode());
 		result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
 		return result;
@@ -165,6 +183,11 @@ public class Evento implements Serializable {
 			if (other.nome != null)
 				return false;
 		} else if (!nome.equals(other.nome))
+			return false;
+		if (palestras == null) {
+			if (other.palestras != null)
+				return false;
+		} else if (!palestras.equals(other.palestras))
 			return false;
 		if (site == null) {
 			if (other.site != null)
