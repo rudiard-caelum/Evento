@@ -47,6 +47,9 @@ public class Palestra implements Cloneable, Serializable {
 	}
 
 	public boolean podeSubmeterPalestra() {
+		if (!this.getEvento().isPermiteSubmissao()) {
+			return false;
+		}
 		LocalDate dataAtual = new LocalDate();
 		LocalDate dataEvento = this.getEvento().getData();
 		if (Days.daysBetween(dataAtual, dataEvento).getDays() <= 0) {
