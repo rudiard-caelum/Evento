@@ -10,10 +10,10 @@ import br.com.caelum.evento.domain.Usuario;
 public class UsuarioDAOTest {
 
 	private String nomeUsuario;
-	private String senhaUsuario = "123456";
-	private String emailUsuario = "teste@teste.com";
 	private boolean excluiUsuario = true;
+
 	private Usuario usuario = new Usuario();
+
 	private UsuarioDAO usuarioDAO = new UsuarioDAO();
 
 	private void setUsuario(Usuario usr) {
@@ -21,8 +21,8 @@ public class UsuarioDAOTest {
 		Integer inteiro = rdm.nextInt();
 		this.nomeUsuario = "TESTE_" + inteiro.toString();
 		usr.setNome(this.nomeUsuario);
-		usr.setEmail(this.emailUsuario);
-		usr.setSenha(this.senhaUsuario);
+		usr.setEmail("teste@teste.com");
+		usr.setSenha("123456");
 	}
 
 	private void excluirUsuario() {
@@ -58,8 +58,7 @@ public class UsuarioDAOTest {
 		this.excluiUsuario = false;
 		this.deveInserirUsuario();
 		this.usuarioDAO.remove(this.usuario);
-		this.usuario = (Usuario) this.usuarioDAO.buscaString(this.nomeUsuario, "nome");
-		Assert.assertNull(this.usuario);
+		Assert.assertNull(this.usuarioDAO.buscaString(this.nomeUsuario, "nome"));
 	}
 
 	@Test
