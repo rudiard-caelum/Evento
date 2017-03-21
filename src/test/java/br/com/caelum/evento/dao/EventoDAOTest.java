@@ -2,7 +2,6 @@ package br.com.caelum.evento.dao;
 
 import java.util.Random;
 
-import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -12,14 +11,11 @@ import br.com.caelum.evento.domain.Usuario;
 public class EventoDAOTest {
 
 	private String nomeEvento;
-	private String descricaoEvento = "Descricao do Evento";
-	private String siteEvento = "www.caelum.com.br";
-	private Usuario usuarioEvento = new Usuario();
-	private String localEvento = "Rua Vergueiro, 3185 - Vila Mariana - Sao Paulo/SP";
-	private String logoEvento = "Logo";
-	private DateTime dataEvento = new DateTime();
 	private boolean excluiEvento = true;
+
+	private Usuario usuarioEvento = new Usuario();
 	private Evento evento = new Evento();
+
 	private UsuarioDAO usuarioDAO = new UsuarioDAO();
 	private EventoDAO eventoDAO = new EventoDAO();
 
@@ -30,12 +26,11 @@ public class EventoDAOTest {
 		this.usuarioEvento.setNome(this.nomeEvento);
 		this.usuarioEvento.setSenha("123");
 		evt.setNome(this.nomeEvento);
-		evt.setDescricao(this.descricaoEvento);
-		evt.setSite(this.siteEvento);
+		evt.setDescricao("DESCRICAO DO EVENTO");
+		evt.setSite("www.caelum.com.br");
 		evt.setUsuario(this.usuarioEvento);
-		evt.setLocal(this.localEvento);
-		evt.setLogo(this.logoEvento);
-		evt.setData(this.dataEvento);
+		evt.setLocal("ENDERECO DO EVENTO");
+		evt.setLogo("LOGO");
 	}
 
 	private void excluirEvento() {
@@ -67,9 +62,9 @@ public class EventoDAOTest {
 	public void deveAlterarDescricao() {
 		this.excluiEvento = false;
 		this.deveInserirEvento();
-		this.evento.setDescricao("Nova Descricao");
+		this.evento.setDescricao("NOVA DESCRICAO");
 		this.eventoDAO.altera(this.evento);
-		Assert.assertEquals("Nova Descricao", this.evento.getDescricao());
+		Assert.assertEquals("NOVA DESCRICAO", this.evento.getDescricao());
 		this.excluirEvento();
 	}
 
@@ -80,9 +75,8 @@ public class EventoDAOTest {
 		this.eventoDAO.remove(this.evento);
 		this.evento = (Evento) this.eventoDAO.buscaString(this.nomeEvento, "nome");
 		Assert.assertNull(this.evento);
-		usuarioDAO.remove(this.usuarioEvento);
-		this.usuarioEvento = (Usuario) this.usuarioDAO.buscaString(this.usuarioEvento.getNome(), "nome");
-		Assert.assertNull(this.usuarioEvento);
+		this.usuarioDAO.remove(this.usuarioEvento);
+		Assert.assertNull(this.usuarioDAO.buscaString(this.usuarioEvento.getNome(), "nome"));
 	}
 
 	@Test
