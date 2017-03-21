@@ -173,4 +173,13 @@ public class PalestraDAOTest {
 		this.excluirPalestra();
 	}
 
+	@Test
+	public void naoPodeSubmeterPalestraParaEventoFechado() {
+		this.setPalestra(this.palestra);
+		this.evento.setPermiteSubmissao(false);
+		this.evento.setData(this.evento.getData().plusDays(1));
+		Assert.assertFalse(this.palestra.podeSubmeterPalestra());
+		this.excluirPalestra();
+	}
+
 }
