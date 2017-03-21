@@ -53,6 +53,8 @@ public class Evento implements Serializable {
 	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
 	private LocalDate data = new LocalDate();
 
+	private boolean permiteSubmissao = true;
+
 	@OneToMany(mappedBy = "evento")
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<Palestra> palestras;
@@ -121,6 +123,14 @@ public class Evento implements Serializable {
 		this.data = data;
 	}
 
+	public boolean isPermiteSubmissao() {
+		return permiteSubmissao;
+	}
+
+	public void setPermiteSubmissao(boolean permiteSubmissao) {
+		this.permiteSubmissao = permiteSubmissao;
+	}
+
 	public List<Palestra> getPalestras() {
 		return palestras;
 	}
@@ -140,6 +150,7 @@ public class Evento implements Serializable {
 		result = prime * result + ((logo == null) ? 0 : logo.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((palestras == null) ? 0 : palestras.hashCode());
+		result = prime * result + (permiteSubmissao ? 1231 : 1237);
 		result = prime * result + ((site == null) ? 0 : site.hashCode());
 		result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
 		return result;
@@ -188,6 +199,8 @@ public class Evento implements Serializable {
 			if (other.palestras != null)
 				return false;
 		} else if (!palestras.equals(other.palestras))
+			return false;
+		if (permiteSubmissao != other.permiteSubmissao)
 			return false;
 		if (site == null) {
 			if (other.site != null)
