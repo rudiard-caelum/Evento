@@ -1,0 +1,39 @@
+.ui-layout-pane-west, .ui-layout-pane-center, .ui-layout-pane-south {
+	font-size: 14px;
+}
+
+.ui-layout-pane-north, .ui-layout-pane-south, .ui-layout-pane-center {
+	margin-left: 2px !important;
+	margin-right: 3px !important;
+}
+
+.ui-layout-pane-north, .ui-layout-pane-center {
+	margin-top: 3px !important;
+}
+
+#tituloSistema {
+	font-size: 18px;
+	font-weight: 700;
+	position: relative;
+	float: left;
+	margin-left: 2px;
+	margin-top: 12px;
+	text-shadow: 0.5px 0.5px 0 #000000;
+}
+
+.imagemCentro {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -100px;
+	margin-left: -250px;
+}
+
+#rodape {
+	font-size: 14px;
+	font-weight: 700;
+	position: relative;
+	float: left;
+	margin-left: 2px;
+	margin-top: 6px;
+}
