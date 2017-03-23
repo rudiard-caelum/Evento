@@ -37,3 +37,56 @@
 	margin-left: 2px;
 	margin-top: 6px;
 }
+
+h2{
+	display:block;
+	position:relative;
+	overflow:hidden;
+	color:#2B2926;
+	text-align:left;
+	height:auto;
+	margin-bottom:10px;
+	border-bottom: 1px solid;
+	clear: both;
+	font-size: x-large;
+	width: 100%;
+}
+
+input:not(.ui-widget), textarea:not(.ui-widget), select {
+	-moz-border-radius: 5px 5px 5px 5px;
+	-webkit-border-radius: 5px 5px 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+	background: url("../resources/imagens/txt.gif") repeat-x scroll 0 0 transparent;
+	border: 1px solid #999999;
+	padding: 5px 2px;
+	margin-left: 2px;
+	margin-bottom: 5px;
+	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.5);
+}
+
+.panelGridDataForm {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.panelButtonDataForm {
+	padding: 5px 5px 5px 0 !important;
+}
+
+.panelButtonDataForm input[type=submit] {
+	height: 30px;
+	width: 120px;
+}
+
+input[type=submit] {
+	-moz-border-radius: 5px 5px 5px 5px;
+	-webkit-border-radius: 5px 5px 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+	background: url("../resources/imagens/backgroundButton.gif") repeat-x scroll 0 0 #2A2A2A;
+	border: 1px solid #272727;
+	color: #FFFFFF;
+	cursor: pointer;
+	padding: 3px;
+	position: relative;
+	text-shadow: 1px 1px 0 #000000;
+}
