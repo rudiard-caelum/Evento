@@ -9,25 +9,41 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = "nome", name = "unq_nome") })
 public class Usuario implements Serializable {
 
-	private static final long serialVersionUID = -3554796175283703098L;
+	private static final long serialVersionUID = 8034400613730481118L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@NotEmpty(message = "Nome do usuário é obrigatório.")
+	@Size(min = 2, max = 50, message = "Tamanho inválido para o campo (2 até 50).")
 	@Column(length = 50, nullable = false)
 	private String nome;
 
+	@Email
+	@Size(min = 0, max = 100, message = "Tamanho inválido para o campo (até 100).")
 	@Column(length = 100, nullable = true)
 	private String email;
 
+	@Size(min = 0, max = 50, message = "Tamanho inválido para o campo (até 50).")
 	@Column(length = 50, nullable = false)
 	private String senha;
+
+	public boolean confirmaSenha(String confSenha) {
+		if (this.getSenha().equals(confSenha)) {
+			return false;
+		}
+		return true;
+	}
 
 	public Long getId() {
 		return id;
