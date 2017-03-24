@@ -2,52 +2,44 @@ package br.com.caelum.evento.dao;
 
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import br.com.caelum.evento.util.JPAUtil;
-
-@SuppressWarnings("rawtypes")
 public abstract class GenericDAO<T> {
 
-	private Class clazz;
-	private EntityManager manager = new JPAUtil().getEntityManager();
+	private Class<T> clazz;
+
+	@Inject
+	private EntityManager manager;
 
 	public GenericDAO() {
 	}
 
-	public GenericDAO(Class clazz) {
+	public GenericDAO(Class<T> clazz) {
 		this.clazz = clazz;
 
 	}
 
 	public void adiciona(T entity) {
-		this.manager.getTransaction().begin();
 		this.manager.persist(entity);
-		this.manager.getTransaction().commit();
 	}
 
 	public void altera(T entity) {
-		this.manager.getTransaction().begin();
 		this.manager.merge(entity);
-		this.manager.getTransaction().commit();
 	}
 
 	public void remove(T entity) {
-		this.manager.getTransaction().begin();
 		this.manager.remove(entity);
-		this.manager.getTransaction().commit();
 	}
 
-	@SuppressWarnings("unchecked")
 	public T buscaId(Long id) {
 		return (T) this.manager.find(clazz, id);
 	}
 
-	@SuppressWarnings("unchecked")
 	public Object buscaString(String valor, String campo) {
 		try {
 			CriteriaBuilder builder = this.manager.getCriteriaBuilder();
@@ -62,7 +54,6 @@ public abstract class GenericDAO<T> {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<T> lista() {
 		return this.manager.createQuery("select g from " + clazz.getSimpleName() + " g", clazz).getResultList();
 	}
