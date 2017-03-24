@@ -4,6 +4,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 <h:head>
 	<title>
@@ -13,6 +14,9 @@
 	<h:outputStylesheet library="css" name="estilo.css" />
 </h:head>
 <h:body>
+
+	<p:growl id="msgGlobal" stick="true" />
+
 	<p:layout fullPage="true">
 		<p:layoutUnit position="north" size="60">
 			<ui:include src="/templates/_header.xhtml"></ui:include>
@@ -24,17 +28,16 @@
 
 		<p:layoutUnit position="center">
 			<h:form>
-				<p:growl id="messages"/>
-					<p:menubar>
-						<p:submenu label="Menu">
-							<p:menuitem value="Home" url="/index.xhtml" icon="ui-icon-home" />
-							<p:menuitem value="Login" url="#" icon="ui-icon-locked" />
-							<p:menuitem value="Usuários" url="/restrito/usuario.xhtml" icon="ui-icon-suitcase" />
-							<p:menuitem value="Eventos" url="#" icon="ui-icon-pin-w" />
-							<p:menuitem value="Palestras" url="#" icon="ui-icon-link" />
-							<p:menuitem value="Sair" url="#" icon="ui-icon-circle-close" />
-						</p:submenu>
-					</p:menubar>
+				<p:menubar>
+					<p:submenu label="Menu">
+						<p:menuitem value="Home" url="/index.xhtml" icon="ui-icon-home" />
+						<p:menuitem value="Login" url="#" icon="ui-icon-locked" />
+						<p:menuitem value="Usuários" url="/restrito/usuario.xhtml" icon="ui-icon-suitcase" />
+						<p:menuitem value="Eventos" url="#" icon="ui-icon-pin-w" />
+						<p:menuitem value="Palestras" url="#" icon="ui-icon-link" />
+						<p:menuitem value="Sair" url="#" icon="ui-icon-circle-close" />
+					</p:submenu>
+				</p:menubar>
 			</h:form>
 			<ui:insert name="conteudo" />
 		</p:layoutUnit>
