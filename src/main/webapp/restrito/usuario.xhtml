@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<ui:composition template="/templates/_template.xhtml">
+
+		<ui:define name="conteudo">
+
+			<h2>Cadastro de Usuários</h2>
+
+			<h:form id="dataForm">
+				<h:panelGrid columns="2" styleClass="panelGridDataForm">
+					<h:outputText />
+					<h:inputHidden value="#{usuarioBean.usuario.id}" />
+					<h:outputText value="Nome:" />
+					<h:inputText id="nome" value="#{usuarioBean.usuario.nome}" size="50" />
+					<h:outputText value="E-mail:" />
+					<h:inputText id="email" value="#{usuarioBean.usuario.email}" size="70" />
+					<h:outputText value="Senha:" />
+					<h:inputSecret id="senha" value="#{usuarioBean.usuario.senha}" size="50" />
+					<h:outputText value="Confirma Senha:" />
+					<h:inputSecret id="confirmaSenha" value="#{usuarioBean.confirmaSenha}" size="50" />
+				</h:panelGrid>
+
+				<h:panelGrid columns="3" styleClass="panelButtonDataForm">
+					<p:commandButton value="Novo" actionListener="#{usuarioBean.novo}">
+						<f:ajax render="@form" execute="@this" />
+					</p:commandButton>
+					<p:commandButton value="Salvar" actionListener="#{usuarioBean.salvar}" update=":msgGlobal :formListaUsuario">
+						<f:ajax render="@form :formListaUsuario" execute="@this" />
+					</p:commandButton>
+					<p:commandButton value="Cancelar" actionListener="#{usuarioBean.cancelar}" rendered="#{not empty usuarioBean.usuario.id}" update=":msgGlobal">
+						<f:ajax render="@form" execute="@this" />
+					</p:commandButton>
+				</h:panelGrid>
+			</h:form>
+
+			<p:separator />
+
+			<h:form id="formListaUsuario">
+				<p:dataTable emptyMessage="Nenhum registro encontrado." paginator="true" rows="5" value="#{usuarioBean.usuarios}" var="usuario">
+					<p:column headerText="Usuário" style="width: 40%;" sortBy="#{usuario.nome}" filterBy="#{usuario.nome}">
+						<h:outputText value="#{usuario.nome}" /> 
+					</p:column>
+					<p:column headerText="E-Mail" style="width: 54%;" sortBy="#{usuario.email}" filterBy="#{usuario.email}">
+						<h:outputText value="#{usuario.email}" />
+					</p:column>
+					<p:column headerText="Operações" style="width: 6%;">
+						<p:commandButton update=":dataForm" title="Editar" icon="ui-icon-pencil">
+							<f:setPropertyActionListener value="#{usuario}" target="#{usuarioBean.usuario}" />
+							<f:ajax render=":dataForm" execute="@this" />
+						</p:commandButton>
+						<p:commandButton actionListener="#{usuarioBean.remove(usuario)}" update=":msgGlobal :formListaUsuario" title="Excluir" icon="ui-icon-trash">
+							<p:confirm header="Confirmação" message="Deseja excluir o usuário?" icon="ui-icon-alert" />
+							<f:ajax render="@form" />
+						</p:commandButton>
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</p:confirmDialog>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+
+		</ui:define>
+
+	</ui:composition>
+
+</html>
