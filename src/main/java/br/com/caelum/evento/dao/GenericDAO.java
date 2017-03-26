@@ -50,12 +50,16 @@ public abstract class GenericDAO<T> {
 			Object result = this.manager.createQuery(criteria).getSingleResult();
 			return result;
 		} catch (RuntimeException re) {
+			re.printStackTrace();
 			return null;
 		}
 	}
 
 	public List<T> lista() {
-		return this.manager.createQuery("select g from " + clazz.getSimpleName() + " g", clazz).getResultList();
+		CriteriaQuery<T> query = manager.getCriteriaBuilder().createQuery(clazz);
+		query.select(query.from(clazz));
+		List<T> lista = manager.createQuery(query).getResultList();
+		return lista;
 	}
 
 }
