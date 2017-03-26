@@ -31,8 +31,8 @@
 					<p:commandButton value="Novo" actionListener="#{usuarioBean.novo}">
 						<f:ajax render="@form" execute="@this" />
 					</p:commandButton>
-					<p:commandButton value="Salvar" actionListener="#{usuarioBean.salvar}" update=":msgGlobal :formListaUsuario">
-						<f:ajax render="@form :formListaUsuario" execute="@this" />
+					<p:commandButton value="Salvar" actionListener="#{usuarioBean.salvar}" update=":msgGlobal :formListaUsuario :dataForm">
+						<f:ajax render="@form :formListaUsuario :dataForm" execute="@this" />
 					</p:commandButton>
 					<p:commandButton value="Cancelar" actionListener="#{usuarioBean.cancelar}" rendered="#{not empty usuarioBean.usuario.id}" update=":msgGlobal">
 						<f:ajax render="@form" execute="@this" />
@@ -43,21 +43,23 @@
 			<p:separator />
 
 			<h:form id="formListaUsuario">
-				<p:dataTable emptyMessage="Nenhum registro encontrado." paginator="true" rows="5" value="#{usuarioBean.usuarios}" var="usuario">
+				<p:dataTable value="#{usuarioBean.usuarios}" var="usuario" emptyMessage="Nenhum registro encontrado." paginator="true" rows="5">
 					<p:column headerText="Usuário" style="width: 40%;" sortBy="#{usuario.nome}" filterBy="#{usuario.nome}">
 						<h:outputText value="#{usuario.nome}" /> 
 					</p:column>
 					<p:column headerText="E-Mail" style="width: 54%;" sortBy="#{usuario.email}" filterBy="#{usuario.email}">
 						<h:outputText value="#{usuario.email}" />
 					</p:column>
+
 					<p:column headerText="Operações" style="width: 6%;">
 						<p:commandButton update=":dataForm" title="Editar" icon="ui-icon-pencil">
 							<f:setPropertyActionListener value="#{usuario}" target="#{usuarioBean.usuario}" />
 							<f:ajax render=":dataForm" execute="@this" />
 						</p:commandButton>
-						<p:commandButton actionListener="#{usuarioBean.remove(usuario)}" update=":msgGlobal :formListaUsuario" title="Excluir" icon="ui-icon-trash">
+
+						<p:commandButton action="#{usuarioBean.remove(usuario)}" update=":msgGlobal formListaUsuario" title="Excluir" icon="ui-icon-trash">
 							<p:confirm header="Confirmação" message="Deseja excluir o usuário?" icon="ui-icon-alert" />
-							<f:ajax render="@form" />
+ 							<f:ajax render="@form" />
 						</p:commandButton>
 						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 							<p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
