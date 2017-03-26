@@ -74,8 +74,8 @@ public class UsuarioBean implements Serializable {
 				}
 				this.usuarioDAO.altera(this.usuario);
 			}
-			this.usuarios = this.usuarioDAO.lista();
 			this.limpaJSF();
+			this.usuarios = this.usuarioDAO.lista();
 			Messages.addGlobalInfo("Usuário salvo com sucesso.");
 		} catch (Exception e) {
 			Messages.addFlashGlobalError("Ocorreu um erro ao salvar o registro.");
