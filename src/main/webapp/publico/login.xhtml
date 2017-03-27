@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<ui:composition template="/templates/_template.xhtml">
+
+		<ui:define name="conteudo">
+
+			<h2>Login</h2>
+
+			<h:form id="dataForm">
+				<h:panelGrid columns="2" styleClass="panelGridDataForm">
+					<h:outputText value="Usuário:" />
+					<h:inputText id="nome" value="#{loginBean.usuario.nome}" size="50" />
+					<h:outputText value="Senha:" />
+					<h:inputSecret id="senha" value="#{loginBean.usuario.senha}" size="50" />
+				</h:panelGrid>
+
+				<h:panelGrid columns="2" styleClass="panelButtonDataForm">
+					<p:commandButton value="Login" action="#{loginBean.efetuaLogin}" update=":msgGlobal" />
+					<p:commandButton value="Sair" action="#{usuarioLogadoBean.efetuaLogout}" update=":msgGlobal" immediate="true" />
+				</h:panelGrid>
+			</h:form>
+
+		</ui:define>
+
+	</ui:composition>
+
+</html>
