@@ -2,9 +2,16 @@ package br.com.caelum.evento.dao;
 
 import java.util.Random;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
 
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import br.com.caelum.evento.domain.Evento;
@@ -13,15 +20,43 @@ import br.com.caelum.evento.domain.Usuario;
 
 public class PalestraDAOTest {
 
+	private static EntityManagerFactory emf;
+	private EntityManager manager;
+
 	private boolean excluiPalestra = true;
 
 	private Usuario palestrante = new Usuario();
 	private Evento evento = new Evento();
 	private Palestra palestra = new Palestra();
 
-	private UsuarioDAO usuarioDAO = new UsuarioDAO();
-	private EventoDAO eventoDAO = new EventoDAO();
-	private PalestraDAO palestraDAO = new PalestraDAO();
+	private UsuarioDAO usuarioDAO;
+	private EventoDAO eventoDAO;
+	private PalestraDAO palestraDAO;
+
+	@BeforeClass
+	public static void beforeClass() {
+		emf = Persistence.createEntityManagerFactory("testeDB");
+	}
+
+	@Before
+	public void before() {
+		this.manager = emf.createEntityManager();
+		this.manager.getTransaction().begin();
+		this.usuarioDAO = new UsuarioDAO(manager);
+		this.eventoDAO = new EventoDAO(manager);
+		this.palestraDAO = new PalestraDAO(manager);
+	}
+
+	@After
+	public void after() {
+		this.manager.getTransaction().rollback();
+		this.manager.close();
+	}
+
+	@AfterClass
+	public static void afterClass() {
+		emf.close();
+	}
 
 	private void setPalestra(Palestra plt) {
 		Random rdm = new Random();
@@ -80,7 +115,7 @@ public class PalestraDAOTest {
 	}
 
 	@Test
-	public void deveAlterarDescricao() {
+	public void deveAlterarDescricaoPalestra() {
 		this.excluiPalestra = false;
 		this.deveInserirPalestra();
 		this.palestra.setDescricao("NOVA DESCRICAO");
@@ -105,7 +140,7 @@ public class PalestraDAOTest {
 	}
 
 	@Test
-	public void deveBuscarId() {
+	public void deveBuscarIdPalestra() {
 		this.excluiPalestra = false;
 		this.deveInserirPalestra();
 		Assert.assertNotNull(this.palestraDAO.buscaId(this.palestra.getId()));
@@ -113,7 +148,7 @@ public class PalestraDAOTest {
 	}
 
 	@Test
-	public void deveBuscarString() {
+	public void deveBuscarStringTituloPalestra() {
 		this.excluiPalestra = false;
 		this.deveInserirPalestra();
 		Assert.assertNotNull(this.palestraDAO.buscaString(this.palestra.getTitulo(), "titulo"));
@@ -121,7 +156,7 @@ public class PalestraDAOTest {
 	}
 
 	@Test
-	public void deveListarUsuarios() {
+	public void deveListarPalestras() {
 		this.excluiPalestra = false;
 		this.deveInserirPalestra();
 		Assert.assertNotEquals(0, this.palestraDAO.lista().size());
