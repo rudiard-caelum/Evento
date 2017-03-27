@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -21,7 +22,11 @@ public abstract class GenericDAO<T> {
 
 	public GenericDAO(Class<T> clazz) {
 		this.clazz = clazz;
+	}
 
+	public GenericDAO(Class<T> clazz, EntityManager manager) {
+		this.clazz = clazz;
+		this.manager = manager;
 	}
 
 	public void adiciona(T entity) {
@@ -49,6 +54,8 @@ public abstract class GenericDAO<T> {
 			criteria.where(condition);
 			Object result = this.manager.createQuery(criteria).getSingleResult();
 			return result;
+		} catch (NoResultException re) {
+			return null;
 		} catch (RuntimeException re) {
 			re.printStackTrace();
 			return null;
@@ -56,10 +63,17 @@ public abstract class GenericDAO<T> {
 	}
 
 	public List<T> lista() {
-		CriteriaQuery<T> query = manager.getCriteriaBuilder().createQuery(clazz);
-		query.select(query.from(clazz));
-		List<T> lista = manager.createQuery(query).getResultList();
-		return lista;
+		try {
+			CriteriaQuery<T> query = this.manager.getCriteriaBuilder().createQuery(clazz);
+			query.select(query.from(clazz));
+			List<T> lista = this.manager.createQuery(query).getResultList();
+			return lista;
+		} catch (NoResultException re) {
+			return null;
+		} catch (RuntimeException re) {
+			re.printStackTrace();
+			return null;
+		}
 	}
 
 }
