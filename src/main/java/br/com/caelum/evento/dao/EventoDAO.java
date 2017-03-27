@@ -2,6 +2,8 @@ package br.com.caelum.evento.dao;
 
 import java.io.Serializable;
 
+import javax.persistence.EntityManager;
+
 import br.com.caelum.evento.domain.Evento;
 
 public class EventoDAO extends GenericDAO<Evento> implements Serializable {
@@ -10,6 +12,10 @@ public class EventoDAO extends GenericDAO<Evento> implements Serializable {
 
 	public EventoDAO() {
 		super(Evento.class);
+	}
+
+	public EventoDAO(EntityManager manager) {
+		super(Evento.class, manager);
 	}
 
 }
