@@ -7,6 +7,15 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:body>
-	<h:outputText value="Controle de Palestras" id="tituloSistema" />
+	<table id="tableTitulo">
+		<tr>
+			<td class="tituloSistema">
+				<h:outputLabel value="Controle de Palestras" />
+			</td>
+			<td class="usuarioLogado">
+				<h:outputLabel rendered="#{not empty usuarioLogadoBean.usuario}" value="Usuário conectado: #{usuarioLogadoBean.usuario.nome}" />
+			</td>
+		</tr>
+	</table>
 </h:body>
 </html>
