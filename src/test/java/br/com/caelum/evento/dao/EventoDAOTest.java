@@ -2,7 +2,15 @@ package br.com.caelum.evento.dao;
 
 import java.util.Random;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import br.com.caelum.evento.domain.Evento;
@@ -10,14 +18,41 @@ import br.com.caelum.evento.domain.Usuario;
 
 public class EventoDAOTest {
 
+	private static EntityManagerFactory emf;
+	private EntityManager manager;
+
 	private String nomeEvento;
 	private boolean excluiEvento = true;
 
 	private Usuario usuarioEvento = new Usuario();
 	private Evento evento = new Evento();
 
-	private UsuarioDAO usuarioDAO = new UsuarioDAO();
-	private EventoDAO eventoDAO = new EventoDAO();
+	private UsuarioDAO usuarioDAO;
+	private EventoDAO eventoDAO;
+
+	@BeforeClass
+	public static void beforeClass() {
+		emf = Persistence.createEntityManagerFactory("testeDB");
+	}
+
+	@Before
+	public void before() {
+		this.manager = emf.createEntityManager();
+		this.manager.getTransaction().begin();
+		this.usuarioDAO = new UsuarioDAO(manager);
+		this.eventoDAO = new EventoDAO(manager);
+	}
+
+	@After
+	public void after() {
+		this.manager.getTransaction().rollback();
+		this.manager.close();
+	}
+
+	@AfterClass
+	public static void afterClass() {
+		emf.close();
+	}
 
 	private void setEvento(Evento evt) {
 		Random rdm = new Random();
@@ -59,7 +94,7 @@ public class EventoDAOTest {
 	}
 
 	@Test
-	public void deveAlterarDescricao() {
+	public void deveAlterarDescricaoEvento() {
 		this.excluiEvento = false;
 		this.deveInserirEvento();
 		this.evento.setDescricao("NOVA DESCRICAO");
@@ -80,7 +115,7 @@ public class EventoDAOTest {
 	}
 
 	@Test
-	public void deveBuscarId() {
+	public void deveBuscarIdEvento() {
 		this.excluiEvento = false;
 		this.deveInserirEvento();
 		Assert.assertNotNull(this.eventoDAO.buscaId(this.evento.getId()));
@@ -88,7 +123,7 @@ public class EventoDAOTest {
 	}
 
 	@Test
-	public void deveBuscarString() {
+	public void deveBuscarStringNomeEvento() {
 		this.excluiEvento = false;
 		this.deveInserirEvento();
 		Assert.assertNotNull(this.eventoDAO.buscaString(this.nomeEvento, "nome"));
@@ -96,7 +131,7 @@ public class EventoDAOTest {
 	}
 
 	@Test
-	public void deveListarUsuarios() {
+	public void deveListarEventos() {
 		this.excluiEvento = false;
 		this.deveInserirEvento();
 		Assert.assertNotEquals(0, this.eventoDAO.lista().size());
