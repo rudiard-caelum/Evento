@@ -30,8 +30,9 @@ public class LoginBean implements Serializable {
 	public String efetuaLogin() {
 		boolean loginValido = usuarioDAO.existeUsuario(this.usuario);
 		if (loginValido) {
-			eventoLogin.fire(usuario);
-			usuarioLogado.login(usuario);
+			eventoLogin.fire(this.usuario);
+			this.usuario = (Usuario) usuarioDAO.buscaString(this.usuario.getNome(), "nome");
+			usuarioLogado.login(this.usuario);
 			Messages.addGlobalInfo("Bem-vindo ao sistema.");
 			return "/index.xhtml?faces-redirect=true";
 		} else {
