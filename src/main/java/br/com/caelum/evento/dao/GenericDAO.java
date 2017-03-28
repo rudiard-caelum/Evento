@@ -38,7 +38,8 @@ public abstract class GenericDAO<T> {
 	}
 
 	public void remove(T entity) {
-		this.manager.remove(entity);
+		Object paraApagar = this.manager.merge(entity);
+		this.manager.remove(paraApagar);
 	}
 
 	public T buscaId(Long id) {
