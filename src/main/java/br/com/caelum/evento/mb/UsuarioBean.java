@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.persistence.PersistenceException;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.omnifaces.util.Messages;
 
 import br.com.caelum.evento.annotation.ViewModel;
@@ -77,6 +79,8 @@ public class UsuarioBean implements Serializable {
 			this.limpaJSF();
 			this.usuarios = this.usuarioDAO.lista();
 			Messages.addGlobalInfo("Usuário salvo com sucesso.");
+		} catch (PersistenceException | ConstraintViolationException ce) {
+			Messages.addFlashGlobalError("Registro já existe.");
 		} catch (Exception e) {
 			Messages.addFlashGlobalError("Ocorreu um erro ao salvar o registro.");
 			e.printStackTrace();
