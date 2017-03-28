@@ -51,16 +51,16 @@ h2 {
 	width: 100%;
 }
 
-input:not(.ui-widget), textarea:not(.ui-widget), select {
-	-moz-border-radius: 5px 5px 5px 5px;
-	-webkit-border-radius: 5px 5px 5px 5px;
-	border-radius: 5px 5px 5px 5px;
-	background: url("../resources/imagens/txt.gif") repeat-x scroll 0 0 transparent;
-	border: 1px solid #999999;
-	padding: 5px 2px;
-	margin-left: 2px;
-	margin-bottom: 5px;
-	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.5);
+input:not(.ui-widget), textarea, select, .dataFormat {
+	-moz-border-radius: 5px 5px 5px 5px !important;
+	-webkit-border-radius: 5px 5px 5px 5px !important;
+	border-radius: 5px 5px 5px 5px !important;
+	background: url("../resources/imagens/txt.gif") repeat-x scroll 0 0 transparent !important;
+	border: 1px solid #999999 !important;
+	padding: 5px 2px !important;
+	margin-left: 2px !important;
+	margin-bottom: 5px !important;
+	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.5) !important;
 }
 
 input:after {
