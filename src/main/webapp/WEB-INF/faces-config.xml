@@ -7,5 +7,10 @@
 	<lifecycle>
 		<phase-listener>br.com.caelum.evento.listener.AutorizadorListener</phase-listener>
 	</lifecycle>
+	
+	<converter>
+		<converter-id>localDateConverter</converter-id>
+		<converter-class>br.com.caelum.evento.converter.LocalDateConverter</converter-class>
+	</converter>
 
 </faces-config>
