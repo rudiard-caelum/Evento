@@ -28,13 +28,13 @@
 				</h:panelGrid>
 
 				<h:panelGrid columns="3" styleClass="panelButtonDataForm">
-					<p:commandButton value="Novo" actionListener="#{usuarioBean.novo}">
+					<p:commandButton value="Novo" action="#{usuarioBean.novo}" resetValues="true" update=":dataForm" process="@form @this" immediate="true">
 						<f:ajax render="@form" execute="@this" />
 					</p:commandButton>
-					<p:commandButton value="Salvar" actionListener="#{usuarioBean.salvar}" update=":msgGlobal :formListaUsuario :dataForm">
-						<f:ajax render="@form :formListaUsuario :dataForm" execute="@this" />
+					<p:commandButton value="Salvar" action="#{usuarioBean.salvar}" update=":formListaUsuario :dataForm :msgGlobal">
+						<f:ajax render="@form :formListaUsuario" execute="@this" />
 					</p:commandButton>
-					<p:commandButton value="Cancelar" actionListener="#{usuarioBean.cancelar}" rendered="#{not empty usuarioBean.usuario.id}" update=":msgGlobal">
+					<p:commandButton value="Cancelar" action="#{usuarioBean.cancelar}" rendered="#{not empty usuarioBean.usuario.id}" update=":msgGlobal :dataForm" process="@form @this" immediate="true">
 						<f:ajax render="@form" execute="@this" />
 					</p:commandButton>
 				</h:panelGrid>
@@ -56,7 +56,6 @@
 							<f:setPropertyActionListener value="#{usuario}" target="#{usuarioBean.usuario}" />
 							<f:ajax render=":dataForm" execute="@this" />
 						</p:commandButton>
-
 						<p:commandButton action="#{usuarioBean.remove(usuario)}" update=":msgGlobal formListaUsuario" title="Excluir" icon="ui-icon-trash">
 							<p:confirm header="Confirmação" message="Deseja excluir o usuário?" icon="ui-icon-alert" />
  							<f:ajax render="@form" />
