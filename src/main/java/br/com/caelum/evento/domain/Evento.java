@@ -14,10 +14,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.LocalDate;
 
 @Entity
@@ -30,12 +33,17 @@ public class Evento implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@NotEmpty(message = "Nome do evento é obrigatório.")
+	@Size(min = 5, max = 100, message = "Tamanho inválido para o campo (5 até 100).")
 	@Column(length = 100, nullable = false)
 	private String nome;
 
+	@NotEmpty(message = "Descrição do evento é obrigatório.")
+	@Size(min = 5, max = 200, message = "Tamanho inválido para o campo (5 até 200).")
 	@Column(length = 200, nullable = false)
 	private String descricao;
 
+	@NotEmpty(message = "Site do evento é obrigatório.")
 	@Column(length = 200, nullable = false)
 	private String site;
 
@@ -43,12 +51,15 @@ public class Evento implements Serializable {
 	@JoinColumn(name = "usuario_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_usuario"), nullable = false)
 	private Usuario usuario;
 
+	@NotEmpty(message = "Local do evento é obrigatório.")
+	@Size(min = 5, max = 200, message = "Tamanho inválido para o campo (5 até 200).")
 	@Column(length = 200, nullable = false)
 	private String local;
 
-	@Column(length = 200, nullable = false)
+	@Column(length = 200, nullable = true)
 	private String logo;
 
+	@NotNull(message = "Data do evento é obrigatória.")
 	@Column(nullable = false)
 	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
 	private LocalDate data = new LocalDate();
