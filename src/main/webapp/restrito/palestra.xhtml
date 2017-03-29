@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<ui:composition template="/templates/_template.xhtml">
+
+		<ui:define name="conteudo">
+
+			<h2>Cadastro de Palestras</h2>
+
+			<h:form id="dataForm">
+				<h:panelGrid columns="2" styleClass="panelGridDataForm">
+					<h:outputText />
+					<h:inputHidden value="#{palestraBean.palestra.id}" />
+					<h:outputText value="Evento:" />
+					<p:autoComplete value="#{palestraBean.palestra.evento}" completeMethod="#{eventoBean.busca}" minQueryLength="3"
+									dropdown="true" var="evento" itemLabel="#{evento.nome}" itemValue="#{evento}" converter="EventoConverter" size="68" />
+					<h:outputText value="Palestra:" />
+					<h:inputText id="titulo" value="#{palestraBean.palestra.titulo}" size="73" maxlength="100" />
+					<h:outputText value="Descrição:" />
+					<p:inputTextarea id="descricao" rows="3" cols="75" counter="display" maxlength="200" autoResize="false"
+									value="#{palestraBean.palestra.descricao}" counterTemplate="{0} caracteres restantes" />
+					<h:outputText />
+					<h:outputText id="display" />
+				</h:panelGrid>
+
+				<h:panelGrid columns="3" styleClass="panelButtonDataForm">
+					<p:commandButton value="Novo" action="#{palestraBean.novo}" resetValues="true" update=":dataForm" process="@form @this" immediate="true">
+						<f:ajax render="@form" execute="@this" />
+					</p:commandButton>
+					<p:commandButton value="Salvar" action="#{palestraBean.salvar}" update=":formListaPalestra :dataForm :msgGlobal">
+						<f:ajax render="@form :formListaPalestra" execute="@this" />
+					</p:commandButton>
+					<p:commandButton value="Cancelar" action="#{palestraBean.cancelar}" rendered="#{not empty palestraBean.palestra.id}" update=":msgGlobal :dataForm" process="@form @this" immediate="true">
+						<f:ajax render="@form" execute="@this" />
+					</p:commandButton>
+				</h:panelGrid>
+			</h:form>
+
+			<p:separator />
+
+			<h:form id="formListaPalestra">
+				<p:dataTable value="#{palestraBean.palestras}" var="palestra" emptyMessage="Nenhum registro encontrado." paginator="true" rows="5">
+					<p:column headerText="Palestrante" style="width: 25%;" sortBy="#{palestra.palestrante.nome}" filterBy="#{palestra.palestrante.nome}" filterMatchMode="contains">
+						<h:outputText value="#{palestra.palestrante.nome}" />
+					</p:column>
+					<p:column headerText="Palestra" style="width: 69%;" sortBy="#{palestra.titulo}" filterBy="#{palestra.titulo}" filterMatchMode="contains">
+						<h:outputText value="#{palestra.titulo}" />
+					</p:column>
+
+					<p:column headerText="Operações" style="width: 6%;">
+						<p:commandButton update=":dataForm" title="Editar" icon="ui-icon-pencil">
+							<f:setPropertyActionListener value="#{palestra}" target="#{palestraBean.palestra}" />
+							<f:ajax render=":dataForm" execute="@this" />
+						</p:commandButton>
+						<p:commandButton action="#{palestraBean.remove(palestra)}" update=":msgGlobal formListaPalestra" title="Excluir" icon="ui-icon-trash">
+							<p:confirm header="Confirmação" message="Deseja excluir a palestra?" icon="ui-icon-alert" />
+ 							<f:ajax render="@form" />
+						</p:commandButton>
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</p:confirmDialog>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+
+		</ui:define>
+
+	</ui:composition>
+
+</html>
