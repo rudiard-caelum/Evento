@@ -12,5 +12,9 @@
 		<converter-id>localDateConverter</converter-id>
 		<converter-class>br.com.caelum.evento.converter.LocalDateConverter</converter-class>
 	</converter>
+	<converter>
+		<converter-id>EventoConverter</converter-id>
+		<converter-class>br.com.caelum.evento.converter.EventoConverter</converter-class>
+	</converter>
 
 </faces-config>
