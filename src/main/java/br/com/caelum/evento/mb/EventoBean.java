@@ -43,6 +43,10 @@ public class EventoBean implements Serializable {
 		return this.eventos;
 	}
 
+	public List<Evento> busca(String texto) {
+		return eventoDAO.buscaPorNome(texto);
+	}
+
 	public void novo() {
 		this.limpaJSF();
 	}
