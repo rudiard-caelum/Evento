@@ -12,7 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
 
@@ -31,9 +33,13 @@ public class Palestra implements Cloneable, Serializable {
 	@JoinColumn(name = "palestrante", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_palestrante"), nullable = false)
 	private Usuario palestrante;
 
+	@NotEmpty(message = "Título da Palestra é obrigatório.")
+	@Size(min = 5, max = 100, message = "Tamanho inválido para o campo (5 até 100).")
 	@Column(length = 100, nullable = false)
 	private String titulo;
 
+	@NotEmpty(message = "Descrição da Palestra é obrigatório.")
+	@Size(min = 5, max = 200, message = "Tamanho inválido para o campo (5 até 200).")
 	@Column(length = 200, nullable = false)
 	private String descricao;
 
