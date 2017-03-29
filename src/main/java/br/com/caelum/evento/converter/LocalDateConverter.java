@@ -13,9 +13,7 @@ import javax.faces.convert.FacesConverter;
 
 import org.joda.time.LocalDate;
 
-import br.com.caelum.evento.domain.Evento;
-
-@FacesConverter(forClass = Evento.class)
+@FacesConverter("localDateConverter")
 @RequestScoped
 public class LocalDateConverter implements Converter {
 
