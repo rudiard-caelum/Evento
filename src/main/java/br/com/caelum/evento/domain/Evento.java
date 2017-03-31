@@ -27,7 +27,7 @@ import org.joda.time.LocalDate;
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = "nome", name = "unq_nome") })
 public class Evento implements Serializable {
 
-	private static final long serialVersionUID = 3167570039846930250L;
+	private static final long serialVersionUID = 6883422926597161974L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
