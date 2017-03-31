@@ -131,7 +131,7 @@ public class PalestraDAOTest {
 		this.palestraDAO.remove(this.palestra);
 		this.palestra = (Palestra) this.palestraDAO.buscaString(this.palestrante.getNome(), "titulo");
 		Assert.assertNull(this.palestra);
-		this.eventoDAO.remove(evento);
+		this.eventoDAO.remove(this.evento);
 		this.evento = (Evento) this.eventoDAO.buscaString(this.palestrante.getNome(), "nome");
 		Assert.assertNull(this.evento);
 		Long usuarioId = this.palestrante.getId();
@@ -171,10 +171,10 @@ public class PalestraDAOTest {
 		try {
 			this.palestraDAO.adiciona(palestra2);
 		} catch (PersistenceException ex) {
-			this.excluirPalestra();
 			throw new PersistenceException(ex);
+		} finally {
+			this.excluirPalestra();
 		}
-		this.excluirPalestra();
 	}
 
 	@Test
