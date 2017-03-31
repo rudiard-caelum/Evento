@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<ui:composition template="/templates/_template.xhtml">
+
+		<ui:define name="conteudo">
+
+			<h2>Avaliação de Palestras</h2>
+
+			<h:form id="dataForm">
+				<h:panelGrid columns="2" styleClass="panelGridDataForm">
+					<h:outputText />
+					<h:inputHidden value="#{votacaoBean.votacao.id}" />
+					<h:outputText value="Data:" />
+					<h:inputText value="#{votacaoBean.palestra.evento.data}" size="15" converter="localDateConverter" disabled="true" />
+					<h:outputText value="Evento:" />
+					<h:inputText value="#{votacaoBean.palestra.evento.nome}" size="75" styleClass="mostraCampo" disabled="true" />
+					<h:outputText value="Palestra:" />
+					<h:inputText value="#{votacaoBean.palestra.titulo}" size="75" styleClass="mostraCampo" disabled="true" />
+					<h:outputText value="Avaliação:" />
+					<p:selectOneRadio id="avaliacao" value="#{votacaoBean.votacao.tipoVoto}">
+						<f:selectItem itemLabel="POSITIVA" itemValue="POSITIVO" />
+						<f:selectItem itemLabel="NEGATIVA" itemValue="NEGATIVO" />
+					</p:selectOneRadio>
+					<h:outputText />
+				</h:panelGrid>
+
+				<h:panelGrid columns="2" styleClass="panelButtonDataForm">
+					<p:commandButton id="salvaAvaliacao" value="Salvar" action="#{votacaoBean.salvar}" update=":dataForm :tabPalestras:formPNA :tabPalestras:formPA :msgGlobal">
+						<f:ajax render="@form :tabPalestras:formPNA :tabPalestras:formPA" execute="@this" />
+					</p:commandButton>
+					<p:commandButton id="cancelaAvaliacao" value="Cancelar" action="#{votacaoBean.cancelar}" rendered="#{not empty votacaoBean.palestra.id}" update="@form :dataForm :msgGlobal" process="@form @this" immediate="true">
+						<f:ajax render="@form" execute="@this" />
+					</p:commandButton>
+				</h:panelGrid>
+			</h:form>
+
+			<p:separator />
+
+			<p:tabView id="tabPalestras">
+				<p:tab title="Palestras Não Avaliadas">
+					<h:form id="formPNA">
+						<p:dataTable value="#{votacaoBean.palestrasNaoAvaliadas}" var="palestrasNaoAvaliadas" emptyMessage="Nenhum registro encontrado." paginator="true" rows="5">
+							<p:column headerText="Data" style="width: 9%;" sortBy="#{palestrasNaoAvaliadas.evento.data}" filterBy="#{palestrasNaoAvaliadas.evento.data}" filterMatchMode="contains">
+								<h:outputText value="#{palestrasNaoAvaliadas.evento.data}" converter="localDateConverter" />
+							</p:column>
+							<p:column headerText="Palestrante" style="width: 30%;" sortBy="#{palestrasNaoAvaliadas.palestrante.nome}" filterBy="#{palestrasNaoAvaliadas.palestrante.nome}" filterMatchMode="contains">
+								<h:outputText value="#{palestrasNaoAvaliadas.palestrante.nome}" />
+							</p:column>
+							<p:column headerText="Palestra" style="width: 54%;" sortBy="#{palestrasNaoAvaliadas.titulo}" filterBy="#{palestrasNaoAvaliadas.titulo}" filterMatchMode="contains">
+								<h:outputText value="#{palestrasNaoAvaliadas.titulo}" />
+							</p:column>
+
+							<p:column headerText="Operações" style="width: 7%;">
+								<p:commandButton id="editaNaoAvaliada" action="#{votacaoBean.editar(palestrasNaoAvaliadas.id)}" update="@form :dataForm :msgGlobal" title="Editar" icon="ui-icon-pencil">
+									<f:ajax render="@form :dataForm" execute="@this" />
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+					</h:form>
+				</p:tab>
+
+				<p:tab title="Palestras Avaliadas">
+					<h:form id="formPA">
+						<p:dataTable value="#{votacaoBean.palestrasAvaliadas}" var="palestrasAvaliadas" emptyMessage="Nenhum registro encontrado." paginator="true" rows="5">
+							<p:column headerText="Data" style="width: 9%;" sortBy="#{palestrasAvaliadas.evento.data}" filterBy="#{palestrasAvaliadas.evento.data}" filterMatchMode="contains">
+								<h:outputText value="#{palestrasAvaliadas.evento.data}" converter="localDateConverter" />
+							</p:column>
+							<p:column headerText="Palestrante" style="width: 30%;" sortBy="#{palestrasAvaliadas.palestrante.nome}" filterBy="#{palestrasAvaliadas.palestrante.nome}" filterMatchMode="contains">
+								<h:outputText value="#{palestrasAvaliadas.palestrante.nome}" />
+							</p:column>
+							<p:column headerText="Palestra" style="width: 54%;" sortBy="#{palestrasAvaliadas.titulo}" filterBy="#{palestrasAvaliadas.titulo}" filterMatchMode="contains">
+								<h:outputText value="#{palestrasAvaliadas.titulo}" />
+							</p:column>
+
+							<p:column headerText="Operações" style="width: 7%;">
+								<p:commandButton id="editaNaoAvaliada" action="#{votacaoBean.editar(palestrasAvaliadas.id)}" update="@form :dataForm :msgGlobal" title="Editar" icon="ui-icon-pencil">
+									<f:ajax render="@form :dataForm" execute="@this" />
+								</p:commandButton>
+								<p:commandButton id="excluiAvaliada" action="#{votacaoBean.remove(palestrasAvaliadas.id)}" update="@form :tabPalestras:formPNA :tabPalestras:formPA :msgGlobal" title="Excluir" icon="ui-icon-trash">
+									<p:confirm header="Confirmação" message="Deseja excluir a avaliação?" icon="ui-icon-alert" />
+ 									<f:ajax render="@form :tabPalestras:formPNA :tabPalestras:formPA" />
+								</p:commandButton>
+								<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+									<p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+									<p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+								</p:confirmDialog>
+							</p:column>
+						</p:dataTable>
+					</h:form>
+				</p:tab>
+			</p:tabView>
+
+	</ui:define>
+
+</ui:composition>
+
+</html>
