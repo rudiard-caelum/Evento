@@ -1,6 +1,7 @@
 package br.com.caelum.evento.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,10 +11,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
@@ -23,7 +27,7 @@ import org.joda.time.LocalDate;
 		@UniqueConstraint(columnNames = { "titulo", "evento_id" }, name = "unq_titulo_evento") })
 public class Palestra implements Cloneable, Serializable {
 
-	private static final long serialVersionUID = -4351930299965095496L;
+	private static final long serialVersionUID = -1097266885616230990L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,6 +50,10 @@ public class Palestra implements Cloneable, Serializable {
 	@ManyToOne
 	@JoinColumn(name = "evento_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_evento"), nullable = false)
 	private Evento evento;
+
+	@OneToMany(mappedBy = "palestra_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private List<Votacao> votacao;
 
 	@Override
 	public Palestra clone() throws CloneNotSupportedException {
@@ -104,6 +112,14 @@ public class Palestra implements Cloneable, Serializable {
 		this.evento = evento;
 	}
 
+	public List<Votacao> getVotacao() {
+		return votacao;
+	}
+
+	public void setVotacao(List<Votacao> votacao) {
+		this.votacao = votacao;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -113,6 +129,7 @@ public class Palestra implements Cloneable, Serializable {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((palestrante == null) ? 0 : palestrante.hashCode());
 		result = prime * result + ((titulo == null) ? 0 : titulo.hashCode());
+		result = prime * result + ((votacao == null) ? 0 : votacao.hashCode());
 		return result;
 	}
 
@@ -149,6 +166,11 @@ public class Palestra implements Cloneable, Serializable {
 			if (other.titulo != null)
 				return false;
 		} else if (!titulo.equals(other.titulo))
+			return false;
+		if (votacao == null) {
+			if (other.votacao != null)
+				return false;
+		} else if (!votacao.equals(other.votacao))
 			return false;
 		return true;
 	}
