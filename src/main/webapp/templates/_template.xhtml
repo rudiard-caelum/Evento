@@ -34,7 +34,10 @@
 						<p:menuitem value="Login" url="/publico/login.xhtml" icon="ui-icon-locked" />
 						<p:menuitem value="Usuários" url="/restrito/usuario.xhtml" icon="ui-icon-suitcase" />
 						<p:menuitem value="Eventos" url="/restrito/evento.xhtml" icon="ui-icon-pin-w" />
-						<p:menuitem value="Palestras" url="/restrito/palestra.xhtml" icon="ui-icon-link" />
+						<p:submenu label="Palestras">
+							<p:menuitem value="Palestras" url="/restrito/palestra.xhtml" icon="ui-icon-link" />
+							<p:menuitem value="Avaliação" url="/restrito/palestraAvaliacao.xhtml" icon="ui-icon-mail-closed" />
+						</p:submenu>
 						<p:menuitem value="Logout" action="#{usuarioLogadoBean.efetuaLogout}" icon="ui-icon-circle-close" />
 					</p:submenu>
 				</p:menubar>
