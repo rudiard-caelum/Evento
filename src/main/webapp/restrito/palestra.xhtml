@@ -58,7 +58,7 @@
 							<f:setPropertyActionListener value="#{palestra}" target="#{palestraBean.palestra}" />
 							<f:ajax render=":dataForm" execute="@this" />
 						</p:commandButton>
-						<p:commandButton action="#{palestraBean.remove(palestra)}" update=":msgGlobal formListaPalestra" title="Excluir" icon="ui-icon-trash">
+						<p:commandButton action="#{palestraBean.remove(palestra)}" update=":msgGlobal :formListaPalestra" title="Excluir" icon="ui-icon-trash">
 							<p:confirm header="Confirmação" message="Deseja excluir a palestra?" icon="ui-icon-alert" />
  							<f:ajax render="@form" />
 						</p:commandButton>
