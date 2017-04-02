@@ -13,7 +13,7 @@ import javax.faces.convert.FacesConverter;
 
 import org.joda.time.LocalDate;
 
-@FacesConverter("localDateConverter")
+@FacesConverter("LocalDateConverter")
 @RequestScoped
 public class LocalDateConverter implements Converter {
 
@@ -34,4 +34,5 @@ public class LocalDateConverter implements Converter {
 		LocalDate ld = (LocalDate) value;
 		return ld.toString("dd/MM/yyyy");
 	}
+
 }
