@@ -9,12 +9,16 @@
 	</lifecycle>
 	
 	<converter>
-		<converter-id>localDateConverter</converter-id>
+		<converter-id>LocalDateConverter</converter-id>
 		<converter-class>br.com.caelum.evento.converter.LocalDateConverter</converter-class>
 	</converter>
 	<converter>
 		<converter-id>EventoConverter</converter-id>
 		<converter-class>br.com.caelum.evento.converter.EventoConverter</converter-class>
+	</converter>
+	<converter>
+		<converter-id>BooleanConverter</converter-id>
+		<converter-class>br.com.caelum.evento.converter.BooleanConverter</converter-class>
 	</converter>
 
 </faces-config>
