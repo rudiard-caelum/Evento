@@ -31,7 +31,7 @@
 					<h:outputText value="Logotipo:" />
 					<h:inputText id="logo" value="#{eventoBean.evento.logo}" size="73" maxlength="200" />
 					<h:outputText value="Data:" />
-					<p:calendar id="data" value="#{eventoBean.evento.data}" size="10" pattern= "dd/MM/yyyy" converter="localDateConverter" styleClass="dataFormat" />
+					<p:calendar id="data" value="#{eventoBean.evento.data}" size="10" pattern= "dd/MM/yyyy" converter="LocalDateConverter" styleClass="dataFormat" />
 				</h:panelGrid>
 
 				<h:panelGrid columns="3" styleClass="panelButtonDataForm">
@@ -52,7 +52,7 @@
 			<h:form id="formListaEvento">
 				<p:dataTable value="#{eventoBean.eventos}" var="evento" emptyMessage="Nenhum registro encontrado." paginator="true" rows="5">
 					<p:column headerText="Data" style="width: 10%;" sortBy="#{evento.data}" filterBy="#{evento.data}" filterMatchMode="contains">
-						<h:outputText value="#{evento.data}" converter="localDateConverter" />
+						<h:outputText value="#{evento.data}" converter="LocalDateConverter" />
 					</p:column>
 					<p:column headerText="Nome" style="width: 84%;" sortBy="#{evento.nome}" filterBy="#{evento.nome}" filterMatchMode="contains">
 						<h:outputText value="#{evento.nome}" />
