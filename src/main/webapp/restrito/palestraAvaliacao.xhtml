@@ -17,7 +17,7 @@
 					<h:outputText />
 					<h:inputHidden value="#{votacaoBean.votacao.id}" />
 					<h:outputText value="Data:" />
-					<h:inputText value="#{votacaoBean.palestra.evento.data}" size="15" converter="localDateConverter" disabled="true" />
+					<h:inputText value="#{votacaoBean.palestra.evento.data}" size="15" converter="LocalDateConverter" disabled="true" />
 					<h:outputText value="Evento:" />
 					<h:inputText value="#{votacaoBean.palestra.evento.nome}" size="75" styleClass="mostraCampo" disabled="true" />
 					<h:outputText value="Palestra:" />
@@ -47,7 +47,7 @@
 					<h:form id="formPNA">
 						<p:dataTable value="#{votacaoBean.palestrasNaoAvaliadas}" var="palestrasNaoAvaliadas" emptyMessage="Nenhum registro encontrado." paginator="true" rows="5">
 							<p:column headerText="Data" style="width: 9%;" sortBy="#{palestrasNaoAvaliadas.evento.data}" filterBy="#{palestrasNaoAvaliadas.evento.data}" filterMatchMode="contains">
-								<h:outputText value="#{palestrasNaoAvaliadas.evento.data}" converter="localDateConverter" />
+								<h:outputText value="#{palestrasNaoAvaliadas.evento.data}" converter="LocalDateConverter" />
 							</p:column>
 							<p:column headerText="Palestrante" style="width: 30%;" sortBy="#{palestrasNaoAvaliadas.palestrante.nome}" filterBy="#{palestrasNaoAvaliadas.palestrante.nome}" filterMatchMode="contains">
 								<h:outputText value="#{palestrasNaoAvaliadas.palestrante.nome}" />
@@ -69,7 +69,7 @@
 					<h:form id="formPA">
 						<p:dataTable value="#{votacaoBean.palestrasAvaliadas}" var="palestrasAvaliadas" emptyMessage="Nenhum registro encontrado." paginator="true" rows="5">
 							<p:column headerText="Data" style="width: 9%;" sortBy="#{palestrasAvaliadas.evento.data}" filterBy="#{palestrasAvaliadas.evento.data}" filterMatchMode="contains">
-								<h:outputText value="#{palestrasAvaliadas.evento.data}" converter="localDateConverter" />
+								<h:outputText value="#{palestrasAvaliadas.evento.data}" converter="LocalDateConverter" />
 							</p:column>
 							<p:column headerText="Palestrante" style="width: 30%;" sortBy="#{palestrasAvaliadas.palestrante.nome}" filterBy="#{palestrasAvaliadas.palestrante.nome}" filterMatchMode="contains">
 								<h:outputText value="#{palestrasAvaliadas.palestrante.nome}" />
