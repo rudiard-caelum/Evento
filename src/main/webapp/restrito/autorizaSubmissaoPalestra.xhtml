@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<ui:composition template="/templates/_template.xhtml">
+
+		<ui:define name="conteudo">
+
+			<h2>Autorização de Submissão de Palestras</h2>
+
+			<h:form id="formListaEvento">
+				<p:dataTable value="#{autorizaSubmissaoPalestraBean.eventos}" var="evento" emptyMessage="Nenhum registro encontrado." paginator="true" rows="10" editable="true">
+		
+					<p:ajax event="rowEdit" listener="#{autorizaSubmissaoPalestraBean.editar}" update=":msgGlobal" />
+					<p:ajax event="rowEditCancel" listener="#{autorizaSubmissaoPalestraBean.cancelar}" update=":msgGlobal" />
+
+					<p:column headerText="Data" style="width: 8%;" sortBy="#{evento.data}" filterBy="#{evento.data}" filterMatchMode="contains">
+						<h:outputText value="#{evento.data}" converter="LocalDateConverter" />
+					</p:column>
+					<p:column headerText="Evento" style="width: 74%;" sortBy="#{evento.nome}" filterBy="#{evento.nome}" filterMatchMode="contains">
+						<h:outputText value="#{evento.nome}" />
+					</p:column>
+					<p:column headerText="Autoriza Submissão?" style="width: 6%;">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{evento.permiteSubmissao}" converter="BooleanConverter" />
+							</f:facet>
+							<f:facet name="input">
+								<h:selectOneMenu value="#{autorizaSubmissaoPalestraBean.evento.permiteSubmissao}">
+									<f:selectItem itemLabel="Sim" itemValue="#{true}" />
+									<f:selectItem itemLabel="Não" itemValue="#{false}" />
+								</h:selectOneMenu>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column style="width:32px;">
+						<p:rowEditor />
+					</p:column>
+
+				</p:dataTable>
+			</h:form>
+
+		</ui:define>
+
+	</ui:composition>
+
+</html>
