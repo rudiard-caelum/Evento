@@ -23,8 +23,7 @@ import org.joda.time.Days;
 import org.joda.time.LocalDate;
 
 @Entity
-@Table(uniqueConstraints = { @UniqueConstraint(columnNames = "titulo", name = "unq_titulo"),
-		@UniqueConstraint(columnNames = { "titulo", "evento_id" }, name = "unq_titulo_evento") })
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "titulo", "evento_id" }, name = "unq_titulo_evento") })
 public class Palestra implements Cloneable, Serializable {
 
 	private static final long serialVersionUID = -1097266885616230990L;
