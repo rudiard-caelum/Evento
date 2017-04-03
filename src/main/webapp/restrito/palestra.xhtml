@@ -46,11 +46,17 @@
 
 			<h:form id="formListaPalestra">
 				<p:dataTable value="#{palestraBean.palestras}" var="palestra" emptyMessage="Nenhum registro encontrado." paginator="true" rows="5">
-					<p:column headerText="Palestrante" style="width: 25%;" sortBy="#{palestra.palestrante.nome}" filterBy="#{palestra.palestrante.nome}" filterMatchMode="contains">
-						<h:outputText value="#{palestra.palestrante.nome}" />
+					<p:column headerText="Data" style="width: 8%;" sortBy="#{palestra.evento.data}" filterBy="#{palestra.evento.data}" filterMatchMode="contains">
+						<h:outputText value="#{palestra.evento.data}" converter="LocalDateConverter" />
 					</p:column>
-					<p:column headerText="Palestra" style="width: 69%;" sortBy="#{palestra.titulo}" filterBy="#{palestra.titulo}" filterMatchMode="contains">
+					<p:column headerText="Evento" style="width: 24%;" sortBy="#{palestra.evento.nome}" filterBy="#{palestra.evento.nome}" filterMatchMode="contains">
+						<h:outputText value="#{palestra.evento.nome}" />
+					</p:column>
+					<p:column headerText="Palestra" style="width: 37%;" sortBy="#{palestra.titulo}" filterBy="#{palestra.titulo}" filterMatchMode="contains">
 						<h:outputText value="#{palestra.titulo}" />
+					</p:column>
+					<p:column headerText="Palestrante" style="width: 20%;" sortBy="#{palestra.palestrante.nome}" filterBy="#{palestra.palestrante.nome}" filterMatchMode="contains">
+						<h:outputText value="#{palestra.palestrante.nome}" />
 					</p:column>
 
 					<p:column headerText="Operações" style="width: 6%;">
