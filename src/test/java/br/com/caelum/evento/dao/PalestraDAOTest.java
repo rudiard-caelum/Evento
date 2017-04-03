@@ -17,6 +17,8 @@ import org.junit.Test;
 import br.com.caelum.evento.domain.Evento;
 import br.com.caelum.evento.domain.Palestra;
 import br.com.caelum.evento.domain.Usuario;
+import br.com.caelum.evento.domain.Votacao;
+import br.com.caelum.evento.domain.VotacaoEnum;
 
 public class PalestraDAOTest {
 
@@ -28,10 +30,12 @@ public class PalestraDAOTest {
 	private Usuario palestrante = new Usuario();
 	private Evento evento = new Evento();
 	private Palestra palestra = new Palestra();
+	private Votacao votacao = new Votacao();
 
 	private UsuarioDAO usuarioDAO;
 	private EventoDAO eventoDAO;
 	private PalestraDAO palestraDAO;
+	private VotacaoDAO votacaoDAO;
 
 	@BeforeClass
 	public static void beforeClass() {
@@ -45,6 +49,7 @@ public class PalestraDAOTest {
 		this.usuarioDAO = new UsuarioDAO(manager);
 		this.eventoDAO = new EventoDAO(manager);
 		this.palestraDAO = new PalestraDAO(manager);
+		this.votacaoDAO = new VotacaoDAO(manager);
 	}
 
 	@After
@@ -92,6 +97,36 @@ public class PalestraDAOTest {
 		} catch (Exception ex) {
 			this.eventoDAO.remove(evento);
 			this.usuarioDAO.remove(this.palestrante);
+			return false;
+		}
+		return true;
+	}
+
+	private boolean inserirVotacao(int qtdeVotoPositivo, int qtdeVotoNegativo) {
+		try {
+			this.evento.setData(this.evento.getData().plusDays(10));
+			this.eventoDAO.altera(evento);
+			this.votacao.setPalestra_id(this.palestra);
+			this.votacao.setUsuario_id(this.palestrante);
+			this.votacao.setTipoVoto(VotacaoEnum.POSITIVO);
+			this.votacao.setVoto(qtdeVotoPositivo);
+			this.votacaoDAO.adiciona(this.votacao);
+
+			Random rdm = new Random();
+			Integer inteiro = rdm.nextInt();
+			Usuario usuario2 = this.palestrante.clone();
+			usuario2.setId(null);
+			usuario2.setNome("TESTE_" + inteiro.toString());
+			this.usuarioDAO.adiciona(usuario2);
+
+			this.votacao = new Votacao();
+			this.votacao.setPalestra_id(this.palestra);
+			this.votacao.setUsuario_id(usuario2);
+			this.votacao.setTipoVoto(VotacaoEnum.NEGATIVO);
+			this.votacao.setVoto(qtdeVotoNegativo);
+			this.votacaoDAO.adiciona(this.votacao);
+		} catch (Exception ex) {
+			return false;
 		}
 		return true;
 	}
@@ -215,6 +250,40 @@ public class PalestraDAOTest {
 		this.evento.setData(this.evento.getData().plusDays(1));
 		Assert.assertFalse(this.palestra.podeSubmeterPalestra());
 		this.excluirPalestra();
+	}
+
+	@Test
+	public void deveRetornarRankingNaoAvaliada() throws CloneNotSupportedException {
+		this.excluiPalestra = false;
+		this.deveInserirPalestra();
+		this.evento.setData(this.evento.getData().plusDays(10));
+		this.eventoDAO.altera(evento);
+		Assert.assertEquals("NAO AVALIADA", this.palestraDAO.rankingVotacaoPorPalestra(this.palestra));
+		this.excluirPalestra();
+
+	}
+
+	@Test
+	public void deveRetornarRankingPolemica() throws CloneNotSupportedException {
+		this.excluiPalestra = false;
+		this.deveInserirPalestra();
+		this.evento.setData(this.evento.getData().plusDays(10));
+		this.eventoDAO.altera(evento);
+		this.inserirVotacao(52, 48);
+		Assert.assertEquals("POLEMICA", this.palestraDAO.rankingVotacaoPorPalestra(this.palestra));
+		this.excluirPalestra();
+	}
+
+	@Test
+	public void deveRetornarRankingAprovadaComMaioriaPositivo() throws CloneNotSupportedException {
+		this.excluiPalestra = false;
+		this.deveInserirPalestra();
+		this.evento.setData(this.evento.getData().plusDays(10));
+		this.eventoDAO.altera(evento);
+		this.inserirVotacao(70, 40);
+		Assert.assertEquals("APROVADA", this.palestraDAO.rankingVotacaoPorPalestra(this.palestra));
+		this.excluirPalestra();
+
 	}
 
 }
