@@ -16,9 +16,9 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = "nome", name = "unq_nome") })
-public class Usuario implements Serializable {
+public class Usuario implements Cloneable, Serializable {
 
-	private static final long serialVersionUID = 8034400613730481118L;
+	private static final long serialVersionUID = 288025218923210202L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +37,11 @@ public class Usuario implements Serializable {
 	@Size(min = 0, max = 50, message = "Tamanho inválido para o campo (até 50).")
 	@Column(length = 50, nullable = false)
 	private String senha;
+
+	@Override
+	public Usuario clone() throws CloneNotSupportedException {
+		return (Usuario) super.clone();
+	}
 
 	public boolean confirmaSenha(String confSenha) {
 		if (this.getSenha().equals(confSenha)) {
