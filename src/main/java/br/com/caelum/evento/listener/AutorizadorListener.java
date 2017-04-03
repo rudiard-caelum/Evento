@@ -31,6 +31,9 @@ public class AutorizadorListener implements PhaseListener {
 		if ("/index.xhtml".equals(context.getViewRoot().getViewId())) {
 			return;
 		}
+		if ("/inicio.xhtml".equals(context.getViewRoot().getViewId())) {
+			return;
+		}
 		if (!usuarioLogado.isLogado()) {
 			Messages.addFlashGlobalError("Para acessar esta transação é necessário logar no sistema.");
 			handler.handleNavigation(context, null, "/publico/login.xhtml?faces-redirect=true");
