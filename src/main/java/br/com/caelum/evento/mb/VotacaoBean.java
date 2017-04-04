@@ -54,14 +54,15 @@ public class VotacaoBean implements Serializable {
 
 	public List<Palestra> getPalestrasAvaliadas() {
 		if (this.palestrasAvaliadas == null) {
-			this.palestrasAvaliadas = this.votacaoDAO.listaAvaliacao("Realizada");
+			this.palestrasAvaliadas = this.votacaoDAO.listaAvaliacao(this.usuarioLogado.getUsuario(), "Realizada");
 		}
 		return this.palestrasAvaliadas;
 	}
 
 	public List<Palestra> getPalestrasNaoAvaliadas() {
 		if (this.palestrasNaoAvaliadas == null) {
-			this.palestrasNaoAvaliadas = this.votacaoDAO.listaAvaliacao("NaoRealizada");
+			this.palestrasNaoAvaliadas = this.votacaoDAO.listaAvaliacao(this.usuarioLogado.getUsuario(),
+					"NaoRealizada");
 		}
 		return this.palestrasNaoAvaliadas;
 	}
@@ -95,8 +96,9 @@ public class VotacaoBean implements Serializable {
 				this.votacaoDAO.altera(this.votacao);
 			}
 			this.limpaJSF();
-			this.palestrasNaoAvaliadas = this.votacaoDAO.listaAvaliacao("NaoRealizada");
-			this.palestrasAvaliadas = this.votacaoDAO.listaAvaliacao("Realizada");
+			this.palestrasNaoAvaliadas = this.votacaoDAO.listaAvaliacao(this.usuarioLogado.getUsuario(),
+					"NaoRealizada");
+			this.palestrasAvaliadas = this.votacaoDAO.listaAvaliacao(this.usuarioLogado.getUsuario(), "Realizada");
 			Messages.addGlobalInfo("Avaliação realizada com sucesso. OBrigado!");
 		} catch (PersistenceException | ConstraintViolationException ce) {
 			Messages.addFlashGlobalError("Avaliação já realizada.");
@@ -112,8 +114,9 @@ public class VotacaoBean implements Serializable {
 			this.editar(palestra);
 			this.votacaoDAO.remove(votacao);
 			this.limpaJSF();
-			this.palestrasNaoAvaliadas = this.votacaoDAO.listaAvaliacao("NaoRealizada");
-			this.palestrasAvaliadas = this.votacaoDAO.listaAvaliacao("Realizada");
+			this.palestrasNaoAvaliadas = this.votacaoDAO.listaAvaliacao(this.usuarioLogado.getUsuario(),
+					"NaoRealizada");
+			this.palestrasAvaliadas = this.votacaoDAO.listaAvaliacao(this.usuarioLogado.getUsuario(), "Realizada");
 			Messages.addGlobalInfo("Avaliação excluída com sucesso.");
 		} catch (Exception ex) {
 			Messages.addFlashGlobalError("Ocorreu um erro ao excluir o registro.");
