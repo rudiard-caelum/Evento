@@ -27,7 +27,7 @@ import org.joda.time.LocalDate;
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = "nome", name = "unq_nome") })
 public class Evento implements Serializable {
 
-	private static final long serialVersionUID = 6883422926597161974L;
+	private static final long serialVersionUID = -8013651820763876029L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,6 +69,23 @@ public class Evento implements Serializable {
 	@OneToMany(mappedBy = "evento")
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<Palestra> palestras;
+
+	public Evento() {
+		super();
+	}
+
+	public Evento(String nome, String descricao, String site, Usuario usuario, String local, String logo,
+			LocalDate data, boolean permiteSubmissao) {
+		super();
+		this.nome = nome;
+		this.descricao = descricao;
+		this.site = site;
+		this.usuario = usuario;
+		this.local = local;
+		this.logo = logo;
+		this.data = data;
+		this.permiteSubmissao = permiteSubmissao;
+	}
 
 	public Long getId() {
 		return id;
