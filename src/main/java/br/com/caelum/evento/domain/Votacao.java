@@ -42,6 +42,18 @@ public class Votacao implements Cloneable, Serializable {
 
 	private Integer voto = 0;
 
+	public Votacao() {
+		super();
+	}
+
+	public Votacao(Usuario usuario_id, Palestra palestra_id, VotacaoEnum tipoVoto, Integer voto) {
+		super();
+		this.usuario_id = usuario_id;
+		this.palestra_id = palestra_id;
+		this.tipoVoto = tipoVoto;
+		this.voto = voto;
+	}
+
 	@Override
 	public Votacao clone() throws CloneNotSupportedException {
 		return (Votacao) super.clone();
