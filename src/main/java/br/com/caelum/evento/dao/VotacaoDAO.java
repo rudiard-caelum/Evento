@@ -12,20 +12,13 @@ import javax.persistence.TypedQuery;
 import br.com.caelum.evento.domain.Palestra;
 import br.com.caelum.evento.domain.Usuario;
 import br.com.caelum.evento.domain.Votacao;
-import br.com.caelum.evento.mb.UsuarioLogadoBean;
 
 public class VotacaoDAO extends GenericDAO<Votacao> implements Serializable {
 
-	private static final long serialVersionUID = 3259730872847755902L;
+	private static final long serialVersionUID = -7613678433557349695L;
 
 	@Inject
 	private EntityManager manager;
-
-	@Inject
-	private UsuarioDAO usuarioDAO;
-
-	@Inject
-	private UsuarioLogadoBean usuarioLogado;
 
 	public VotacaoDAO() {
 		super(Votacao.class);
@@ -37,9 +30,9 @@ public class VotacaoDAO extends GenericDAO<Votacao> implements Serializable {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Palestra> listaAvaliacao(String tipo) {
+	public List<Palestra> listaAvaliacao(Usuario usuario, String tipo) {
 		Query query = this.manager.createNamedQuery("Votacao." + tipo, Palestra.class).setParameter("pUsuarioId",
-				usuarioDAO.buscaId(usuarioLogado.getUsuario().getId()));
+				usuario);
 		List<Palestra> lista = query.getResultList();
 		return lista;
 	}
