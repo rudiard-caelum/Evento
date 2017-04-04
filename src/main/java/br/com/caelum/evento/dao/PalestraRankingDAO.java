@@ -35,7 +35,7 @@ public class PalestraRankingDAO extends GenericDAO<PalestraRanking> implements S
 	}
 
 	public int rankingPalestra(Palestra palestra) {
-		String retorno = palestraDAO.rankingVotacaoPorPalestra(palestra);
+		String retorno = this.palestraDAO.rankingVotacaoPorPalestra(palestra);
 		if (retorno.equals("APROVADA")) {
 			return 0;
 		} else if (retorno.equals("POLEMICA")) {
@@ -65,6 +65,7 @@ public class PalestraRankingDAO extends GenericDAO<PalestraRanking> implements S
 		for (Palestra lst : lista) {
 			PalestraRanking palestraRanking = new PalestraRanking();
 			palestraRanking.setPalestra(this.palestraDAO.buscaId(lst.getId()));
+			palestraRanking.setAvaliacao(this.palestraDAO.rankingVotacaoPorPalestra(palestraRanking.getPalestra()));
 			palestraRanking.setRanking(this.rankingPalestra(palestraRanking.getPalestra()));
 			palestraRanking.setQtdeVotosPositivos(this.palestraDAO
 					.totalVotacaoPalestraETipoVoto(palestraRanking.getPalestra(), VotacaoEnum.POSITIVO));
