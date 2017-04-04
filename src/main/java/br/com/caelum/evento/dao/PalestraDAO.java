@@ -41,13 +41,16 @@ public class PalestraDAO extends GenericDAO<Palestra> implements Serializable {
 		}
 	}
 
-	public String rankingVotacaoPorPalestra(Palestra palestra) {
+	public Long totalVotacaoPalestraETipoVoto(Palestra palestra, VotacaoEnum tipoVoto) {
 		String jpql = "select sum(v.voto) from Votacao v where v.palestra_id = :pPalestra and v.tipoVoto = :pTipoVoto";
 		TypedQuery<Long> query = this.manager.createQuery(jpql, Long.class).setParameter("pPalestra", palestra)
-				.setParameter("pTipoVoto", VotacaoEnum.POSITIVO);
-		Long votosP = query.getSingleResult();
-		query.setParameter("pTipoVoto", VotacaoEnum.NEGATIVO);
-		Long votosN = query.getSingleResult();
+				.setParameter("pTipoVoto", tipoVoto);
+		return query.getSingleResult();
+	}
+
+	public String rankingVotacaoPorPalestra(Palestra palestra) {
+		Long votosP = this.totalVotacaoPalestraETipoVoto(palestra, VotacaoEnum.POSITIVO);
+		Long votosN = this.totalVotacaoPalestraETipoVoto(palestra, VotacaoEnum.NEGATIVO);
 
 		BigDecimal votosPositivos = (votosP == null ? new BigDecimal(0) : BigDecimal.valueOf(votosP));
 		BigDecimal votosNegativos = (votosN == null ? new BigDecimal(0) : BigDecimal.valueOf(votosN));
