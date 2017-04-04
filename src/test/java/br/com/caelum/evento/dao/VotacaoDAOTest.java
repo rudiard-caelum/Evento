@@ -7,6 +7,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
 
+import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -25,12 +26,10 @@ public class VotacaoDAOTest {
 	private static EntityManagerFactory emf;
 	private EntityManager manager;
 
-	private boolean excluiVotacao = true;
-
-	private Usuario palestrante = new Usuario();
-	private Evento evento = new Evento();
-	private Palestra palestra = new Palestra();
-	private Votacao votacao = new Votacao();
+	private Usuario palestrante;
+	private Evento evento;
+	private Palestra palestra;
+	private Votacao votacao;
 
 	private UsuarioDAO usuarioDAO;
 	private EventoDAO eventoDAO;
@@ -63,25 +62,18 @@ public class VotacaoDAOTest {
 		emf.close();
 	}
 
-	private void setVotacao(Votacao vt, VotacaoEnum tipoVoto, Integer voto) {
+	private String randomNumber() {
 		Random rdm = new Random();
 		Integer inteiro = rdm.nextInt();
-		this.palestrante.setNome("TESTE_" + inteiro.toString());
-		this.palestrante.setSenha("123");
-		this.evento.setNome(this.palestrante.getNome());
-		this.evento.setDescricao("DESCRICAO DO EVENTO");
-		this.evento.setLocal("LOCAL DO EVENTO");
-		this.evento.setLogo("LOGO DO EVENTO");
-		this.evento.setSite("www.caelum.com.br");
-		this.evento.setUsuario(this.palestrante);
-		this.palestra.setPalestrante(this.palestrante);
-		this.palestra.setTitulo(this.palestrante.getNome());
-		this.palestra.setDescricao("DESCRICAO DA PALESTRA");
-		this.palestra.setEvento(this.evento);
-		vt.setPalestra_id(this.palestra);
-		vt.setUsuario_id(this.palestrante);
-		vt.setTipoVoto(tipoVoto);
-		vt.setVoto(voto);
+		return inteiro.toString();
+	}
+
+	private void setVotacao(VotacaoEnum tipoVoto, Integer voto) {
+		this.palestrante = new Usuario("TESTE_" + randomNumber(), "teste@teste.com", "123");
+		this.evento = new Evento(this.palestrante.getNome(), "DESCRICAO DO EVENTO", "www.caelum.com.br",
+				this.palestrante, "LOCAL", "LOGO", new LocalDate(), true);
+		this.palestra = new Palestra(this.palestrante, "TITULO DA PALESTRA", "DESCRICAO DA PALESTRA", this.evento);
+		this.votacao = new Votacao(this.palestrante, this.palestra, tipoVoto, voto);
 	}
 
 	private boolean inserirVotacao() {
@@ -107,42 +99,26 @@ public class VotacaoDAOTest {
 		} catch (Exception ex) {
 			this.eventoDAO.remove(evento);
 			this.usuarioDAO.remove(this.palestrante);
-			this.palestraDAO.remove(this.palestra);
 		}
 		return true;
 	}
 
-	private void excluirVotacao() {
-		if (this.evento.getId() != null) {
-			this.eventoDAO.remove(this.evento);
-		}
-		if (this.palestrante.getId() != null) {
-			this.usuarioDAO.remove(this.palestrante);
-		}
-	}
-
 	@Test
 	public void deveInserirVotacao() {
-		this.setVotacao(this.votacao, VotacaoEnum.POSITIVO, 1);
+		this.setVotacao(VotacaoEnum.POSITIVO, 1);
 		Assert.assertTrue(this.inserirVotacao());
-		if (this.excluiVotacao == true) {
-			this.excluirVotacao();
-		}
 	}
 
 	@Test
 	public void deveAlterarAvaliacaoParaNegativo() {
-		this.excluiVotacao = false;
 		this.deveInserirVotacao();
 		this.votacao.setTipoVoto(VotacaoEnum.NEGATIVO);
 		this.votacaoDAO.altera(this.votacao);
 		Assert.assertEquals(VotacaoEnum.NEGATIVO, this.votacao.getTipoVoto());
-		this.excluirVotacao();
 	}
 
 	@Test
 	public void deveExcluirVotacao() {
-		this.excluiVotacao = false;
 		this.deveInserirVotacao();
 		this.votacaoDAO.remove(this.votacao);
 		Assert.assertFalse(this.votacaoDAO.buscaVotoUsuario(this.palestrante, this.palestra));
@@ -156,50 +132,65 @@ public class VotacaoDAOTest {
 
 	@Test
 	public void deveBuscarIdVotacao() {
-		this.excluiVotacao = false;
 		this.deveInserirVotacao();
 		Assert.assertNotNull(this.votacaoDAO.buscaId(this.votacao.getId()));
-		this.excluirVotacao();
 	}
 
 	@Test
 	public void deveListarVotacao() {
-		this.excluiVotacao = false;
 		this.deveInserirVotacao();
 		Assert.assertNotEquals(0, this.votacaoDAO.lista().size());
-		this.excluirVotacao();
+	}
+
+	@Test
+	public void deveListarAvaliacaoesRealizadas() {
+		this.deveInserirVotacao();
+		Assert.assertNotEquals(0, this.votacaoDAO.listaAvaliacao(this.palestrante, "Realizada").size());
+	}
+
+	@Test
+	public void deveListarAvaliacoesNaoRealizadas() {
+		this.deveInserirVotacao();
+		Usuario usuario = new Usuario("TESTE_" + randomNumber(), "teste@teste.com", "123");
+		usuarioDAO.adiciona(usuario);
+		Assert.assertNotEquals(0, this.votacaoDAO.listaAvaliacao(usuario, "NaoRealizada").size());
+	}
+
+	@Test
+	public void deveVerificarSeUsuarioVotou() {
+		this.deveInserirVotacao();
+		Assert.assertTrue(this.votacaoDAO.buscaVotoUsuario(this.palestrante, this.palestra));
+	}
+
+	@Test
+	public void deveEncontrarVotoDoUsuario() {
+		this.deveInserirVotacao();
+		Assert.assertNotNull(this.votacaoDAO.getVotacao(this.palestrante, this.palestra));
 	}
 
 	@Test(expected = PersistenceException.class)
 	public void naoDeveInserirDuasAvaliacoesIguaisnaMesmaPalestra() throws CloneNotSupportedException {
-		this.excluiVotacao = false;
 		this.deveInserirVotacao();
 		Votacao votacao2 = votacao.clone();
 		try {
 			this.votacaoDAO.adiciona(votacao2);
 		} catch (PersistenceException ex) {
 			throw new PersistenceException(ex);
-		} finally {
-			this.excluirVotacao();
 		}
 	}
 
 	@Test
 	public void deveSerDoisOPesoDoVotoParaUsuarioIgualAPalestrante() {
-		this.excluiVotacao = false;
 		this.deveInserirVotacao();
 		Assert.assertEquals(new Integer(2), this.votacao.pesoVoto(this.votacao.getUsuario_id()));
-		this.excluirVotacao();
 	}
 
 	@Test
 	public void deveSerUmOPesoDoVotoParaUsuarioDiferenteDePalestrante() {
-		this.excluiVotacao = false;
 		this.deveInserirVotacao();
 		Usuario usuarioDiferente = new Usuario();
 		usuarioDiferente.setNome("TESTE");
 		Assert.assertEquals(new Integer(1), this.votacao.pesoVoto(usuarioDiferente));
-		this.excluirVotacao();
 	}
 
 }
