@@ -4,9 +4,11 @@ import java.io.Serializable;
 
 public class PalestraRanking implements Comparable<PalestraRanking>, Serializable {
 
-	private static final long serialVersionUID = -7296099650563331816L;
+	private static final long serialVersionUID = -5377765614652158290L;
 
 	private Palestra palestra;
+
+	private String avaliacao;
 
 	private Integer ranking;
 
@@ -16,9 +18,10 @@ public class PalestraRanking implements Comparable<PalestraRanking>, Serializabl
 		super();
 	}
 
-	public PalestraRanking(Palestra palestra, int ranking, Long qtdeVotosPositivos) {
+	public PalestraRanking(Palestra palestra, String avaliacao, int ranking, Long qtdeVotosPositivos) {
 		super();
 		this.palestra = palestra;
+		this.avaliacao = avaliacao;
 		this.ranking = ranking;
 		this.qtdeVotosPositivos = qtdeVotosPositivos;
 	}
@@ -41,6 +44,14 @@ public class PalestraRanking implements Comparable<PalestraRanking>, Serializabl
 		this.palestra = palestra;
 	}
 
+	public String getAvaliacao() {
+		return avaliacao;
+	}
+
+	public void setAvaliacao(String avaliacao) {
+		this.avaliacao = avaliacao;
+	}
+
 	public Integer getRanking() {
 		return ranking;
 	}
@@ -61,6 +72,7 @@ public class PalestraRanking implements Comparable<PalestraRanking>, Serializabl
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((avaliacao == null) ? 0 : avaliacao.hashCode());
 		result = prime * result + ((palestra == null) ? 0 : palestra.hashCode());
 		result = prime * result + ((qtdeVotosPositivos == null) ? 0 : qtdeVotosPositivos.hashCode());
 		result = prime * result + ((ranking == null) ? 0 : ranking.hashCode());
@@ -76,6 +88,11 @@ public class PalestraRanking implements Comparable<PalestraRanking>, Serializabl
 		if (getClass() != obj.getClass())
 			return false;
 		PalestraRanking other = (PalestraRanking) obj;
+		if (avaliacao == null) {
+			if (other.avaliacao != null)
+				return false;
+		} else if (!avaliacao.equals(other.avaliacao))
+			return false;
 		if (palestra == null) {
 			if (other.palestra != null)
 				return false;
