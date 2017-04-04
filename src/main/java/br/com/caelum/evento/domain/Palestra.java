@@ -26,7 +26,7 @@ import org.joda.time.LocalDate;
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "titulo", "evento_id" }, name = "unq_titulo_evento") })
 public class Palestra implements Cloneable, Serializable {
 
-	private static final long serialVersionUID = -1097266885616230990L;
+	private static final long serialVersionUID = -4069427443581654124L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,6 +53,18 @@ public class Palestra implements Cloneable, Serializable {
 	@OneToMany(mappedBy = "palestra_id")
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<Votacao> votacao;
+
+	public Palestra() {
+		super();
+	}
+
+	public Palestra(Usuario palestrante, String titulo, String descricao, Evento evento) {
+		super();
+		this.palestrante = palestrante;
+		this.titulo = titulo;
+		this.descricao = descricao;
+		this.evento = evento;
+	}
 
 	@Override
 	public Palestra clone() throws CloneNotSupportedException {
