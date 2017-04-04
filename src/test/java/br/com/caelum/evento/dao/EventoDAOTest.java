@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -22,10 +23,9 @@ public class EventoDAOTest {
 	private EntityManager manager;
 
 	private String nomeEvento;
-	private boolean excluiEvento = true;
 
-	private Usuario usuarioEvento = new Usuario();
-	private Evento evento = new Evento();
+	private Usuario usuarioEvento;
+	private Evento evento;
 
 	private UsuarioDAO usuarioDAO;
 	private EventoDAO eventoDAO;
@@ -54,58 +54,37 @@ public class EventoDAOTest {
 		emf.close();
 	}
 
-	private void setEvento(Evento evt) {
+	private String randomNumber() {
 		Random rdm = new Random();
 		Integer inteiro = rdm.nextInt();
-		this.nomeEvento = "TESTE_" + inteiro.toString();
-		this.usuarioEvento.setNome(this.nomeEvento);
-		this.usuarioEvento.setSenha("123");
-		evt.setNome(this.nomeEvento);
-		evt.setDescricao("DESCRICAO DO EVENTO");
-		evt.setSite("www.caelum.com.br");
-		evt.setUsuario(this.usuarioEvento);
-		evt.setLocal("ENDERECO DO EVENTO");
-		evt.setLogo("LOGO");
+		return inteiro.toString();
 	}
 
-	private void excluirEvento() {
-		this.evento = (Evento) this.eventoDAO.buscaString(this.nomeEvento, "nome");
-		if (this.evento != null) {
-			eventoDAO.remove(this.evento);
-			this.usuarioEvento = (Usuario) this.usuarioDAO.buscaString(this.usuarioEvento.getNome(), "nome");
-			if (this.usuarioEvento != null) {
-				usuarioDAO.remove(this.usuarioEvento);
-			}
-		}
-		this.evento = new Evento();
-		this.usuarioEvento = new Usuario();
+	private void setEvento() {
+		this.usuarioEvento = new Usuario("TESTE_" + randomNumber(), "teste@teste.com", "123");
+		this.evento = new Evento("TESTE_" + randomNumber(), "DESCRICAO DO EVENTO", "www.caelum.com.br",
+				this.usuarioEvento, "LOCAL", "LOGO", new LocalDate(), true);
 	}
 
 	@Test
 	public void deveInserirEvento() {
-		this.setEvento(this.evento);
+		this.setEvento();
 		this.usuarioDAO.adiciona(this.usuarioEvento);
 		Assert.assertNotNull(this.usuarioEvento.getId());
 		this.eventoDAO.adiciona(this.evento);
 		Assert.assertNotNull(this.evento.getId());
-		if (this.excluiEvento == true) {
-			this.excluirEvento();
-		}
 	}
 
 	@Test
 	public void deveAlterarDescricaoEvento() {
-		this.excluiEvento = false;
 		this.deveInserirEvento();
 		this.evento.setDescricao("NOVA DESCRICAO");
 		this.eventoDAO.altera(this.evento);
 		Assert.assertEquals("NOVA DESCRICAO", this.evento.getDescricao());
-		this.excluirEvento();
 	}
 
 	@Test
 	public void deveExcluirEvento() {
-		this.excluiEvento = false;
 		this.deveInserirEvento();
 		this.eventoDAO.remove(this.evento);
 		this.evento = (Evento) this.eventoDAO.buscaString(this.nomeEvento, "nome");
@@ -116,26 +95,20 @@ public class EventoDAOTest {
 
 	@Test
 	public void deveBuscarIdEvento() {
-		this.excluiEvento = false;
 		this.deveInserirEvento();
 		Assert.assertNotNull(this.eventoDAO.buscaId(this.evento.getId()));
-		this.excluirEvento();
 	}
 
 	@Test
 	public void deveBuscarStringNomeEvento() {
-		this.excluiEvento = false;
 		this.deveInserirEvento();
-		Assert.assertNotNull(this.eventoDAO.buscaString(this.nomeEvento, "nome"));
-		this.excluirEvento();
+		Assert.assertNotNull(this.eventoDAO.buscaString(this.evento.getNome(), "nome"));
 	}
 
 	@Test
 	public void deveListarEventos() {
-		this.excluiEvento = false;
 		this.deveInserirEvento();
 		Assert.assertNotEquals(0, this.eventoDAO.lista().size());
-		this.excluirEvento();
 	}
 
 }
