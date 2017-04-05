@@ -89,8 +89,6 @@ public class EventoDAOTest {
 		this.eventoDAO.remove(this.evento);
 		this.evento = (Evento) this.eventoDAO.buscaString(this.nomeEvento, "nome");
 		Assert.assertNull(this.evento);
-		this.usuarioDAO.remove(this.usuarioEvento);
-		Assert.assertNull(this.usuarioDAO.buscaString(this.usuarioEvento.getNome(), "nome"));
 	}
 
 	@Test
