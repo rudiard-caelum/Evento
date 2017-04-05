@@ -85,20 +85,17 @@ public class VotacaoDAOTest {
 		try {
 			this.eventoDAO.adiciona(this.evento);
 		} catch (Exception ex) {
-			this.usuarioDAO.remove(this.palestrante);
 			return false;
 		}
 		try {
 			this.palestraDAO.adiciona(this.palestra);
 		} catch (Exception ex) {
-			this.eventoDAO.remove(evento);
-			this.usuarioDAO.remove(this.palestrante);
+			return false;
 		}
 		try {
 			this.votacaoDAO.adiciona(this.votacao);
 		} catch (Exception ex) {
-			this.eventoDAO.remove(evento);
-			this.usuarioDAO.remove(this.palestrante);
+			return false;
 		}
 		return true;
 	}
@@ -122,12 +119,6 @@ public class VotacaoDAOTest {
 		this.deveInserirVotacao();
 		this.votacaoDAO.remove(this.votacao);
 		Assert.assertFalse(this.votacaoDAO.buscaVotoUsuario(this.palestrante, this.palestra));
-		this.eventoDAO.remove(this.evento);
-		this.evento = (Evento) this.eventoDAO.buscaString(this.palestrante.getNome(), "nome");
-		Assert.assertNull(this.evento);
-		Long usuarioId = this.palestrante.getId();
-		this.usuarioDAO.remove(this.palestrante);
-		Assert.assertNull((Usuario) this.usuarioDAO.buscaId(usuarioId));
 	}
 
 	@Test
@@ -143,7 +134,7 @@ public class VotacaoDAOTest {
 	}
 
 	@Test
-	public void deveListarAvaliacaoesRealizadas() {
+	public void deveListarAvaliacoesRealizadas() {
 		this.deveInserirVotacao();
 		Assert.assertNotEquals(0, this.votacaoDAO.listaAvaliacao(this.palestrante, "Realizada").size());
 	}
