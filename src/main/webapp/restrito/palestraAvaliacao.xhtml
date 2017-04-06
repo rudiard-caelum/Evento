@@ -79,7 +79,7 @@
 							</p:column>
 
 							<p:column headerText="Operações" style="width: 7%;">
-								<p:commandButton id="editaNaoAvaliada" action="#{votacaoBean.editar(palestrasAvaliadas.id)}" update="@form :dataForm :msgGlobal" title="Editar" icon="ui-icon-pencil">
+								<p:commandButton id="editaAvaliada" action="#{votacaoBean.editar(palestrasAvaliadas.id)}" update="@form :dataForm :msgGlobal" title="Editar" icon="ui-icon-pencil">
 									<f:ajax render="@form :dataForm" execute="@this" />
 								</p:commandButton>
 								<p:commandButton id="excluiAvaliada" action="#{votacaoBean.remove(palestrasAvaliadas.id)}" update="@form :tabPalestras:formPNA :tabPalestras:formPA :msgGlobal" title="Excluir" icon="ui-icon-trash">
