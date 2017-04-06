@@ -26,7 +26,7 @@ import org.joda.time.LocalDate;
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "titulo", "evento_id" }, name = "unq_titulo_evento") })
 public class Palestra implements Cloneable, Serializable {
 
-	private static final long serialVersionUID = -4069427443581654124L;
+	private static final long serialVersionUID = 5814590454769778466L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,6 +53,10 @@ public class Palestra implements Cloneable, Serializable {
 	@OneToMany(mappedBy = "palestra_id")
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<Votacao> votacao;
+
+	@OneToMany(mappedBy = "palestra")
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private List<Comentario> comentario;
 
 	public Palestra() {
 		super();
@@ -131,10 +135,19 @@ public class Palestra implements Cloneable, Serializable {
 		this.votacao = votacao;
 	}
 
+	public List<Comentario> getComentario() {
+		return comentario;
+	}
+
+	public void setComentario(List<Comentario> comentario) {
+		this.comentario = comentario;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((comentario == null) ? 0 : comentario.hashCode());
 		result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
 		result = prime * result + ((evento == null) ? 0 : evento.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -153,6 +166,11 @@ public class Palestra implements Cloneable, Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Palestra other = (Palestra) obj;
+		if (comentario == null) {
+			if (other.comentario != null)
+				return false;
+		} else if (!comentario.equals(other.comentario))
+			return false;
 		if (descricao == null) {
 			if (other.descricao != null)
 				return false;
