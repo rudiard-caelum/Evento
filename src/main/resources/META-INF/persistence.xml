@@ -12,6 +12,7 @@
 		<class>br.com.caelum.evento.domain.Evento</class>
 		<class>br.com.caelum.evento.domain.Palestra</class>
 		<class>br.com.caelum.evento.domain.Votacao</class>
+		<class>br.com.caelum.evento.domain.Comentario</class>
 
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
@@ -30,6 +31,7 @@
 		<class>br.com.caelum.evento.domain.Evento</class>
 		<class>br.com.caelum.evento.domain.Palestra</class>
 		<class>br.com.caelum.evento.domain.Votacao</class>
+		<class>br.com.caelum.evento.domain.Comentario</class>
 
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
