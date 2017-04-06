@@ -99,7 +99,7 @@ public class VotacaoBean implements Serializable {
 			this.palestrasNaoAvaliadas = this.votacaoDAO.listaAvaliacao(this.usuarioLogado.getUsuario(),
 					"NaoRealizada");
 			this.palestrasAvaliadas = this.votacaoDAO.listaAvaliacao(this.usuarioLogado.getUsuario(), "Realizada");
-			Messages.addGlobalInfo("Avaliação realizada com sucesso. OBrigado!");
+			Messages.addGlobalInfo("Avaliação realizada com sucesso. Obrigado!");
 		} catch (PersistenceException | ConstraintViolationException ce) {
 			Messages.addFlashGlobalError("Avaliação já realizada.");
 		} catch (Exception e) {
