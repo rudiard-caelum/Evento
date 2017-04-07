@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<ui:composition template="/templates/_template.xhtml">
+
+		<ui:define name="conteudo">
+
+			<h2>Visualização de Palestras</h2>
+
+			<h:form id="formListaPalestra" target="_blank">
+				<p:dataTable value="#{palestraListagemBean.palestras}" var="palestra" emptyMessage="Nenhum registro encontrado." paginator="true" rows="10">
+					<p:column headerText="Data" style="width: 8%;" sortBy="#{palestra.evento.data}" filterBy="#{palestra.evento.data}" filterMatchMode="contains">
+						<h:outputText value="#{palestra.evento.data}" converter="LocalDateConverter" />
+					</p:column>
+					<p:column headerText="Evento" style="width: 21%;" sortBy="#{palestra.evento.nome}" filterBy="#{palestra.evento.nome}" filterMatchMode="contains">
+						<h:outputText value="#{palestra.evento.nome}" />
+					</p:column>
+					<p:column headerText="Palestra" style="width: 21%;" sortBy="#{palestra.titulo}" filterBy="#{palestra.titulo}" filterMatchMode="contains">
+						<h:outputText value="#{palestra.titulo}" />
+					</p:column>
+					<p:column headerText="Palestrante" style="width: 19%;" sortBy="#{palestra.palestrante.nome}" filterBy="#{palestra.palestrante.nome}" filterMatchMode="contains">
+						<h:outputText value="#{palestra.palestrante.nome}" />
+					</p:column>
+					<p:column headerText="Votos Positivos" style="width: 5%; text-align: right;">
+						<h:outputText value="#{palestraListagemBean.votosPositivos(palestra)}" />
+					</p:column>
+					<p:column headerText="Votos Negativo" style="width: 5%; text-align: right;">
+						<h:outputText value="#{palestraListagemBean.votosNegativos(palestra)}" />
+					</p:column>
+					<p:column headerText="% Aceitação" style="width: 5%; text-align: right;">
+						<h:outputText value="#{palestraListagemBean.porcentagemAceitacao(palestra)}" >
+							<f:convertNumber pattern="##0.00" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Site Evento" style="width: 7%;">
+						<h:outputLink target="_blank" value="#{palestraListagemBean.acessarSite(palestra)}">
+							<h:outputText value="Acessar Site" />
+						</h:outputLink>
+					</p:column>
+					<p:column headerText="Comentários" style="width: 7%;">
+						<p:commandButton actionListener="#{palestraListagemBean.showComentarios}" update=":formListaComentario"
+						 	title="Comentários" oncomplete="PF('comentarios').show();" icon="ui-icon-comment">
+							<f:attribute name="palestraSelecionada" value="#{palestra}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+
+			<p:dialog header="Comentários da Palestra" widgetVar="comentarios" draggable="false" resizable="false" closable="false">
+				<h:form id="formListaComentario">
+					<p:dataTable value="#{palestraListagemBean.comentarios}" var="comentario" emptyMessage="Nenhum registro encontrado." paginator="true" rows="5">
+						<p:column headerText="Data" style="width: 9%;">
+							<h:outputText value="#{comentario.data}" converter="LocalDateConverter" />
+						</p:column>
+						<p:column headerText="Usuário" style="width: 30%;">
+							<h:outputText value="#{comentario.usuario.nome}" />
+						</p:column>
+						<p:column headerText="Comentario" style="width: 54%;">
+							<h:outputText value="#{comentario.comentario}" />
+						</p:column>
+					</p:dataTable>
+					<h:panelGrid columns="2">
+						<p:commandButton value="Fechar" oncomplete="PF('comentarios').hide();" />
+					</h:panelGrid>
+				</h:form>
+			</p:dialog>
+
+		</ui:define>
+
+	</ui:composition>
+
+</html>
