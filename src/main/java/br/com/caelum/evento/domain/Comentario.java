@@ -38,11 +38,11 @@ public class Comentario implements Cloneable, Serializable {
 	private LocalDate data = new LocalDate();
 
 	@ManyToOne
-	@JoinColumn(name = "usuario_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_usuario"), nullable = false)
+	@JoinColumn(name = "usuario_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_usuario_comentario"), nullable = false)
 	private Usuario usuario;
 
 	@ManyToOne
-	@JoinColumn(name = "palestra_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_palestra"), nullable = false)
+	@JoinColumn(name = "palestra_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_palestra_comentario"), nullable = false)
 	private Palestra palestra;
 
 	@NotEmpty(message = "Comentário da Palestra é obrigatório.")
