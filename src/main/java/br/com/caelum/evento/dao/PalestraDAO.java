@@ -15,8 +15,7 @@ import br.com.caelum.evento.domain.VotacaoEnum;
 
 public class PalestraDAO extends GenericDAO<Palestra> implements Serializable {
 
-	private static final long serialVersionUID = 2040427863328163967L;
-
+	private static final long serialVersionUID = 2862631713555110168L;
 	@Inject
 	private EntityManager manager;
 
@@ -48,6 +47,13 @@ public class PalestraDAO extends GenericDAO<Palestra> implements Serializable {
 		return query.getSingleResult();
 	}
 
+	public BigDecimal porcentagemAceitacaoDaPalestra(BigDecimal votosPositivos, BigDecimal votosNegativos) {
+		BigDecimal totalVotos = votosPositivos.add(votosNegativos);
+		return (totalVotos.equals(new BigDecimal(0)) ? new BigDecimal(0)
+				: (BigDecimal) votosPositivos.divide(totalVotos, 2, RoundingMode.HALF_EVEN)
+						.multiply(new BigDecimal(100)));
+	}
+
 	public String rankingVotacaoPorPalestra(Palestra palestra) {
 		Long votosP = this.totalVotacaoPalestraETipoVoto(palestra, VotacaoEnum.POSITIVO);
 		Long votosN = this.totalVotacaoPalestraETipoVoto(palestra, VotacaoEnum.NEGATIVO);
@@ -60,8 +66,7 @@ public class PalestraDAO extends GenericDAO<Palestra> implements Serializable {
 		}
 
 		BigDecimal totalVotos = votosPositivos.add(votosNegativos);
-		BigDecimal porcentagemPositivo = votosPositivos.divide(totalVotos, 2, RoundingMode.HALF_EVEN)
-				.multiply(new BigDecimal(100));
+		BigDecimal porcentagemPositivo = this.porcentagemAceitacaoDaPalestra(votosPositivos, votosNegativos);
 
 		if ((totalVotos.compareTo(new BigDecimal(50)) >= 0) && ((porcentagemPositivo.compareTo(new BigDecimal(51)) >= 0)
 				&& (porcentagemPositivo.compareTo(new BigDecimal(55)) <= 0))) {
