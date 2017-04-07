@@ -20,7 +20,7 @@ import br.com.caelum.evento.tx.Transactional;
 @ViewModel
 public class ComentarioBean implements Serializable {
 
-	private static final long serialVersionUID = -4265995386192963036L;
+	private static final long serialVersionUID = -389242462067891257L;
 
 	@Inject
 	private UsuarioLogadoBean usuarioLogado;
@@ -55,14 +55,15 @@ public class ComentarioBean implements Serializable {
 
 	public List<Palestra> getPalestrasComentadas() {
 		if (this.palestrasComentadas == null) {
-			this.palestrasComentadas = this.comentarioDAO.listaComentario(this.usuarioLogado.getUsuario(), "Realizado");
+			this.palestrasComentadas = this.comentarioDAO.listaComentarioUsuario(this.usuarioLogado.getUsuario(),
+					"Realizado");
 		}
 		return this.palestrasComentadas;
 	}
 
 	public List<Palestra> getPalestrasNaoComentadas() {
 		if (this.palestrasNaoComentadas == null) {
-			this.palestrasNaoComentadas = this.comentarioDAO.listaComentario(this.usuarioLogado.getUsuario(),
+			this.palestrasNaoComentadas = this.comentarioDAO.listaComentarioUsuario(this.usuarioLogado.getUsuario(),
 					"NaoRealizado");
 		}
 		return this.palestrasNaoComentadas;
@@ -71,7 +72,7 @@ public class ComentarioBean implements Serializable {
 	public void editar(Long palestra) {
 		this.limpaJSF();
 		this.setPalestra(this.palestraDAO.buscaId(palestra));
-		this.comentario = this.comentarioDAO.getComentario(this.usuarioLogado.getUsuario(), this.getPalestra());
+		this.comentario = this.comentarioDAO.getComentarioUsuario(this.usuarioLogado.getUsuario(), this.getPalestra());
 		if (this.comentario == null) {
 			this.comentario = new Comentario();
 			this.comentario.setPalestra(this.palestra);
@@ -95,9 +96,10 @@ public class ComentarioBean implements Serializable {
 				this.comentarioDAO.altera(this.comentario);
 			}
 			this.limpaJSF();
-			this.palestrasNaoComentadas = this.comentarioDAO.listaComentario(this.usuarioLogado.getUsuario(),
+			this.palestrasNaoComentadas = this.comentarioDAO.listaComentarioUsuario(this.usuarioLogado.getUsuario(),
 					"NaoRealizado");
-			this.palestrasComentadas = this.comentarioDAO.listaComentario(this.usuarioLogado.getUsuario(), "Realizado");
+			this.palestrasComentadas = this.comentarioDAO.listaComentarioUsuario(this.usuarioLogado.getUsuario(),
+					"Realizado");
 			Messages.addGlobalInfo("Comentários realizados com sucesso. Obrigado!");
 		} catch (PersistenceException | ConstraintViolationException ce) {
 			Messages.addFlashGlobalError("Comentário já realizado.");
@@ -113,9 +115,10 @@ public class ComentarioBean implements Serializable {
 			this.editar(palestra);
 			this.comentarioDAO.remove(this.comentario);
 			this.limpaJSF();
-			this.palestrasNaoComentadas = this.comentarioDAO.listaComentario(this.usuarioLogado.getUsuario(),
+			this.palestrasNaoComentadas = this.comentarioDAO.listaComentarioUsuario(this.usuarioLogado.getUsuario(),
 					"NaoRealizado");
-			this.palestrasComentadas = this.comentarioDAO.listaComentario(this.usuarioLogado.getUsuario(), "Realizado");
+			this.palestrasComentadas = this.comentarioDAO.listaComentarioUsuario(this.usuarioLogado.getUsuario(),
+					"Realizado");
 			Messages.addGlobalInfo("Comentário excluído com sucesso.");
 		} catch (Exception ex) {
 			Messages.addFlashGlobalError("Ocorreu um erro ao excluir o registro.");
