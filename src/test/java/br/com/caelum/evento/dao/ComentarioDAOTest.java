@@ -15,9 +15,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import br.com.caelum.evento.domain.Comentario;
 import br.com.caelum.evento.domain.Evento;
 import br.com.caelum.evento.domain.Palestra;
-import br.com.caelum.evento.domain.Comentario;
 import br.com.caelum.evento.domain.Usuario;
 
 public class ComentarioDAOTest {
@@ -105,6 +105,17 @@ public class ComentarioDAOTest {
 		Assert.assertTrue(this.inserirPalestraComentario());
 	}
 
+	@Test(expected = PersistenceException.class)
+	public void naoDeveInserirDoisComentariosnaMesmaPalestra() throws CloneNotSupportedException {
+		this.deveInserirPalestraComentario();
+		Comentario palestraComentario2 = palestraComentario.clone();
+		try {
+			this.comentarioDAO.adiciona(palestraComentario2);
+		} catch (PersistenceException ex) {
+			throw new PersistenceException(ex);
+		}
+	}
+
 	@Test
 	public void deveAlterarComentarioDaPalestra() {
 		this.deveInserirPalestraComentario();
@@ -135,7 +146,7 @@ public class ComentarioDAOTest {
 	@Test
 	public void deveListarComentariosRealizados() {
 		this.deveInserirPalestraComentario();
-		Assert.assertNotEquals(0, this.comentarioDAO.listaComentario(this.usuario, "Realizado").size());
+		Assert.assertNotEquals(0, this.comentarioDAO.listaComentarioUsuario(this.usuario, "Realizado").size());
 	}
 
 	@Test
@@ -143,7 +154,7 @@ public class ComentarioDAOTest {
 		this.deveInserirPalestraComentario();
 		Usuario usuario = new Usuario("TESTE_" + randomNumber(), "teste@teste.com", "123");
 		usuarioDAO.adiciona(usuario);
-		Assert.assertNotEquals(0, this.comentarioDAO.listaComentario(usuario, "NaoRealizado").size());
+		Assert.assertNotEquals(0, this.comentarioDAO.listaComentarioUsuario(usuario, "NaoRealizado").size());
 	}
 
 	@Test
@@ -155,18 +166,13 @@ public class ComentarioDAOTest {
 	@Test
 	public void deveEncontrarComentarioDoUsuario() {
 		this.deveInserirPalestraComentario();
-		Assert.assertNotNull(this.comentarioDAO.getComentario(this.usuario, this.palestra));
+		Assert.assertNotNull(this.comentarioDAO.getComentarioUsuario(this.usuario, this.palestra));
 	}
 
-	@Test(expected = PersistenceException.class)
-	public void naoDeveInserirDoisComentariosnaMesmaPalestra() throws CloneNotSupportedException {
+	@Test
+	public void deveListarComentariosDaPalestra() {
 		this.deveInserirPalestraComentario();
-		Comentario palestraComentario2 = palestraComentario.clone();
-		try {
-			this.comentarioDAO.adiciona(palestraComentario2);
-		} catch (PersistenceException ex) {
-			throw new PersistenceException(ex);
-		}
+		Assert.assertNotNull(this.comentarioDAO.listaComentariosPalestra(this.palestra));
 	}
 
 }
