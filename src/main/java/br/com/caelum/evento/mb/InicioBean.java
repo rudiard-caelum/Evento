@@ -10,10 +10,12 @@ import javax.persistence.Query;
 import org.joda.time.LocalDate;
 import org.omnifaces.util.Messages;
 
+import br.com.caelum.evento.dao.ComentarioDAO;
 import br.com.caelum.evento.dao.EventoDAO;
 import br.com.caelum.evento.dao.PalestraDAO;
 import br.com.caelum.evento.dao.UsuarioDAO;
 import br.com.caelum.evento.dao.VotacaoDAO;
+import br.com.caelum.evento.domain.Comentario;
 import br.com.caelum.evento.domain.Evento;
 import br.com.caelum.evento.domain.Palestra;
 import br.com.caelum.evento.domain.Usuario;
@@ -41,10 +43,14 @@ public class InicioBean implements Serializable {
 	@Inject
 	private VotacaoDAO votacaoDAO;
 
+	@Inject
+	private ComentarioDAO comentarioDAO;
+
 	private Usuario usuario = new Usuario();
 	private Evento evento = new Evento();
 	private Palestra palestra = new Palestra();
 	private Votacao votacao = new Votacao();
+	private Comentario comentario = new Comentario();
 
 	public Usuario getUsuario() {
 		return usuario;
@@ -65,6 +71,11 @@ public class InicioBean implements Serializable {
 		} else {
 			Messages.addGlobalError("Usuário ADMIN não foi criado pois já existe no banco de dados.");
 		}
+	}
+
+	public void excluirDados() {
+		this.excluiDadosBanco();
+		Messages.addGlobalInfo("Dados excluídos do banco com sucesso.");
 	}
 
 	public void preencheBanco() {
@@ -126,8 +137,17 @@ public class InicioBean implements Serializable {
 					palestra.setDescricao("DESCRICAO DA PALESTRA TESTE " + i);
 					palestra.setEvento(evento);
 					palestraDAO.adiciona(palestra);
+					for (int c = 1; c <= 5; c++) {
+						usuario = new Usuario();
+						usuario = (Usuario) usuarioDAO.buscaString("ADMIN_TESTE_" + c, "nome");
+						comentario = new Comentario();
+						comentario.setUsuario(usuario);
+						comentario.setPalestra(palestra);
+						comentario.setData(new LocalDate());
+						comentario.setComentario("COMENTARIO DA PALESTRA " + i);
+						comentarioDAO.adiciona(comentario);
+					}
 				}
-
 			}
 			this.manager.getTransaction().commit();
 		} catch (Exception e) {
@@ -156,7 +176,6 @@ public class InicioBean implements Serializable {
 			return;
 		}
 		Messages.addGlobalInfo("Banco preenchido com sucesso.");
-
 	}
 
 	private void excluiDadosBanco() {
