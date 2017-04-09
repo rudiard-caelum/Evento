@@ -27,6 +27,7 @@ public class PalestraRankingDAOTest {
 
 	private Usuario palestrante;
 	private Evento evento;
+	private Evento eventoPrimeiro;
 	private Palestra palestra;
 	private Votacao votacao;
 
@@ -69,27 +70,32 @@ public class PalestraRankingDAOTest {
 		return inteiro.toString();
 	}
 
-	private void criaDados() {
-		this.palestrante = new Usuario("TESTE_" + randomNumber(), "teste@teste.com", "123");
-		this.usuarioDAO.adiciona(this.palestrante);
-		this.evento = new Evento(this.palestrante.getNome(), "DESCRICAO DO EVENTO", "www.caelum.com.br",
-				this.palestrante, "LOCAL", "LOGO", new LocalDate(), true);
-		this.eventoDAO.adiciona(this.evento);
-		for (int i = 1; i <= 5; i++) {
-			this.palestra = new Palestra(this.palestrante, "TITULO DA PALESTRA " + randomNumber(),
-					"DESCRICAO DA PALESTRA", this.evento);
-			this.palestraDAO.adiciona(this.palestra);
-			if (i == 3) {
-				this.criaVotacao(60, VotacaoEnum.POSITIVO);
-				this.criaVotacao(30, VotacaoEnum.NEGATIVO);
+	private void criaDados() throws CloneNotSupportedException {
+		for (int e = 1; e <= 2; e++) {
+			this.palestrante = new Usuario("TESTE_" + randomNumber(), "teste@teste.com", "123");
+			this.usuarioDAO.adiciona(this.palestrante);
+			this.evento = new Evento(this.palestrante.getNome(), "DESCRICAO DO EVENTO", "www.caelum.com.br",
+					this.palestrante, "LOCAL", "LOGO", new LocalDate(), true);
+			this.eventoDAO.adiciona(this.evento);
+			for (int i = 1; i <= 5; i++) {
+				this.palestra = new Palestra(this.palestrante, "TITULO DA PALESTRA " + randomNumber(),
+						"DESCRICAO DA PALESTRA", this.evento);
+				this.palestraDAO.adiciona(this.palestra);
+				if (i == 3) {
+					this.criaVotacao(60, VotacaoEnum.POSITIVO);
+					this.criaVotacao(30, VotacaoEnum.NEGATIVO);
+				}
+				if (i == 2) {
+					this.criaVotacao(33, VotacaoEnum.POSITIVO);
+					this.criaVotacao(27, VotacaoEnum.NEGATIVO);
+				}
+				if (i == 1) {
+					this.criaVotacao(70, VotacaoEnum.POSITIVO);
+					this.criaVotacao(40, VotacaoEnum.NEGATIVO);
+				}
 			}
-			if (i == 2) {
-				this.criaVotacao(33, VotacaoEnum.POSITIVO);
-				this.criaVotacao(27, VotacaoEnum.NEGATIVO);
-			}
-			if (i == 1) {
-				this.criaVotacao(70, VotacaoEnum.POSITIVO);
-				this.criaVotacao(40, VotacaoEnum.NEGATIVO);
+			if (e == 1) {
+				this.eventoPrimeiro = this.evento.clone();
 			}
 		}
 	}
@@ -102,9 +108,15 @@ public class PalestraRankingDAOTest {
 	}
 
 	@Test
-	public void deveListarPalestrasRankeadas() {
+	public void deveListarPalestrasRankeadas() throws CloneNotSupportedException {
 		this.criaDados();
 		Assert.assertNotNull(this.palestraRankingDAO.lista());
+	}
+
+	@Test
+	public void deveListarPalestrasRankeadasPorEvento() throws CloneNotSupportedException {
+		this.criaDados();
+		Assert.assertNotNull(this.palestraRankingDAO.listaPorEvento(this.eventoPrimeiro));
 	}
 
 }
