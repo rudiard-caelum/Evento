@@ -3,6 +3,7 @@ package br.com.caelum.evento.dao;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -16,6 +17,7 @@ import br.com.caelum.evento.domain.VotacaoEnum;
 public class PalestraDAO extends GenericDAO<Palestra> implements Serializable {
 
 	private static final long serialVersionUID = 2862631713555110168L;
+
 	@Inject
 	private EntityManager manager;
 
@@ -35,6 +37,18 @@ public class PalestraDAO extends GenericDAO<Palestra> implements Serializable {
 							Palestra.class)
 					.setParameter("pEvento", evento).setParameter("pPalestra", titulo);
 			return query.getSingleResult();
+		} catch (NoResultException nre) {
+			return null;
+		}
+	}
+
+	public List<Palestra> getPalestraEvento(Evento evento) {
+		try {
+			TypedQuery<Palestra> query = this.manager
+					.createQuery("select p from Palestra p where p.evento = :pEvento", Palestra.class)
+					.setParameter("pEvento", evento);
+			System.out.println(query.getResultList().size());
+			return query.getResultList();
 		} catch (NoResultException nre) {
 			return null;
 		}
