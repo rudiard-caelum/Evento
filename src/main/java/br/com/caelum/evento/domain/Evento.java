@@ -25,9 +25,9 @@ import org.joda.time.LocalDate;
 
 @Entity
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = "nome", name = "unq_nome") })
-public class Evento implements Serializable {
+public class Evento implements Cloneable, Serializable {
 
-	private static final long serialVersionUID = -8013651820763876029L;
+	private static final long serialVersionUID = -9124690833187539343L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -85,6 +85,11 @@ public class Evento implements Serializable {
 		this.logo = logo;
 		this.data = data;
 		this.permiteSubmissao = permiteSubmissao;
+	}
+
+	@Override
+	public Evento clone() throws CloneNotSupportedException {
+		return (Evento) super.clone();
 	}
 
 	public Long getId() {
