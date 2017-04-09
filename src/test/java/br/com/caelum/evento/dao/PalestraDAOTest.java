@@ -116,6 +116,17 @@ public class PalestraDAOTest {
 		Assert.assertTrue(this.inserirPalestra());
 	}
 
+	@Test(expected = PersistenceException.class)
+	public void naoDeveInserirDuasPalestrasIguaisnoMesmoEvento() throws CloneNotSupportedException {
+		this.deveInserirPalestra();
+		Palestra palestra2 = palestra.clone();
+		try {
+			this.palestraDAO.adiciona(palestra2);
+		} catch (PersistenceException ex) {
+			throw new PersistenceException(ex);
+		}
+	}
+
 	@Test
 	public void deveAlterarDescricaoPalestra() {
 		this.deveInserirPalestra();
@@ -148,17 +159,6 @@ public class PalestraDAOTest {
 	public void deveListarPalestras() {
 		this.deveInserirPalestra();
 		Assert.assertNotEquals(0, this.palestraDAO.lista().size());
-	}
-
-	@Test(expected = PersistenceException.class)
-	public void naoDeveInserirDuasPalestrasIguaisnoMesmoEvento() throws CloneNotSupportedException {
-		this.deveInserirPalestra();
-		Palestra palestra2 = palestra.clone();
-		try {
-			this.palestraDAO.adiciona(palestra2);
-		} catch (PersistenceException ex) {
-			throw new PersistenceException(ex);
-		}
 	}
 
 	@Test
@@ -200,6 +200,12 @@ public class PalestraDAOTest {
 	public void deveEncontrarPalestraDoUsuario() {
 		this.deveInserirPalestra();
 		Assert.assertNotNull(palestraDAO.getPalestra(this.evento, this.palestra.getTitulo()));
+	}
+
+	@Test
+	public void deveEncontrarPalestraDoEvento() {
+		this.deveInserirPalestra();
+		Assert.assertNotNull(palestraDAO.getPalestraEvento(this.evento));
 	}
 
 	@Test
