@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<ui:composition template="/templates/_template.xhtml">
+
+		<ui:define name="conteudo">
+
+			<h2>Visualização de Eventos</h2>
+
+			<h:form id="formListaEvento">
+				<p:dataTable value="#{eventoPalestraBean.eventos}" var="evento" emptyMessage="Nenhum registro encontrado." paginator="true" rows="5">
+					<p:column headerText="Data" style="width: 10%;" sortBy="#{evento.data}" filterBy="#{evento.data}" filterMatchMode="contains">
+						<h:outputText value="#{evento.data}" converter="LocalDateConverter" />
+					</p:column>
+					<p:column headerText="Nome" style="width: 32%;" sortBy="#{evento.nome}" filterBy="#{evento.nome}" filterMatchMode="contains">
+						<h:outputText value="#{evento.nome}" />
+					</p:column>
+					<p:column headerText="Nome" style="width: 50%;" sortBy="#{evento.descricao}" filterBy="#{evento.descricao}" filterMatchMode="contains">
+						<h:outputText value="#{evento.descricao}" />
+					</p:column>
+
+					<p:column headerText="Outras Informações" style="width: 8%;">
+						<p:commandButton actionListener="#{eventoPalestraBean.showPalestrasRanking}" update=":formListaPalestra"
+						 	title="Palestras do Evento" oncomplete="PF('ranking').show();" icon="ui-icon-star">
+							<f:attribute name="eventoSelecionado" value="#{evento}" />
+						</p:commandButton>
+						<p:commandButton action="#{eventoPalestraBean.submeterPalestra}" rendered="#{evento.permiteSubmissao==true}"
+										 title="Submeter Palestra" icon="ui-icon-link">
+							<f:param name="eventoSelecionado" value="#{evento.id}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+
+			<p:dialog header="Ranking de Palestras do Evento" widgetVar="ranking" draggable="false" resizable="false" closable="false">
+				<h:form id="formListaPalestra">
+					<p:dataTable value="#{eventoPalestraBean.palestrasRanking}" var="palestra" emptyMessage="Nenhum registro encontrado." paginator="true" rows="5">
+						<p:column headerText="Palestra" style="width: 40%;">
+							<h:outputText value="#{palestra.palestra.titulo}" />
+						</p:column>
+						<p:column headerText="Descrição" style="width: 40%;">
+							<h:outputText value="#{palestra.palestra.descricao}" />
+						</p:column>
+						<p:column headerText="Aceitação" style="width: 10%;">
+							<h:outputText value="#{palestra.avaliacao}" />
+						</p:column>
+						<p:column headerText="Votos Positivos" style="width: 7%;">
+							<h:outputText value="#{palestra.qtdeVotosPositivos}" />
+						</p:column>
+						</p:dataTable>
+					<h:panelGrid columns="2">
+						<p:commandButton value="Fechar" oncomplete="PF('ranking').hide();" />
+					</h:panelGrid>
+				</h:form>
+			</p:dialog>
+
+		</ui:define>
+
+	</ui:composition>
+
+</html>
