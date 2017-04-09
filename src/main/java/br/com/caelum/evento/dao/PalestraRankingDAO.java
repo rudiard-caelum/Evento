@@ -8,15 +8,19 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
+import br.com.caelum.evento.domain.Evento;
 import br.com.caelum.evento.domain.Palestra;
 import br.com.caelum.evento.domain.PalestraRanking;
 import br.com.caelum.evento.domain.VotacaoEnum;
 
 public class PalestraRankingDAO extends GenericDAO<PalestraRanking> implements Serializable {
 
-	private static final long serialVersionUID = 45235576521327995L;
+	private static final long serialVersionUID = 5995633222984265033L;
 
 	@Inject
 	private EntityManager manager;
@@ -51,16 +55,44 @@ public class PalestraRankingDAO extends GenericDAO<PalestraRanking> implements S
 	public List<PalestraRanking> lista() {
 		List<Palestra> lista;
 		List<PalestraRanking> listaRanking = new ArrayList<PalestraRanking>();
+		lista = geraListagem(Palestra.class);
+		listaRanking = this.classificaLista(lista);
+		return listaRanking;
+	}
+
+	public List<PalestraRanking> listaPorEvento(Evento evento) {
+		List<Palestra> lista;
+		List<PalestraRanking> listaRanking = new ArrayList<PalestraRanking>();
+		lista = geraListagem(evento);
+		listaRanking = this.classificaLista(lista);
+		return listaRanking;
+	}
+
+	private List<Palestra> geraListagem(Object obj) {
+		List<Palestra> lista;
+		String clazz = obj.toString().substring(obj.toString().lastIndexOf('.') + 1,
+				(obj.toString().lastIndexOf('@') == -1 ? obj.toString().length() : obj.toString().lastIndexOf('@')))
+				.toLowerCase();
 		try {
-			CriteriaQuery<Palestra> query = this.manager.getCriteriaBuilder().createQuery(Palestra.class);
-			query.select(query.from(Palestra.class));
+			CriteriaBuilder builder = this.manager.getCriteriaBuilder();
+			CriteriaQuery<Palestra> query = builder.createQuery(Palestra.class);
+			Root<Palestra> palestra = query.from(Palestra.class);
+			if (clazz.equalsIgnoreCase("evento")) {
+				Predicate condicao = builder.equal(palestra.get("evento"), (Evento) obj);
+				query.where(condicao);
+			}
 			lista = this.manager.createQuery(query).getResultList();
+			return lista;
 		} catch (NoResultException re) {
 			return null;
 		} catch (RuntimeException re) {
 			re.printStackTrace();
 			return null;
 		}
+	}
+
+	private List<PalestraRanking> classificaLista(List<Palestra> lista) {
+		List<PalestraRanking> listaRanking = new ArrayList<PalestraRanking>();
 		listaRanking.clear();
 		for (Palestra lst : lista) {
 			PalestraRanking palestraRanking = new PalestraRanking();
