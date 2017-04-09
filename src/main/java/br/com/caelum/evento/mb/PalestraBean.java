@@ -3,6 +3,8 @@ package br.com.caelum.evento.mb;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.persistence.PersistenceException;
 
@@ -10,7 +12,9 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.omnifaces.util.Messages;
 
 import br.com.caelum.evento.annotation.ViewModel;
+import br.com.caelum.evento.dao.EventoDAO;
 import br.com.caelum.evento.dao.PalestraDAO;
+import br.com.caelum.evento.domain.Evento;
 import br.com.caelum.evento.domain.Palestra;
 import br.com.caelum.evento.tx.Transactional;
 
@@ -20,7 +24,13 @@ public class PalestraBean implements Serializable {
 	private static final long serialVersionUID = -5459013091600644969L;
 
 	@Inject
+	private FacesContext facesContext;
+
+	@Inject
 	private UsuarioLogadoBean usuarioLogado;
+
+	@Inject
+	private EventoDAO eventoDAO;
 
 	@Inject
 	private PalestraDAO palestraDAO;
@@ -45,6 +55,15 @@ public class PalestraBean implements Serializable {
 
 	public void novo() {
 		this.limpaJSF();
+	}
+
+	@PostConstruct
+	public void buscaEventoUrl() {
+		String parametro = facesContext.getExternalContext().getRequestParameterMap().get("eventoId");
+		if (parametro != null) {
+			Evento evento = eventoDAO.buscaId(Long.parseLong(parametro));
+			this.palestra.setEvento(evento);
+		}
 	}
 
 	@Transactional
