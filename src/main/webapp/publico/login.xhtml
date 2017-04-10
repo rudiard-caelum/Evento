@@ -22,8 +22,8 @@
 				</h:panelGrid>
 
 				<h:panelGrid columns="2" styleClass="panelButtonDataForm">
-					<p:commandButton value="Login" action="#{loginBean.efetuaLogin}" update=":msgGlobal" />
-					<p:commandButton value="Sair" action="#{usuarioLogadoBean.efetuaLogout}" update=":msgGlobal" immediate="true" />
+					<p:commandButton id="botaoLogin" value="Login" action="#{loginBean.efetuaLogin}" update=":msgGlobal" />
+					<p:commandButton id="botaoSair" value="Sair" action="#{usuarioLogadoBean.efetuaLogout}" update=":msgGlobal" immediate="true" />
 				</h:panelGrid>
 			</h:form>
 
