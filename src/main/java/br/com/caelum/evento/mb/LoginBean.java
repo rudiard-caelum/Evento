@@ -10,11 +10,12 @@ import org.omnifaces.util.Messages;
 
 import br.com.caelum.evento.dao.UsuarioDAO;
 import br.com.caelum.evento.domain.Usuario;
+import br.com.caelum.evento.util.JSFUtil;
 
 @Model
 public class LoginBean implements Serializable {
 
-	private static final long serialVersionUID = -8364432914534199930L;
+	private static final long serialVersionUID = -4206236808879134838L;
 
 	@Inject
 	Event<Usuario> eventoLogin;
@@ -33,10 +34,10 @@ public class LoginBean implements Serializable {
 			eventoLogin.fire(this.usuario);
 			this.usuario = (Usuario) usuarioDAO.buscaString(this.usuario.getNome(), "nome");
 			usuarioLogado.login(this.usuario);
-			Messages.addGlobalInfo("Bem-vindo ao sistema.");
+			Messages.addGlobalInfo(JSFUtil.getMensagem("loginBemVindo"));
 			return "/index.xhtml?faces-redirect=true";
 		} else {
-			Messages.addFlashGlobalError("Usuário ou Senha inválidos.");
+			Messages.addFlashGlobalError(JSFUtil.getMensagem("loginErro"));
 			usuarioLogado.efetuaLogout();
 			this.usuario = new Usuario();
 			return "/publico/login.xhtml";
