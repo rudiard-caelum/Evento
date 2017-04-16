@@ -10,30 +10,30 @@
 
 		<ui:define name="conteudo">
 
-			<h2>Comentários Sobre Palestras</h2>
+			<h2>#{msg.palestraComentarioTitulo}</h2>
 
 			<h:form id="dataForm">
 				<h:panelGrid columns="2" styleClass="panelGridDataForm">
 					<h:outputText />
 					<h:inputHidden value="#{comentarioBean.comentario.palestra.id}" />
-					<h:outputText value="Data:" />
+					<h:outputText value="#{msg.palestraData}:" />
 					<h:inputText value="#{comentarioBean.palestra.evento.data}" size="15" converter="LocalDateConverter" disabled="true" />
-					<h:outputText value="Evento:" />
+					<h:outputText value="#{msg.eventoNome}:" />
 					<h:inputText value="#{comentarioBean.palestra.evento.nome}" size="75" styleClass="mostraCampo" disabled="true" />
-					<h:outputText value="Palestra:" />
+					<h:outputText value="#{msg.palestraTitulo}:" />
 					<h:inputText value="#{comentarioBean.palestra.titulo}" size="75" styleClass="mostraCampo" disabled="true" />
-					<h:outputText value="Comentários:" />
+					<h:outputText value="#{msg.palestraComentario}:" />
 					<p:inputTextarea id="comentario" rows="3" cols="75" counter="display" maxlength="255" autoResize="false"
-									value="#{comentarioBean.comentario.comentario}" counterTemplate="{0} caracteres restantes" />
+									value="#{comentarioBean.comentario.comentario}" counterTemplate="{0} #{msg.caracterRestante}" />
 					<h:outputText />
 					<h:outputText id="display" />
 				</h:panelGrid>
 
 				<h:panelGrid columns="2" styleClass="panelButtonDataForm">
-					<p:commandButton id="salvaComentario" value="Salvar" action="#{comentarioBean.salvar}" update=":dataForm :tabPalestras:formPNC :tabPalestras:formPC :msgGlobal">
+					<p:commandButton id="salvaComentario" value="#{msg.botaoSalvar}" action="#{comentarioBean.salvar}" update=":dataForm :tabPalestras:formPNC :tabPalestras:formPC :msgGlobal">
 						<f:ajax render="@form :tabPalestras:formPNC :tabPalestras:formPC" execute="@this" />
 					</p:commandButton>
-					<p:commandButton id="cancelaComentario" value="Cancelar" action="#{comentarioBean.cancelar}" rendered="#{not empty comentarioBean.palestra.id}" update="@form :dataForm :msgGlobal" process="@form @this" immediate="true">
+					<p:commandButton id="cancelaComentario" value="#{msg.botaoCancelar}" action="#{comentarioBean.cancelar}" rendered="#{not empty comentarioBean.palestra.id}" update="@form :dataForm :msgGlobal" process="@form @this" immediate="true">
 						<f:ajax render="@form" execute="@this" />
 					</p:commandButton>
 				</h:panelGrid>
@@ -42,21 +42,21 @@
 			<p:separator />
 
 			<p:tabView id="tabPalestras">
-				<p:tab title="Palestras Não Comentadas">
+				<p:tab title="#{msg.palestraNaoComentada}">
 					<h:form id="formPNC">
-						<p:dataTable value="#{comentarioBean.palestrasNaoComentadas}" var="palestrasNaoComentadas" emptyMessage="Nenhum registro encontrado." paginator="true" rows="5">
-							<p:column headerText="Data" style="width: 9%;" sortBy="#{palestrasNaoComentadas.evento.data}" filterBy="#{palestrasNaoComentadas.evento.data}" filterMatchMode="contains">
+						<p:dataTable value="#{comentarioBean.palestrasNaoComentadas}" var="palestrasNaoComentadas" emptyMessage="#{msg.dataTableVazia}" paginator="true" rows="5">
+							<p:column headerText="#{msg.palestraData}" style="width: 9%;" sortBy="#{palestrasNaoComentadas.evento.data}" filterBy="#{palestrasNaoComentadas.evento.data}" filterMatchMode="contains">
 								<h:outputText value="#{palestrasNaoComentadas.evento.data}" converter="LocalDateConverter" />
 							</p:column>
-							<p:column headerText="Palestrante" style="width: 30%;" sortBy="#{palestrasNaoComentadas.palestrante.nome}" filterBy="#{palestrasNaoComentadas.palestrante.nome}" filterMatchMode="contains">
+							<p:column headerText="#{msg.palestraPalestrante}" style="width: 30%;" sortBy="#{palestrasNaoComentadas.palestrante.nome}" filterBy="#{palestrasNaoComentadas.palestrante.nome}" filterMatchMode="contains">
 								<h:outputText value="#{palestrasNaoComentadas.palestrante.nome}" />
 							</p:column>
-							<p:column headerText="Palestra" style="width: 54%;" sortBy="#{palestrasNaoComentadas.titulo}" filterBy="#{palestrasNaoComentadas.titulo}" filterMatchMode="contains">
+							<p:column headerText="#{msg.palestraTitulo}" style="width: 54%;" sortBy="#{palestrasNaoComentadas.titulo}" filterBy="#{palestrasNaoComentadas.titulo}" filterMatchMode="contains">
 								<h:outputText value="#{palestrasNaoComentadas.titulo}" />
 							</p:column>
 
-							<p:column headerText="Operações" style="width: 7%;">
-								<p:commandButton id="editaNaoComentadas" action="#{comentarioBean.editar(palestrasNaoComentadas.id)}" update="@form :dataForm :msgGlobal" title="Editar" icon="ui-icon-pencil">
+							<p:column headerText="#{msg.eventoOperacoes}" style="width: 7%;">
+								<p:commandButton id="editaNaoComentadas" action="#{comentarioBean.editar(palestrasNaoComentadas.id)}" update="@form :dataForm :msgGlobal" title="#{msg.botaoEditar}" icon="ui-icon-pencil">
 									<f:ajax render="@form :dataForm" execute="@this" />
 								</p:commandButton>
 							</p:column>
@@ -64,30 +64,30 @@
 					</h:form>
 				</p:tab>
 
-				<p:tab title="Palestras Comentadas">
+				<p:tab title="#{msg.palestraComentada}">
 					<h:form id="formPC">
-						<p:dataTable value="#{comentarioBean.palestrasComentadas}" var="palestrasComentadas" emptyMessage="Nenhum registro encontrado." paginator="true" rows="5">
-							<p:column headerText="Data" style="width: 9%;" sortBy="#{palestrasComentadas.evento.data}" filterBy="#{palestrasComentadas.evento.data}" filterMatchMode="contains">
+						<p:dataTable value="#{comentarioBean.palestrasComentadas}" var="palestrasComentadas" emptyMessage="#{msg.dataTableVazia}" paginator="true" rows="5">
+							<p:column headerText="#{msg.palestraData}" style="width: 9%;" sortBy="#{palestrasComentadas.evento.data}" filterBy="#{palestrasComentadas.evento.data}" filterMatchMode="contains">
 								<h:outputText value="#{palestrasComentadas.evento.data}" converter="LocalDateConverter" />
 							</p:column>
-							<p:column headerText="Palestrante" style="width: 30%;" sortBy="#{palestrasComentadas.palestrante.nome}" filterBy="#{palestrasComentadas.palestrante.nome}" filterMatchMode="contains">
+							<p:column headerText="#{msg.palestraPalestrante}" style="width: 30%;" sortBy="#{palestrasComentadas.palestrante.nome}" filterBy="#{palestrasComentadas.palestrante.nome}" filterMatchMode="contains">
 								<h:outputText value="#{palestrasComentadas.palestrante.nome}" />
 							</p:column>
-							<p:column headerText="Palestra" style="width: 54%;" sortBy="#{palestrasComentadas.titulo}" filterBy="#{palestrasComentadas.titulo}" filterMatchMode="contains">
+							<p:column headerText="#{msg.palestraTitulo}" style="width: 54%;" sortBy="#{palestrasComentadas.titulo}" filterBy="#{palestrasComentadas.titulo}" filterMatchMode="contains">
 								<h:outputText value="#{palestrasComentadas.titulo}" />
 							</p:column>
 
-							<p:column headerText="Operações" style="width: 7%;">
-								<p:commandButton id="editaComentada" action="#{comentarioBean.editar(palestrasComentadas.id)}" update="@form :dataForm :msgGlobal" title="Editar" icon="ui-icon-pencil">
+							<p:column headerText="#{msg.eventoOperacoes}" style="width: 7%;">
+								<p:commandButton id="editaComentada" action="#{comentarioBean.editar(palestrasComentadas.id)}" update="@form :dataForm :msgGlobal" title="#{msg.botaoEditar}" icon="ui-icon-pencil">
 									<f:ajax render="@form :dataForm" execute="@this" />
 								</p:commandButton>
-								<p:commandButton id="excluiComentada" action="#{comentarioBean.remove(palestrasComentadas.id)}" update="@form :tabPalestras:formPNC :tabPalestras:formPC :msgGlobal" title="Excluir" icon="ui-icon-trash">
-									<p:confirm header="Confirmação" message="Deseja excluir o comentário da palestra?" icon="ui-icon-alert" />
+								<p:commandButton id="excluiComentada" action="#{comentarioBean.remove(palestrasComentadas.id)}" update="@form :tabPalestras:formPNC :tabPalestras:formPC :msgGlobal" title="#{msg.botaoExcluir}" icon="ui-icon-trash">
+									<p:confirm header="#{msg.modalConfirmacao}" message="#{msg.palestraExcluir}" icon="ui-icon-alert" />
  									<f:ajax render="@form :tabPalestras:formPNC :tabPalestras:formPC" />
 								</p:commandButton>
 								<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-									<p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-									<p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+									<p:commandButton value="#{msg.botaoSim}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+									<p:commandButton value="#{msg.botaoNao}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 								</p:confirmDialog>
 							</p:column>
 						</p:dataTable>
