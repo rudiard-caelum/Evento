@@ -37,12 +37,12 @@ public class Palestra implements Cloneable, Serializable {
 	private Usuario palestrante;
 
 	@NotEmpty(message = "Título da Palestra é obrigatório.")
-	@Size(min = 5, max = 100, message = "Tamanho inválido para o campo (5 até 100).")
+	@Size(min = 5, max = 100, message = "Tamanho inválido para o campo Palestra (5 até 100).")
 	@Column(length = 100, nullable = false)
 	private String titulo;
 
 	@NotEmpty(message = "Descrição da Palestra é obrigatório.")
-	@Size(min = 5, max = 200, message = "Tamanho inválido para o campo (5 até 200).")
+	@Size(min = 5, max = 200, message = "Tamanho inválido para o campo Descrição (5 até 200).")
 	@Column(length = 200, nullable = false)
 	private String descricao;
 
