@@ -58,6 +58,13 @@
 			<version>2.2.10</version>
 		</dependency>
 
+		<!-- XML APIS -->
+		<dependency>
+			<groupId>xml-apis</groupId>
+			<artifactId>xml-apis</artifactId>
+			<version>1.4.01</version>
+		</dependency>
+
 		<!-- Primefaces -->
 		<dependency>
 			<groupId>org.primefaces</groupId>
