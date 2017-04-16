@@ -4,7 +4,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html">
+<f:view locale="#{internacionalizacaoBean.locale}"></f:view>
 <h:body>
-	<h:outputText value="Desenvolvido por Rudiard Rodrigues - TCC Jornada (Caelum)" id="rodape" />
+	<h:outputText value="#{msg.rodapeSistema}" id="rodape" />
 </h:body>
 </html>
