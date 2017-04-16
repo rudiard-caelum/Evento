@@ -11,30 +11,30 @@
 
 		<ui:define name="conteudo">
 
-			<h2>Criar Usuário ADMIN</h2>
+			<h2>#{msg.criarUsuarioAdmin}</h2>
 
 			<h:form id="criaUsuario">
 				<h:panelGrid columns="2" styleClass="panelGridDataForm">
-					<h:outputText value="Senha:" />
+					<h:outputText value="#{msg.loginSenha}:" />
 					<h:inputSecret id="senha" value="#{inicioBean.usuario.senha}" size="50" />
 				</h:panelGrid>
 
 				<h:panelGrid columns="1" styleClass="panelButtonDataForm">
-					<p:commandButton value="Criar" action="#{inicioBean.criarUsuarioAdmin}" update=":msgGlobal" />
+					<p:commandButton value="#{msg.botaoCriar}" action="#{inicioBean.criarUsuarioAdmin}" update=":msgGlobal" />
 				</h:panelGrid>
 			</h:form>
 
-			<h2>Banco de Dados</h2>
+			<h2>#{msg.bancoDeDados}</h2>
 
 			<h:form id="preencheBanco">
 				<h:panelGrid columns="2" styleClass="panelButtonDataForm">
-					<p:commandButton value="Excluir" action="#{inicioBean.excluirDados}" update=":msgGlobal">
-						<p:confirm header="Confirmação" message="Deseja excluir todos os dados do Banco?" icon="ui-icon-alert" />
+					<p:commandButton value="#{msg.botaoExcluir}" action="#{inicioBean.excluirDados}" update=":msgGlobal">
+						<p:confirm header="#{msg.modalConfirmacao}" message="Deseja excluir todos os dados do Banco?" icon="ui-icon-alert" />
 					</p:commandButton>
-					<p:commandButton value="Preencher" action="#{inicioBean.preencheBanco}" update=":msgGlobal" />
+					<p:commandButton value="#{msg.botaoPreencher}" action="#{inicioBean.preencheBanco}" update=":msgGlobal" />
 					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-						<p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-						<p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						<p:commandButton value="#{msg.botaoSim}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						<p:commandButton value="#{msg.botaoNao}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 					</p:confirmDialog>
 				</h:panelGrid>
 			</h:form>
