@@ -11,29 +11,29 @@
 
 		<ui:define name="conteudo">
 
-			<h2>Autorização de Submissão de Palestras</h2>
+			<h2>#{msg.submissaoTitulo}</h2>
 
 			<h:form id="formListaEvento">
-				<p:dataTable value="#{autorizaSubmissaoPalestraBean.eventos}" var="evento" emptyMessage="Nenhum registro encontrado." paginator="true" rows="10" editable="true">
+				<p:dataTable value="#{autorizaSubmissaoPalestraBean.eventos}" var="evento" emptyMessage="#{msg.dataTableVazia}" paginator="true" rows="10" editable="true">
 		
 					<p:ajax event="rowEdit" listener="#{autorizaSubmissaoPalestraBean.editar}" update=":msgGlobal" />
 					<p:ajax event="rowEditCancel" listener="#{autorizaSubmissaoPalestraBean.cancelar}" update=":msgGlobal" />
 
-					<p:column headerText="Data" style="width: 8%;" sortBy="#{evento.data}" filterBy="#{evento.data}" filterMatchMode="contains">
+					<p:column headerText="#{msg.viewEventoData}" style="width: 8%;" sortBy="#{evento.data}" filterBy="#{evento.data}" filterMatchMode="contains">
 						<h:outputText value="#{evento.data}" converter="LocalDateConverter" />
 					</p:column>
-					<p:column headerText="Evento" style="width: 74%;" sortBy="#{evento.nome}" filterBy="#{evento.nome}" filterMatchMode="contains">
+					<p:column headerText="#{msg.eventoNome}" style="width: 74%;" sortBy="#{evento.nome}" filterBy="#{evento.nome}" filterMatchMode="contains">
 						<h:outputText value="#{evento.nome}" />
 					</p:column>
-					<p:column headerText="Autoriza Submissão?" style="width: 6%;">
+					<p:column headerText="#{msg.submissaoAutoriza}" style="width: 6%;">
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{evento.permiteSubmissao}" converter="BooleanConverter" />
 							</f:facet>
 							<f:facet name="input">
 								<h:selectOneMenu value="#{autorizaSubmissaoPalestraBean.evento.permiteSubmissao}">
-									<f:selectItem itemLabel="Sim" itemValue="#{true}" />
-									<f:selectItem itemLabel="Não" itemValue="#{false}" />
+									<f:selectItem itemLabel="#{msg.botaoSim}" itemValue="#{true}" />
+									<f:selectItem itemLabel="#{msg.botaoNao}" itemValue="#{false}" />
 								</h:selectOneMenu>
 							</f:facet>
 						</p:cellEditor>
