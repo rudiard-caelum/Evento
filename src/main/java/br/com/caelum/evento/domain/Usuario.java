@@ -25,16 +25,16 @@ public class Usuario implements Cloneable, Serializable {
 	private Long id;
 
 	@NotEmpty(message = "Nome do usuário é obrigatório.")
-	@Size(min = 2, max = 50, message = "Tamanho inválido para o campo (2 até 50).")
+	@Size(min = 2, max = 50, message = "Tamanho inválido para o campo Nome (2 até 50).")
 	@Column(length = 50, nullable = false)
 	private String nome;
 
 	@Email
-	@Size(min = 0, max = 100, message = "Tamanho inválido para o campo (até 100).")
+	@Size(min = 0, max = 100, message = "Tamanho inválido para o campo E-Mail (até 100).")
 	@Column(length = 100, nullable = true)
 	private String email;
 
-	@Size(min = 0, max = 50, message = "Tamanho inválido para o campo (até 50).")
+	@Size(min = 0, max = 50, message = "Tamanho inválido para o campo Senha (até 50).")
 	@Column(length = 50, nullable = false)
 	private String senha;
 
