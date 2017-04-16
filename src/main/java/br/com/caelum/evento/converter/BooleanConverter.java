@@ -5,6 +5,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
+import br.com.caelum.evento.util.JSFUtil;
+
 @FacesConverter("BooleanConverter")
 public class BooleanConverter implements Converter {
 
@@ -13,16 +15,17 @@ public class BooleanConverter implements Converter {
 		if (value == null) {
 			return Boolean.FALSE;
 		}
-		return "Sim".equalsIgnoreCase(value) || "True".equalsIgnoreCase(value);
+		return JSFUtil.getMensagem("booleanYes").equalsIgnoreCase(value);
 	}
 
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
 		if (value == null) {
-			return "Não";
+			return JSFUtil.getMensagem("booleanNo");
 		}
 		if (value instanceof Boolean) {
-			return ((Boolean) value).booleanValue() ? "Sim" : "Não";
+			return ((Boolean) value).booleanValue() ? JSFUtil.getMensagem("booleanYes")
+					: JSFUtil.getMensagem("booleanNo");
 		}
 		return value.toString();
 	}
