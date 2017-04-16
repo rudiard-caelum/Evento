@@ -11,19 +11,19 @@
 
 		<ui:define name="conteudo">
 
-			<h2>Login</h2>
+			<h2>#{msg.botaoLogin}</h2>
 
 			<h:form id="dataForm">
 				<h:panelGrid columns="2" styleClass="panelGridDataForm">
-					<h:outputText value="Usuário:" />
+					<h:outputText value="#{msg.loginUsuario}:" />
 					<h:inputText id="nome" value="#{loginBean.usuario.nome}" size="50" />
-					<h:outputText value="Senha:" />
+					<h:outputText value="#{msg.loginSenha}:" />
 					<h:inputSecret id="senha" value="#{loginBean.usuario.senha}" size="50" />
 				</h:panelGrid>
 
 				<h:panelGrid columns="2" styleClass="panelButtonDataForm">
-					<p:commandButton id="botaoLogin" value="Login" action="#{loginBean.efetuaLogin}" update=":msgGlobal" />
-					<p:commandButton id="botaoSair" value="Sair" action="#{usuarioLogadoBean.efetuaLogout}" update=":msgGlobal" immediate="true" />
+					<p:commandButton id="botaoLogin" value="#{msg.botaoLogin}" action="#{loginBean.efetuaLogin}" update=":msgGlobal" />
+					<p:commandButton id="botaoSair" value="#{msg.botaoSair}" action="#{usuarioLogadoBean.efetuaLogout}" update=":msgGlobal" immediate="true" />
 				</h:panelGrid>
 			</h:form>
 
