@@ -11,51 +11,51 @@
 
 		<ui:define name="conteudo">
 
-			<h2>Visualização de Eventos</h2>
+			<h2>#{msg.viewEventoTitulo}</h2>
 
 			<h:form id="formListaEvento">
-				<p:dataTable value="#{eventoPalestraBean.eventos}" var="evento" emptyMessage="Nenhum registro encontrado." paginator="true" rows="5">
-					<p:column headerText="Data" style="width: 10%;" sortBy="#{evento.data}" filterBy="#{evento.data}" filterMatchMode="contains">
+				<p:dataTable value="#{eventoPalestraBean.eventos}" var="evento" emptyMessage="#{msg.dataTableVazia}" paginator="true" rows="5">
+					<p:column headerText="#{msg.viewEventoData}" style="width: 10%;" sortBy="#{evento.data}" filterBy="#{evento.data}" filterMatchMode="contains">
 						<h:outputText value="#{evento.data}" converter="LocalDateConverter" />
 					</p:column>
-					<p:column headerText="Nome" style="width: 32%;" sortBy="#{evento.nome}" filterBy="#{evento.nome}" filterMatchMode="contains">
+					<p:column headerText="#{msg.viewEventoNome}" style="width: 32%;" sortBy="#{evento.nome}" filterBy="#{evento.nome}" filterMatchMode="contains">
 						<h:outputText value="#{evento.nome}" />
 					</p:column>
-					<p:column headerText="Nome" style="width: 50%;" sortBy="#{evento.descricao}" filterBy="#{evento.descricao}" filterMatchMode="contains">
+					<p:column headerText="#{msg.viewEventoDescricao}" style="width: 50%;" sortBy="#{evento.descricao}" filterBy="#{evento.descricao}" filterMatchMode="contains">
 						<h:outputText value="#{evento.descricao}" />
 					</p:column>
 
-					<p:column headerText="Outras Informações" style="width: 8%;">
+					<p:column headerText="#{msg.viewEventoOutrasInfo}" style="width: 8%;">
 						<p:commandButton actionListener="#{eventoPalestraBean.showPalestrasRanking}" update=":formListaPalestra"
-						 	title="Palestras do Evento" oncomplete="PF('ranking').show();" icon="ui-icon-star">
+						 	title="#{msg.viewEventoPalestra}" oncomplete="PF('ranking').show();" icon="ui-icon-star">
 							<f:attribute name="eventoSelecionado" value="#{evento}" />
 						</p:commandButton>
 						<p:commandButton action="#{eventoPalestraBean.submeterPalestra}" rendered="#{evento.permiteSubmissao==true}"
-										 title="Submeter Palestra" icon="ui-icon-link">
+										 title="#{msg.viewEventoSubmeter}" icon="ui-icon-link">
 							<f:param name="eventoSelecionado" value="#{evento.id}" />
 						</p:commandButton>
 					</p:column>
 				</p:dataTable>
 			</h:form>
 
-			<p:dialog header="Ranking de Palestras do Evento" widgetVar="ranking" draggable="false" resizable="false" closable="false">
+			<p:dialog header="#{msg.viewEventoRanking}" widgetVar="ranking" draggable="false" resizable="false" closable="false">
 				<h:form id="formListaPalestra">
-					<p:dataTable value="#{eventoPalestraBean.palestrasRanking}" var="palestra" emptyMessage="Nenhum registro encontrado." paginator="true" rows="5">
-						<p:column headerText="Palestra" style="width: 40%;">
+					<p:dataTable value="#{eventoPalestraBean.palestrasRanking}" var="palestra" emptyMessage="#{msg.dataTableVazia}" paginator="true" rows="5">
+						<p:column headerText="#{msg.palestraTitulo}" style="width: 40%;">
 							<h:outputText value="#{palestra.palestra.titulo}" />
 						</p:column>
-						<p:column headerText="Descrição" style="width: 40%;">
+						<p:column headerText="#{msg.palestraDescricao}" style="width: 40%;">
 							<h:outputText value="#{palestra.palestra.descricao}" />
 						</p:column>
-						<p:column headerText="Aceitação" style="width: 10%;">
+						<p:column headerText="#{msg.palestraAceitacao}" style="width: 10%;">
 							<h:outputText value="#{palestra.avaliacao}" />
 						</p:column>
-						<p:column headerText="Votos Positivos" style="width: 7%;">
+						<p:column headerText="#{msg.palestraVotosPos}" style="width: 7%;">
 							<h:outputText value="#{palestra.qtdeVotosPositivos}" />
 						</p:column>
 						</p:dataTable>
 					<h:panelGrid columns="2">
-						<p:commandButton value="Fechar" oncomplete="PF('ranking').hide();" />
+						<p:commandButton value="#{msg.botaoFechar}" oncomplete="PF('ranking').hide();" />
 					</h:panelGrid>
 				</h:form>
 			</p:dialog>
