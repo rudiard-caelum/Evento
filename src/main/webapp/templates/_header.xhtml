@@ -5,15 +5,15 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
-
+<f:view locale="#{internacionalizacaoBean.locale}"></f:view>
 <h:body>
 	<table id="tableTitulo">
 		<tr>
 			<td class="tituloSistema">
-				<h:outputLabel value="Controle de Palestras" />
+				<h:outputLabel value="#{msg.tituloSistema}" />
 			</td>
 			<td class="usuarioLogado">
-				<h:outputLabel rendered="#{not empty usuarioLogadoBean.usuario}" value="Bem-vindo, #{usuarioLogadoBean.usuario.nome}" />
+				<h:outputLabel rendered="#{not empty usuarioLogadoBean.usuario}" value="#{msg.bemVindoSistema} #{usuarioLogadoBean.usuario.nome}." />
 			</td>
 		</tr>
 	</table>
