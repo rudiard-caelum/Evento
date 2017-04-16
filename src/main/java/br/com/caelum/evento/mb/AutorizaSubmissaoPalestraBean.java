@@ -12,11 +12,12 @@ import br.com.caelum.evento.annotation.ViewModel;
 import br.com.caelum.evento.dao.EventoDAO;
 import br.com.caelum.evento.domain.Evento;
 import br.com.caelum.evento.tx.Transactional;
+import br.com.caelum.evento.util.JSFUtil;
 
 @ViewModel
 public class AutorizaSubmissaoPalestraBean implements Serializable {
 
-	private static final long serialVersionUID = -6264552583030662283L;
+	private static final long serialVersionUID = 5553191418897172970L;
 
 	@Inject
 	private EventoDAO eventoDAO;
@@ -47,16 +48,16 @@ public class AutorizaSubmissaoPalestraBean implements Serializable {
 			this.evento.setPermiteSubmissao(valor);
 			this.eventoDAO.altera(this.evento);
 			this.eventos = this.eventoDAO.lista();
-			Messages.addGlobalInfo("Autorização salva com sucesso.");
+			Messages.addGlobalInfo(JSFUtil.getMensagem("confSalvarAutorizacao"));
 		} catch (Exception e) {
-			Messages.addFlashGlobalError("Ocorreu um erro ao salvar o registro.");
+			Messages.addFlashGlobalError(JSFUtil.getMensagem("operacaoErroSalvar"));
 			e.printStackTrace();
 		}
 	}
 
 	public void cancelar(RowEditEvent event) {
 		this.eventos = this.eventoDAO.lista();
-		Messages.addGlobalInfo("Operação cancelada.");
+		Messages.addGlobalInfo(JSFUtil.getMensagem("operacaoCancelada"));
 	}
 
 }
