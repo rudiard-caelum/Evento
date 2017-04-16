@@ -11,37 +11,37 @@
 
 		<ui:define name="conteudo">
 
-			<h2>Cadastro de Eventos</h2>
+			<h2>#{msg.eventoTitulo}</h2>
 
 			<h:form id="dataForm">
 				<h:panelGrid columns="2" styleClass="panelGridDataForm">
 					<h:outputText />
 					<h:inputHidden value="#{eventoBean.evento.id}" />
-					<h:outputText value="Nome:" />
+					<h:outputText value="#{msg.eventoNome}:" />
 					<h:inputText id="nome" value="#{eventoBean.evento.nome}" size="73" maxlength="100" />
-					<h:outputText value="Descrição:" />
+					<h:outputText value="#{msg.eventoDescricao}:" />
 					<p:inputTextarea id="descricao" rows="3" cols="75" counter="display" maxlength="200" autoResize="false"
-									value="#{eventoBean.evento.descricao}" counterTemplate="{0} caracteres restantes" />
+									value="#{eventoBean.evento.descricao}" counterTemplate="{0} #{msg.caracterRestante}" />
 					<h:outputText />
 					<h:outputText id="display" />
-					<h:outputText value="Site:" />
+					<h:outputText value="#{msg.eventoSiteEvento}:" />
 					<h:inputText id="site" value="#{eventoBean.evento.site}" size="73" maxlength="200" />
-					<h:outputText value="Local:" />
+					<h:outputText value="#{msg.eventoLocal}:" />
 					<h:inputText id="local" value="#{eventoBean.evento.local}" size="73" maxlength="200" />
-					<h:outputText value="Logotipo:" />
+					<h:outputText value="#{msg.eventoLogo}:" />
 					<h:inputText id="logo" value="#{eventoBean.evento.logo}" size="73" maxlength="200" />
-					<h:outputText value="Data:" />
+					<h:outputText value="#{msg.eventoData}:" />
 					<p:calendar id="data" value="#{eventoBean.evento.data}" size="10" pattern= "dd/MM/yyyy" converter="LocalDateConverter" styleClass="dataFormat" />
 				</h:panelGrid>
 
 				<h:panelGrid columns="3" styleClass="panelButtonDataForm">
-					<p:commandButton value="Novo" action="#{eventoBean.novo}" resetValues="true" update=":dataForm" process="@form @this" immediate="true">
+					<p:commandButton value="#{msg.botaoNovo}" action="#{eventoBean.novo}" resetValues="true" update=":dataForm" process="@form @this" immediate="true">
 						<f:ajax render="@form" execute="@this" />
 					</p:commandButton>
-					<p:commandButton value="Salvar" action="#{eventoBean.salvar}" update=":formListaEvento :dataForm :msgGlobal">
+					<p:commandButton value="#{msg.botaoSalvar}" action="#{eventoBean.salvar}" update=":formListaEvento :dataForm :msgGlobal">
 						<f:ajax render="@form :formListaEvento" execute="@this" />
 					</p:commandButton>
-					<p:commandButton value="Cancelar" action="#{eventoBean.cancelar}" rendered="#{not empty eventoBean.evento.id}" update=":msgGlobal :dataForm" process="@form @this" immediate="true">
+					<p:commandButton value="#{msg.botaoCancelar}" action="#{eventoBean.cancelar}" rendered="#{not empty eventoBean.evento.id}" update=":msgGlobal :dataForm" process="@form @this" immediate="true">
 						<f:ajax render="@form" execute="@this" />
 					</p:commandButton>
 				</h:panelGrid>
@@ -50,26 +50,26 @@
 			<p:separator />
 
 			<h:form id="formListaEvento">
-				<p:dataTable value="#{eventoBean.eventos}" var="evento" emptyMessage="Nenhum registro encontrado." paginator="true" rows="5">
-					<p:column headerText="Data" style="width: 10%;" sortBy="#{evento.data}" filterBy="#{evento.data}" filterMatchMode="contains">
+				<p:dataTable value="#{eventoBean.eventos}" var="evento" emptyMessage="#{msg.dataTableVazia}" paginator="true" rows="5">
+					<p:column headerText="#{msg.eventoData}" style="width: 10%;" sortBy="#{evento.data}" filterBy="#{evento.data}" filterMatchMode="contains">
 						<h:outputText value="#{evento.data}" converter="LocalDateConverter" />
 					</p:column>
-					<p:column headerText="Nome" style="width: 84%;" sortBy="#{evento.nome}" filterBy="#{evento.nome}" filterMatchMode="contains">
+					<p:column headerText="#{msg.eventoNome}" style="width: 84%;" sortBy="#{evento.nome}" filterBy="#{evento.nome}" filterMatchMode="contains">
 						<h:outputText value="#{evento.nome}" />
 					</p:column>
 
-					<p:column headerText="Operações" style="width: 6%;">
-						<p:commandButton update=":dataForm" title="Editar" icon="ui-icon-pencil">
+					<p:column headerText="#{msg.eventoOperacoes}" style="width: 6%;">
+						<p:commandButton update=":dataForm" title="#{msg.botaoEditar}" icon="ui-icon-pencil">
 							<f:setPropertyActionListener value="#{evento}" target="#{eventoBean.evento}" />
 							<f:ajax render=":dataForm" execute="@this" />
 						</p:commandButton>
-						<p:commandButton action="#{eventoBean.remove(evento)}" update=":msgGlobal formListaEvento" title="Excluir" icon="ui-icon-trash">
-							<p:confirm header="Confirmação" message="Deseja excluir o evento?" icon="ui-icon-alert" />
+						<p:commandButton action="#{eventoBean.remove(evento)}" update=":msgGlobal formListaEvento" title="#{msg.botaoExcluir}" icon="ui-icon-trash">
+							<p:confirm header="#{msg.modalConfirmacao}" message="#{msg.eventoExcluir}" icon="ui-icon-alert" />
  							<f:ajax render="@form" />
 						</p:commandButton>
 						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-							<p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-							<p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+							<p:commandButton value="#{msg.botaoSim}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="#{msg.botaoNao}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 						</p:confirmDialog>
 					</p:column>
 				</p:dataTable>
