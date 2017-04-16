@@ -11,32 +11,32 @@
 
 		<ui:define name="conteudo">
 
-			<h2>Cadastro de Palestras</h2>
+			<h2>#{msg.palestraTituloPagina}</h2>
 
 			<h:form id="dataForm">
 				<h:panelGrid columns="2" styleClass="panelGridDataForm">
 					<h:outputText />
 					<h:inputHidden value="#{palestraBean.palestra.id}" />
-					<h:outputText value="Evento:" />
+					<h:outputText value="#{msg.eventoNome}:" />
 					<p:autoComplete value="#{palestraBean.palestra.evento}" completeMethod="#{eventoBean.busca}" minQueryLength="3"
 									dropdown="true" var="evento" itemLabel="#{evento.nome}" itemValue="#{evento}" converter="EventoConverter" size="68" />
-					<h:outputText value="Palestra:" />
+					<h:outputText value="#{msg.palestraTitulo}:" />
 					<h:inputText id="titulo" value="#{palestraBean.palestra.titulo}" size="73" maxlength="100" />
-					<h:outputText value="Descrição:" />
+					<h:outputText value="#{msg.palestraDescricao}:" />
 					<p:inputTextarea id="descricao" rows="3" cols="75" counter="display" maxlength="200" autoResize="false"
-									value="#{palestraBean.palestra.descricao}" counterTemplate="{0} caracteres restantes" />
+									value="#{palestraBean.palestra.descricao}" counterTemplate="{0} #{msg.caracterRestante}" />
 					<h:outputText />
 					<h:outputText id="display" />
 				</h:panelGrid>
 
 				<h:panelGrid columns="3" styleClass="panelButtonDataForm">
-					<p:commandButton value="Novo" action="#{palestraBean.novo}" resetValues="true" update=":dataForm" process="@form @this" immediate="true">
+					<p:commandButton value="#{msg.botaoNovo}" action="#{palestraBean.novo}" resetValues="true" update=":dataForm" process="@form @this" immediate="true">
 						<f:ajax render="@form" execute="@this" />
 					</p:commandButton>
-					<p:commandButton value="Salvar" action="#{palestraBean.salvar}" update=":formListaPalestra :dataForm :msgGlobal">
+					<p:commandButton value="#{msg.botaoSalvar}" action="#{palestraBean.salvar}" update=":formListaPalestra :dataForm :msgGlobal">
 						<f:ajax render="@form :formListaPalestra" execute="@this" />
 					</p:commandButton>
-					<p:commandButton value="Cancelar" action="#{palestraBean.cancelar}" rendered="#{not empty palestraBean.palestra.id}" update=":msgGlobal :dataForm" process="@form @this" immediate="true">
+					<p:commandButton value="#{msg.botaoCancelar}" action="#{palestraBean.cancelar}" rendered="#{not empty palestraBean.palestra.id}" update=":msgGlobal :dataForm" process="@form @this" immediate="true">
 						<f:ajax render="@form" execute="@this" />
 					</p:commandButton>
 				</h:panelGrid>
@@ -45,32 +45,32 @@
 			<p:separator />
 
 			<h:form id="formListaPalestra">
-				<p:dataTable value="#{palestraBean.palestras}" var="palestra" emptyMessage="Nenhum registro encontrado." paginator="true" rows="5">
-					<p:column headerText="Data" style="width: 8%;" sortBy="#{palestra.evento.data}" filterBy="#{palestra.evento.data}" filterMatchMode="contains">
+				<p:dataTable value="#{palestraBean.palestras}" var="palestra" emptyMessage="#{msg.dataTableVazia}" paginator="true" rows="5">
+					<p:column headerText="#{msg.palestraData}" style="width: 8%;" sortBy="#{palestra.evento.data}" filterBy="#{palestra.evento.data}" filterMatchMode="contains">
 						<h:outputText value="#{palestra.evento.data}" converter="LocalDateConverter" />
 					</p:column>
-					<p:column headerText="Evento" style="width: 24%;" sortBy="#{palestra.evento.nome}" filterBy="#{palestra.evento.nome}" filterMatchMode="contains">
+					<p:column headerText="#{msg.eventoNome}" style="width: 24%;" sortBy="#{palestra.evento.nome}" filterBy="#{palestra.evento.nome}" filterMatchMode="contains">
 						<h:outputText value="#{palestra.evento.nome}" />
 					</p:column>
-					<p:column headerText="Palestra" style="width: 37%;" sortBy="#{palestra.titulo}" filterBy="#{palestra.titulo}" filterMatchMode="contains">
+					<p:column headerText="#{msg.palestraTitulo}" style="width: 37%;" sortBy="#{palestra.titulo}" filterBy="#{palestra.titulo}" filterMatchMode="contains">
 						<h:outputText value="#{palestra.titulo}" />
 					</p:column>
-					<p:column headerText="Palestrante" style="width: 20%;" sortBy="#{palestra.palestrante.nome}" filterBy="#{palestra.palestrante.nome}" filterMatchMode="contains">
+					<p:column headerText="#{msg.palestraPalestrante}" style="width: 20%;" sortBy="#{palestra.palestrante.nome}" filterBy="#{palestra.palestrante.nome}" filterMatchMode="contains">
 						<h:outputText value="#{palestra.palestrante.nome}" />
 					</p:column>
 
-					<p:column headerText="Operações" style="width: 6%;">
-						<p:commandButton update=":dataForm" title="Editar" icon="ui-icon-pencil">
+					<p:column headerText="#{msg.eventoOperacoes}" style="width: 6%;">
+						<p:commandButton update=":dataForm" title="#{msg.botaoEditar}" icon="ui-icon-pencil">
 							<f:setPropertyActionListener value="#{palestra}" target="#{palestraBean.palestra}" />
 							<f:ajax render=":dataForm" execute="@this" />
 						</p:commandButton>
-						<p:commandButton action="#{palestraBean.remove(palestra)}" update=":msgGlobal :formListaPalestra" title="Excluir" icon="ui-icon-trash">
-							<p:confirm header="Confirmação" message="Deseja excluir a palestra?" icon="ui-icon-alert" />
+						<p:commandButton action="#{palestraBean.remove(palestra)}" update=":msgGlobal :formListaPalestra" title="#{msg.botaoExcluir}" icon="ui-icon-trash">
+							<p:confirm header="#{msg.modalConfirmacao}" message="#{msg.palestraExcluir}" icon="ui-icon-alert" />
  							<f:ajax render="@form" />
 						</p:commandButton>
 						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-							<p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-							<p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+							<p:commandButton value="#{msg.botaoSim}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="#{msg.botaoNao}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 						</p:confirmDialog>
 					</p:column>
 				</p:dataTable>
