@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import org.omnifaces.util.Messages;
 
 import br.com.caelum.evento.mb.UsuarioLogadoBean;
+import br.com.caelum.evento.util.JSFUtil;
 
 public class AutorizadorListener implements PhaseListener {
 
@@ -35,7 +36,8 @@ public class AutorizadorListener implements PhaseListener {
 			return;
 		}
 		if (!usuarioLogado.isLogado()) {
-			Messages.addFlashGlobalError("Para acessar esta transação é necessário logar no sistema.");
+			context.getViewRoot().setLocale(context.getApplication().getDefaultLocale());
+			Messages.addFlashGlobalError(JSFUtil.getMensagem("acessoNegadoTransacao"));
 			handler.handleNavigation(context, null, "/publico/login.xhtml?faces-redirect=true");
 			context.renderResponse();
 		}
