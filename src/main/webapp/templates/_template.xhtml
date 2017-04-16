@@ -6,6 +6,7 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:o="http://omnifaces.org/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
+<f:view locale="#{internacionalizacaoBean.locale}"></f:view>
 <h:head>
 	<title>
 		<ui:insert name="tituloPagina" />
@@ -29,24 +30,39 @@
 		<p:layoutUnit position="center">
 			<h:form>
 				<p:menubar>
-					<p:submenu label="Menu">
-						<p:menuitem value="Home" url="/index.xhtml" icon="ui-icon-home" />
-						<p:menuitem value="Login" url="/publico/login.xhtml" icon="ui-icon-locked" />
-						<p:menuitem value="Usuários" url="/restrito/usuario.xhtml" icon="ui-icon-suitcase" />
-						<p:submenu label="Eventos">
-							<p:menuitem value="Eventos" url="/restrito/evento.xhtml" icon="ui-icon-pin-w" />
-							<p:menuitem value="Autoriza Submissão" url="/restrito/autorizaSubmissaoPalestra.xhtml" icon="ui-icon-circle-check" />
-							<p:menuitem value="Listagem" url="/publico/eventoPalestra.xhtml" icon="ui-icon-note" />
+					<p:submenu label="#{msg.menuMenu}">
+						<p:menuitem value="#{msg.menuHome}" url="/index.xhtml" icon="ui-icon-home" />
+						<p:menuitem value="#{msg.menuLogin}" url="/publico/login.xhtml" icon="ui-icon-locked" />
+						<p:menuitem value="#{msg.menuUsuario}" url="/restrito/usuario.xhtml" icon="ui-icon-suitcase" />
+						<p:submenu label="#{msg.menuEvento}">
+							<p:menuitem value="#{msg.menuEvento}" url="/restrito/evento.xhtml" icon="ui-icon-pin-w" />
+							<p:menuitem value="#{msg.menuAutorizaSubmissao}" url="/restrito/autorizaSubmissaoPalestra.xhtml" icon="ui-icon-circle-check" />
+							<p:menuitem value="#{msg.menuListagem}" url="/publico/eventoPalestra.xhtml" icon="ui-icon-note" />
 						</p:submenu>
-						<p:submenu label="Palestras">
-							<p:menuitem value="Palestras" url="/restrito/palestra.xhtml" icon="ui-icon-link" />
-							<p:menuitem value="Avaliação" url="/restrito/palestraAvaliacao.xhtml" icon="ui-icon-mail-closed" />
-							<p:menuitem value="Ranking" url="/restrito/palestraRanking.xhtml" icon="ui-icon-star" />
-							<p:menuitem value="Comentários" url="/restrito/palestraComentario.xhtml" icon="ui-icon-comment" />
-							<p:menuitem value="Listagem" url="/publico/palestraListagem.xhtml" icon="ui-icon-note" />
+						<p:submenu label="#{msg.menuPalestra}">
+							<p:menuitem value="#{msg.menuPalestra}" url="/restrito/palestra.xhtml" icon="ui-icon-link" />
+							<p:menuitem value="#{msg.menuAvaliacao}" url="/restrito/palestraAvaliacao.xhtml" icon="ui-icon-mail-closed" />
+							<p:menuitem value="#{msg.menuRanking}" url="/restrito/palestraRanking.xhtml" icon="ui-icon-star" />
+							<p:menuitem value="#{msg.menuComentario}" url="/restrito/palestraComentario.xhtml" icon="ui-icon-comment" />
+							<p:menuitem value="#{msg.menuListagem}" url="/publico/palestraListagem.xhtml" icon="ui-icon-note" />
 						</p:submenu>
-						<p:menuitem value="Logout" action="#{usuarioLogadoBean.efetuaLogout}" icon="ui-icon-circle-close" />
+						<p:menuitem value="#{msg.menuLogout}" action="#{usuarioLogadoBean.efetuaLogout}" icon="ui-icon-circle-close" />
 					</p:submenu>
+					<f:facet name="options">
+						<h:form rendered="#{usuarioLogadoBean.isLogado()==true}">
+							<p:panelGrid columns="3">
+								<p:commandLink action="#{internacionalizacaoBean.changeLocale('pt_BR')}" update="@all">
+									<h:graphicImage library="imagens" name="bandeira_pt_BR.png" title="#{msg.idioma_pt_BR}" />
+								</p:commandLink>
+								<p:commandLink action="#{internacionalizacaoBean.changeLocale('es_ES')}" update="@all">
+									<h:graphicImage library="imagens" name="bandeira_es_ES.png" title="#{msg.idioma_es_ES}" />
+								</p:commandLink>
+								<p:commandLink action="#{internacionalizacaoBean.changeLocale('en_US')}" update="@all">
+									<h:graphicImage library="imagens" name="bandeira_en_US.png" title="#{msg.idioma_en_US}" />
+								</p:commandLink>
+							</p:panelGrid>
+						</h:form>
+			        </f:facet>
 				</p:menubar>
 			</h:form>
 			<ui:insert name="conteudo" />
