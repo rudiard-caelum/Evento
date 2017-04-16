@@ -34,12 +34,12 @@ public class Evento implements Cloneable, Serializable {
 	private Long id;
 
 	@NotEmpty(message = "Nome do evento é obrigatório.")
-	@Size(min = 5, max = 100, message = "Tamanho inválido para o campo (5 até 100).")
+	@Size(min = 5, max = 100, message = "Tamanho inválido para o campo Nome (5 até 100).")
 	@Column(length = 100, nullable = false)
 	private String nome;
 
 	@NotEmpty(message = "Descrição do evento é obrigatório.")
-	@Size(min = 5, max = 200, message = "Tamanho inválido para o campo (5 até 200).")
+	@Size(min = 5, max = 200, message = "Tamanho inválido para o campo Descrição (5 até 200).")
 	@Column(length = 200, nullable = false)
 	private String descricao;
 
@@ -52,7 +52,7 @@ public class Evento implements Cloneable, Serializable {
 	private Usuario usuario;
 
 	@NotEmpty(message = "Local do evento é obrigatório.")
-	@Size(min = 5, max = 200, message = "Tamanho inválido para o campo (5 até 200).")
+	@Size(min = 5, max = 200, message = "Tamanho inválido para o campo Local (5 até 200).")
 	@Column(length = 200, nullable = false)
 	private String local;
 
