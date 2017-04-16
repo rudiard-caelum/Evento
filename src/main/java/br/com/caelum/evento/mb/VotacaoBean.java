@@ -15,11 +15,12 @@ import br.com.caelum.evento.dao.VotacaoDAO;
 import br.com.caelum.evento.domain.Palestra;
 import br.com.caelum.evento.domain.Votacao;
 import br.com.caelum.evento.tx.Transactional;
+import br.com.caelum.evento.util.JSFUtil;
 
 @ViewModel
 public class VotacaoBean implements Serializable {
 
-	private static final long serialVersionUID = -3134717978158320340L;
+	private static final long serialVersionUID = 8939900226516220355L;
 
 	@Inject
 	private UsuarioLogadoBean usuarioLogado;
@@ -82,11 +83,11 @@ public class VotacaoBean implements Serializable {
 	@Transactional
 	public void salvar() {
 		if (this.votacao.getPalestra_id() == null) {
-			Messages.addFlashGlobalError("Nenhuma palestra foi selecionada para avaliação.");
+			Messages.addFlashGlobalError(JSFUtil.getMensagem("votacaoPalestraNaoSelecionada"));
 			return;
 		}
 		if (this.votacao.getTipoVoto() == null) {
-			Messages.addFlashGlobalError("Avaliação não selecionada.");
+			Messages.addFlashGlobalError(JSFUtil.getMensagem("votacaoAvalicaoNaoSelecionada"));
 			return;
 		}
 		try {
@@ -99,11 +100,11 @@ public class VotacaoBean implements Serializable {
 			this.palestrasNaoAvaliadas = this.votacaoDAO.listaAvaliacao(this.usuarioLogado.getUsuario(),
 					"NaoRealizada");
 			this.palestrasAvaliadas = this.votacaoDAO.listaAvaliacao(this.usuarioLogado.getUsuario(), "Realizada");
-			Messages.addGlobalInfo("Avaliação realizada com sucesso. Obrigado!");
+			Messages.addGlobalInfo(JSFUtil.getMensagem("votacaoConfAvalicao"));
 		} catch (PersistenceException | ConstraintViolationException ce) {
-			Messages.addFlashGlobalError("Avaliação já realizada.");
+			Messages.addFlashGlobalError(JSFUtil.getMensagem("votacaoAvaliacaoJaRealizada"));
 		} catch (Exception e) {
-			Messages.addFlashGlobalError("Ocorreu um erro ao salvar o registro.");
+			Messages.addFlashGlobalError(JSFUtil.getMensagem("operacaoErroSalvar"));
 			e.printStackTrace();
 		}
 	}
@@ -117,16 +118,16 @@ public class VotacaoBean implements Serializable {
 			this.palestrasNaoAvaliadas = this.votacaoDAO.listaAvaliacao(this.usuarioLogado.getUsuario(),
 					"NaoRealizada");
 			this.palestrasAvaliadas = this.votacaoDAO.listaAvaliacao(this.usuarioLogado.getUsuario(), "Realizada");
-			Messages.addGlobalInfo("Avaliação excluída com sucesso.");
+			Messages.addGlobalInfo(JSFUtil.getMensagem("votacaoExcluido"));
 		} catch (Exception ex) {
-			Messages.addFlashGlobalError("Ocorreu um erro ao excluir o registro.");
+			Messages.addFlashGlobalError(JSFUtil.getMensagem("operacaoErroExcluir"));
 			ex.printStackTrace();
 		}
 	}
 
 	public void cancelar() {
 		this.limpaJSF();
-		Messages.addGlobalInfo("Operação cancelada.");
+		Messages.addGlobalInfo(JSFUtil.getMensagem("operacaoCancelada"));
 	}
 
 	private void limpaJSF() {
