@@ -13,6 +13,7 @@ import br.com.caelum.evento.annotation.ViewModel;
 import br.com.caelum.evento.dao.UsuarioDAO;
 import br.com.caelum.evento.domain.Usuario;
 import br.com.caelum.evento.tx.Transactional;
+import br.com.caelum.evento.util.JSFUtil;
 
 @ViewModel
 public class UsuarioBean implements Serializable {
@@ -57,12 +58,12 @@ public class UsuarioBean implements Serializable {
 	public void salvar() {
 		if (!this.usuario.getSenha().isEmpty()) {
 			if (this.usuario.confirmaSenha(this.getConfirmaSenha()) != false) {
-				Messages.addGlobalError("Senhas não coincidem.");
+				Messages.addGlobalError(JSFUtil.getMensagem("usuarioSenhaNaoCoincidem"));
 				return;
 			}
 		}
 		if (!this.usuario.getSenha().equals(this.getConfirmaSenha())) {
-			Messages.addGlobalError("Senhas não coincidem.");
+			Messages.addGlobalError(JSFUtil.getMensagem("usuarioSenhaNaoCoincidem"));
 			return;
 		}
 		try {
@@ -78,11 +79,11 @@ public class UsuarioBean implements Serializable {
 			}
 			this.limpaJSF();
 			this.usuarios = this.usuarioDAO.lista();
-			Messages.addGlobalInfo("Usuário salvo com sucesso.");
+			Messages.addGlobalInfo(JSFUtil.getMensagem("usuarioConfSalvar"));
 		} catch (PersistenceException | ConstraintViolationException ce) {
-			Messages.addFlashGlobalError("Registro já existe.");
+			Messages.addFlashGlobalError(JSFUtil.getMensagem("registroJaExiste"));
 		} catch (Exception e) {
-			Messages.addFlashGlobalError("Ocorreu um erro ao salvar o registro.");
+			Messages.addFlashGlobalError(JSFUtil.getMensagem("operacaoErroSalvar"));
 			e.printStackTrace();
 		}
 	}
@@ -92,16 +93,16 @@ public class UsuarioBean implements Serializable {
 		try {
 			this.usuarioDAO.remove(usuario);
 			this.usuarios = this.usuarioDAO.lista();
-			Messages.addGlobalInfo("Usuário excluído com sucesso.");
+			Messages.addGlobalInfo(JSFUtil.getMensagem("usuarioExcluido"));
 		} catch (Exception ex) {
-			Messages.addFlashGlobalError("Ocorreu um erro ao excluir o registro.");
+			Messages.addFlashGlobalError(JSFUtil.getMensagem("operacaoErroExcluir"));
 			ex.printStackTrace();
 		}
 	}
 
 	public void cancelar() {
 		this.limpaJSF();
-		Messages.addGlobalInfo("Operação cancelada.");
+		Messages.addGlobalInfo(JSFUtil.getMensagem("operacaoCancelada"));
 	}
 
 	private void limpaJSF() {
