@@ -46,7 +46,7 @@ public class Comentario implements Cloneable, Serializable {
 	private Palestra palestra;
 
 	@NotEmpty(message = "Comentário da Palestra é obrigatório.")
-	@Size(min = 5, max = 255, message = "Tamanho inválido para o campo (5 até 255).")
+	@Size(min = 5, max = 255, message = "Tamanho inválido para o campo Comentário (5 até 255).")
 	@Column(length = 255, nullable = false)
 	private String comentario;
 
