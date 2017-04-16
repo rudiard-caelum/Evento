@@ -8,6 +8,19 @@
 		<phase-listener>br.com.caelum.evento.listener.AutorizadorListener</phase-listener>
 	</lifecycle>
 	
+	<application>
+		<locale-config>
+			<default-locale>pt_BR</default-locale>
+			<supported-locale>en_US</supported-locale>
+			<supported-locale>es_ES</supported-locale>
+			<supported-locale>pt_BR</supported-locale>
+		</locale-config>
+		<resource-bundle>
+			<base-name>br.com.caelum.evento.mensagens.mensagens</base-name>
+			<var>msg</var>
+		</resource-bundle>
+	</application>
+
 	<converter>
 		<converter-id>LocalDateConverter</converter-id>
 		<converter-class>br.com.caelum.evento.converter.LocalDateConverter</converter-class>
