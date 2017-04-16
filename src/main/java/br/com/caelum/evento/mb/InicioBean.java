@@ -22,11 +22,12 @@ import br.com.caelum.evento.domain.Usuario;
 import br.com.caelum.evento.domain.Votacao;
 import br.com.caelum.evento.domain.VotacaoEnum;
 import br.com.caelum.evento.tx.Transactional;
+import br.com.caelum.evento.util.JSFUtil;
 
 @Model
 public class InicioBean implements Serializable {
 
-	private static final long serialVersionUID = 1700403527847049967L;
+	private static final long serialVersionUID = -7646032980893496982L;
 
 	@Inject
 	private EntityManager manager;
@@ -59,7 +60,7 @@ public class InicioBean implements Serializable {
 	@Transactional
 	public void criarUsuarioAdmin() {
 		if (this.usuario.getSenha().isEmpty() || this.usuario.getSenha() == null) {
-			Messages.addGlobalError("Senha inválida.");
+			Messages.addGlobalError(JSFUtil.getMensagem("senhaIvalida"));
 			return;
 		}
 		this.usuario.setNome("ADMIN");
@@ -67,15 +68,15 @@ public class InicioBean implements Serializable {
 		Usuario usuarioAdmin = (Usuario) usuarioDAO.buscaString(this.usuario.getNome(), "nome");
 		if (usuarioAdmin == null) {
 			usuarioDAO.adiciona(this.usuario);
-			Messages.addGlobalInfo("Usuário ADMIN criado com sucesso.");
+			Messages.addGlobalInfo(JSFUtil.getMensagem("usuarioAdminCriado"));
 		} else {
-			Messages.addGlobalError("Usuário ADMIN não foi criado pois já existe no banco de dados.");
+			Messages.addGlobalError(JSFUtil.getMensagem("usuarioAdminErroCriar"));
 		}
 	}
 
 	public void excluirDados() {
 		this.excluiDadosBanco();
-		Messages.addGlobalInfo("Dados excluídos do banco com sucesso.");
+		Messages.addGlobalInfo(JSFUtil.getMensagem("DBConfExclusao"));
 	}
 
 	public void preencheBanco() {
@@ -92,7 +93,7 @@ public class InicioBean implements Serializable {
 			this.manager.getTransaction().commit();
 		} catch (Exception e) {
 			this.manager.getTransaction().rollback();
-			Messages.addGlobalError("Erro na criação de usuários.");
+			Messages.addGlobalError(JSFUtil.getMensagem("usuarioErroCriacao"));
 			e.printStackTrace();
 			this.excluiDadosBanco();
 			return;
@@ -118,7 +119,7 @@ public class InicioBean implements Serializable {
 			this.manager.getTransaction().commit();
 		} catch (Exception e) {
 			this.manager.getTransaction().rollback();
-			Messages.addGlobalError("Erro na criação de eventos.");
+			Messages.addGlobalError(JSFUtil.getMensagem("eventoErroCriacao"));
 			e.printStackTrace();
 			this.excluiDadosBanco();
 			return;
@@ -151,7 +152,7 @@ public class InicioBean implements Serializable {
 			}
 			this.manager.getTransaction().commit();
 		} catch (Exception e) {
-			Messages.addGlobalError("Erro na criação de palestras.");
+			Messages.addGlobalError(JSFUtil.getMensagem("palestraErroCriacao"));
 			this.manager.getTransaction().rollback();
 			e.printStackTrace();
 			this.excluiDadosBanco();
@@ -175,7 +176,7 @@ public class InicioBean implements Serializable {
 		if (!this.criaVotacao("EVENTO TESTE 1", "PALESTRA TESTE 3", 71, 110, VotacaoEnum.NEGATIVO)) {
 			return;
 		}
-		Messages.addGlobalInfo("Banco preenchido com sucesso.");
+		Messages.addGlobalInfo(JSFUtil.getMensagem("DBConfPreenchimento"));
 	}
 
 	private void excluiDadosBanco() {
@@ -189,7 +190,7 @@ public class InicioBean implements Serializable {
 			query.executeUpdate();
 			this.manager.getTransaction().commit();
 		} catch (Exception e) {
-			Messages.addGlobalError("Erro na exclusão de dados.");
+			Messages.addGlobalError(JSFUtil.getMensagem("operacaoErroExcluir"));
 			this.manager.getTransaction().rollback();
 			e.printStackTrace();
 		}
@@ -216,8 +217,8 @@ public class InicioBean implements Serializable {
 			this.manager.getTransaction().commit();
 			return true;
 		} catch (Exception e) {
-			Messages.addGlobalError("Erro na criação da votação para o evento: " + evento.getNome() + ", palestra: "
-					+ palestra.getTitulo() + ", votacao: " + tipoVoto.toString());
+			Messages.addGlobalError(JSFUtil.getMensagem("votacaoErroCriacao", evento.getNome(), palestra.getTitulo(),
+					tipoVoto.toString()));
 			this.manager.getTransaction().rollback();
 			e.printStackTrace();
 			this.excluiDadosBanco();
