@@ -11,23 +11,23 @@
 
 		<ui:define name="conteudo">
 
-			<h2>Ranking de Palestras</h2>
+			<h2>#{msg.palestraRankingTitulo}</h2>
 
 			<h:form id="formListaRanking">
-				<p:dataTable value="#{palestraRankingBean.palestrasRanking}" var="ranking" emptyMessage="Nenhum registro encontrado." paginator="true" rows="10" editable="true">
-					<p:column headerText="Data" style="width: 8%;">
+				<p:dataTable value="#{palestraRankingBean.palestrasRanking}" var="ranking" emptyMessage="#{msg.dataTableVazia}" paginator="true" rows="10" editable="true">
+					<p:column headerText="#{msg.palestraData}" style="width: 8%;">
 						<h:outputText value="#{ranking.palestra.evento.data}" converter="LocalDateConverter" />
 					</p:column>
-					<p:column headerText="Evento" style="width: 35%;">
+					<p:column headerText="#{msg.eventoNome}" style="width: 35%;">
 						<h:outputText value="#{ranking.palestra.evento.nome}" />
 					</p:column>
-					<p:column headerText="Palestra" style="width: 40%;">
+					<p:column headerText="#{msg.palestraTitulo}" style="width: 40%;">
 						<h:outputText value="#{ranking.palestra.titulo}" />
 					</p:column>
-					<p:column headerText="Aceitação" style="width: 10%;">
+					<p:column headerText="#{msg.palestraAceitacaoTitulo}" style="width: 10%;">
 						<h:outputText value="#{ranking.avaliacao}" />
 					</p:column>
-					<p:column headerText="Votos Positivos" style="width: 7%;">
+					<p:column headerText="#{msg.palestraVotosPos}" style="width: 7%;">
 						<h:outputText value="#{ranking.qtdeVotosPositivos}" />
 					</p:column>
 				</p:dataTable>
