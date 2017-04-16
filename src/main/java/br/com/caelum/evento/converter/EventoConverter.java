@@ -9,6 +9,7 @@ import javax.inject.Inject;
 
 import br.com.caelum.evento.dao.EventoDAO;
 import br.com.caelum.evento.domain.Evento;
+import br.com.caelum.evento.util.JSFUtil;
 
 @FacesConverter(forClass = Evento.class)
 public class EventoConverter implements Converter {
@@ -23,7 +24,7 @@ public class EventoConverter implements Converter {
 				Long id = Long.parseLong(value);
 				return eventoDAO.buscaId(id);
 			} catch (Exception e) {
-				throw new ConverterException("Não foi possível encontrar o Evento: " + value);
+				throw new ConverterException(JSFUtil.getMensagem("erroEventoConverter", value));
 			}
 		}
 		return null;
