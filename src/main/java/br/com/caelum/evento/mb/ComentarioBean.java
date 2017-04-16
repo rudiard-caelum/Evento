@@ -16,6 +16,7 @@ import br.com.caelum.evento.dao.PalestraDAO;
 import br.com.caelum.evento.domain.Comentario;
 import br.com.caelum.evento.domain.Palestra;
 import br.com.caelum.evento.tx.Transactional;
+import br.com.caelum.evento.util.JSFUtil;
 
 @ViewModel
 public class ComentarioBean implements Serializable {
@@ -85,7 +86,7 @@ public class ComentarioBean implements Serializable {
 	@Transactional
 	public void salvar() {
 		if (this.comentario.getPalestra().getId() == null) {
-			Messages.addFlashGlobalError("Nenhuma palestra foi selecionada para efetuar comentários.");
+			Messages.addFlashGlobalError(JSFUtil.getMensagem("comentarioPalestraNaoSelecionada"));
 			return;
 		}
 		try {
@@ -100,11 +101,11 @@ public class ComentarioBean implements Serializable {
 					"NaoRealizado");
 			this.palestrasComentadas = this.comentarioDAO.listaComentarioUsuario(this.usuarioLogado.getUsuario(),
 					"Realizado");
-			Messages.addGlobalInfo("Comentários realizados com sucesso. Obrigado!");
+			Messages.addGlobalInfo(JSFUtil.getMensagem("comentarioConfSalvar"));
 		} catch (PersistenceException | ConstraintViolationException ce) {
 			Messages.addFlashGlobalError("Comentário já realizado.");
 		} catch (Exception e) {
-			Messages.addFlashGlobalError("Ocorreu um erro ao salvar o registro.");
+			Messages.addFlashGlobalError(JSFUtil.getMensagem("operacaoErroSalvar"));
 			e.printStackTrace();
 		}
 	}
@@ -119,16 +120,16 @@ public class ComentarioBean implements Serializable {
 					"NaoRealizado");
 			this.palestrasComentadas = this.comentarioDAO.listaComentarioUsuario(this.usuarioLogado.getUsuario(),
 					"Realizado");
-			Messages.addGlobalInfo("Comentário excluído com sucesso.");
+			Messages.addGlobalInfo(JSFUtil.getMensagem("comentarioExcluido"));
 		} catch (Exception ex) {
-			Messages.addFlashGlobalError("Ocorreu um erro ao excluir o registro.");
+			Messages.addFlashGlobalError(JSFUtil.getMensagem("operacaoErroExcluir"));
 			ex.printStackTrace();
 		}
 	}
 
 	public void cancelar() {
 		this.limpaJSF();
-		Messages.addGlobalInfo("Operação cancelada.");
+		Messages.addGlobalInfo(JSFUtil.getMensagem("operacaoCancelada"));
 	}
 
 	private void limpaJSF() {
