@@ -13,11 +13,12 @@ import br.com.caelum.evento.annotation.ViewModel;
 import br.com.caelum.evento.dao.EventoDAO;
 import br.com.caelum.evento.domain.Evento;
 import br.com.caelum.evento.tx.Transactional;
+import br.com.caelum.evento.util.JSFUtil;
 
 @ViewModel
 public class EventoBean implements Serializable {
 
-	private static final long serialVersionUID = 8468582643923639838L;
+	private static final long serialVersionUID = -4000163531787453239L;
 
 	@Inject
 	private UsuarioLogadoBean usuarioLogado;
@@ -64,11 +65,11 @@ public class EventoBean implements Serializable {
 			}
 			this.limpaJSF();
 			this.eventos = this.eventoDAO.lista();
-			Messages.addGlobalInfo("Evento salvo com sucesso.");
+			Messages.addGlobalInfo(JSFUtil.getMensagem("eventoConfSalvar"));
 		} catch (PersistenceException | ConstraintViolationException ce) {
-			Messages.addFlashGlobalError("Registro já existe.");
+			Messages.addFlashGlobalError(JSFUtil.getMensagem("registroJaExiste"));
 		} catch (Exception e) {
-			Messages.addFlashGlobalError("Ocorreu um erro ao salvar o registro.");
+			Messages.addFlashGlobalError(JSFUtil.getMensagem("operacaoErroSalvar"));
 			e.printStackTrace();
 		}
 	}
@@ -78,16 +79,16 @@ public class EventoBean implements Serializable {
 		try {
 			this.eventoDAO.remove(evento);
 			this.eventos = this.eventoDAO.lista();
-			Messages.addGlobalInfo("Evento excluído com sucesso.");
+			Messages.addGlobalInfo(JSFUtil.getMensagem("eventoExcluido"));
 		} catch (Exception ex) {
-			Messages.addFlashGlobalError("Ocorreu um erro ao excluir o registro.");
+			Messages.addFlashGlobalError(JSFUtil.getMensagem("operacaoErroExcluir"));
 			ex.printStackTrace();
 		}
 	}
 
 	public void cancelar() {
 		this.limpaJSF();
-		Messages.addGlobalInfo("Operação cancelada.");
+		Messages.addGlobalInfo(JSFUtil.getMensagem("operacaoCancelada"));
 	}
 
 	private void limpaJSF() {
