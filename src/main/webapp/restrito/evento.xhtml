@@ -50,7 +50,7 @@
 			<p:separator />
 
 			<h:form id="formListaEvento">
-				<p:dataTable value="#{eventoBean.eventos}" var="evento" emptyMessage="#{msg.dataTableVazia}" paginator="true" rows="5">
+				<p:dataTable value="#{eventoBean.dataModel}" var="evento" emptyMessage="#{msg.dataTableVazia}" paginator="true" rows="5" lazy="true">
 					<p:column headerText="#{msg.eventoData}" style="width: 10%;" sortBy="#{evento.data}" filterBy="#{evento.data}" filterMatchMode="contains">
 						<h:outputText value="#{evento.data}" converter="LocalDateConverter" />
 					</p:column>
