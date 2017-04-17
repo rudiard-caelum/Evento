@@ -14,7 +14,7 @@
 			<h2>#{msg.viewEventoTitulo}</h2>
 
 			<h:form id="formListaEvento">
-				<p:dataTable value="#{eventoPalestraBean.eventos}" var="evento" emptyMessage="#{msg.dataTableVazia}" paginator="true" rows="5">
+				<p:dataTable value="#{eventoPalestraBean.dataModel}" var="evento" emptyMessage="#{msg.dataTableVazia}" paginator="true" rows="5" lazy="true">
 					<p:column headerText="#{msg.viewEventoData}" style="width: 10%;" sortBy="#{evento.data}" filterBy="#{evento.data}" filterMatchMode="contains">
 						<h:outputText value="#{evento.data}" converter="LocalDateConverter" />
 					</p:column>
