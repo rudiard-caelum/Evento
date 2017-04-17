@@ -43,7 +43,7 @@
 			<p:separator />
 
 			<h:form id="formListaUsuario">
-				<p:dataTable value="#{usuarioBean.usuarios}" var="usuario" emptyMessage="Nenhum registro encontrado." paginator="true" rows="5">
+				<p:dataTable value="#{usuarioBean.dataModel}" var="usuario" emptyMessage="Nenhum registro encontrado." paginator="true" rows="5" lazy="true">
 					<p:column headerText="#{msg.usuarioUsuario}" style="width: 40%;" sortBy="#{usuario.nome}" filterBy="#{usuario.nome}">
 						<h:outputText value="#{usuario.nome}" /> 
 					</p:column>
