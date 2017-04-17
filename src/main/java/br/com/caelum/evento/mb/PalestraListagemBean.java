@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import br.com.caelum.evento.annotation.ViewModel;
 import br.com.caelum.evento.dao.ComentarioDAO;
 import br.com.caelum.evento.dao.PalestraDAO;
+import br.com.caelum.evento.dataModel.DataModelPalestra;
 import br.com.caelum.evento.domain.Comentario;
 import br.com.caelum.evento.domain.Palestra;
 import br.com.caelum.evento.domain.VotacaoEnum;
@@ -17,13 +18,16 @@ import br.com.caelum.evento.domain.VotacaoEnum;
 @ViewModel
 public class PalestraListagemBean implements Serializable {
 
-	private static final long serialVersionUID = 294706888675051189L;
+	private static final long serialVersionUID = -4645175118490386728L;
 
 	@Inject
 	private PalestraDAO palestraDAO;
 
 	@Inject
 	private ComentarioDAO comentarioDAO;
+
+	@Inject
+	private DataModelPalestra dataModel;
 
 	private List<Palestra> palestras;
 
@@ -38,6 +42,10 @@ public class PalestraListagemBean implements Serializable {
 
 	public List<Comentario> getComentarios() {
 		return this.comentarios;
+	}
+
+	public DataModelPalestra getDataModel() {
+		return dataModel;
 	}
 
 	public void showComentarios(ActionEvent evento) {
