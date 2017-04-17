@@ -14,6 +14,7 @@ import org.omnifaces.util.Messages;
 import br.com.caelum.evento.annotation.ViewModel;
 import br.com.caelum.evento.dao.EventoDAO;
 import br.com.caelum.evento.dao.PalestraDAO;
+import br.com.caelum.evento.dataModel.DataModelPalestra;
 import br.com.caelum.evento.domain.Evento;
 import br.com.caelum.evento.domain.Palestra;
 import br.com.caelum.evento.tx.Transactional;
@@ -36,6 +37,9 @@ public class PalestraBean implements Serializable {
 	@Inject
 	private PalestraDAO palestraDAO;
 
+	@Inject
+	DataModelPalestra dataModel;
+
 	private Palestra palestra = new Palestra();
 	private List<Palestra> palestras;
 
@@ -52,6 +56,10 @@ public class PalestraBean implements Serializable {
 			this.palestras = this.palestraDAO.lista();
 		}
 		return this.palestras;
+	}
+
+	public DataModelPalestra getDataModel() {
+		return dataModel;
 	}
 
 	public void novo() {
