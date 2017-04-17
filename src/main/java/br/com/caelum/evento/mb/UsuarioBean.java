@@ -11,6 +11,7 @@ import org.omnifaces.util.Messages;
 
 import br.com.caelum.evento.annotation.ViewModel;
 import br.com.caelum.evento.dao.UsuarioDAO;
+import br.com.caelum.evento.dataModel.DataModelUsuario;
 import br.com.caelum.evento.domain.Usuario;
 import br.com.caelum.evento.tx.Transactional;
 import br.com.caelum.evento.util.JSFUtil;
@@ -18,10 +19,13 @@ import br.com.caelum.evento.util.JSFUtil;
 @ViewModel
 public class UsuarioBean implements Serializable {
 
-	private static final long serialVersionUID = -3993830543068917032L;
+	private static final long serialVersionUID = -2273796213350860510L;
 
 	@Inject
 	private UsuarioDAO usuarioDAO;
+
+	@Inject
+	private DataModelUsuario dataModel;
 
 	private Usuario usuario = new Usuario();
 	private List<Usuario> usuarios;
@@ -33,6 +37,10 @@ public class UsuarioBean implements Serializable {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public DataModelUsuario getDataModel() {
+		return dataModel;
 	}
 
 	public List<Usuario> getUsuarios() {
