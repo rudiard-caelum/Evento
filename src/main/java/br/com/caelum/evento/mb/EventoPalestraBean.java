@@ -10,13 +10,14 @@ import javax.inject.Inject;
 import br.com.caelum.evento.annotation.ViewModel;
 import br.com.caelum.evento.dao.EventoDAO;
 import br.com.caelum.evento.dao.PalestraRankingDAO;
+import br.com.caelum.evento.dataModel.DataModelEvento;
 import br.com.caelum.evento.domain.Evento;
 import br.com.caelum.evento.domain.PalestraRanking;
 
 @ViewModel
 public class EventoPalestraBean implements Serializable {
 
-	private static final long serialVersionUID = 6777779726502138485L;
+	private static final long serialVersionUID = -5216682236549284763L;
 
 	@Inject
 	private FacesContext facesContext;
@@ -26,6 +27,9 @@ public class EventoPalestraBean implements Serializable {
 
 	@Inject
 	private PalestraRankingDAO palestraRankingDAO;
+
+	@Inject
+	private DataModelEvento dataModel;
 
 	private Evento evento = new Evento();
 
@@ -45,6 +49,10 @@ public class EventoPalestraBean implements Serializable {
 
 	public List<PalestraRanking> getPalestrasRanking() {
 		return this.palestrasRanking;
+	}
+
+	public DataModelEvento getDataModel() {
+		return dataModel;
 	}
 
 	public void showPalestrasRanking(ActionEvent eventoSelecionado) {
