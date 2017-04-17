@@ -45,7 +45,7 @@
 			<p:separator />
 
 			<h:form id="formListaPalestra">
-				<p:dataTable value="#{palestraBean.palestras}" var="palestra" emptyMessage="#{msg.dataTableVazia}" paginator="true" rows="5">
+				<p:dataTable value="#{palestraBean.dataModel}" var="palestra" emptyMessage="#{msg.dataTableVazia}" paginator="true" rows="5" lazy="true">
 					<p:column headerText="#{msg.palestraData}" style="width: 8%;" sortBy="#{palestra.evento.data}" filterBy="#{palestra.evento.data}" filterMatchMode="contains">
 						<h:outputText value="#{palestra.evento.data}" converter="LocalDateConverter" />
 					</p:column>
