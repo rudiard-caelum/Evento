@@ -11,6 +11,7 @@ import org.omnifaces.util.Messages;
 
 import br.com.caelum.evento.annotation.ViewModel;
 import br.com.caelum.evento.dao.EventoDAO;
+import br.com.caelum.evento.dataModel.DataModelEvento;
 import br.com.caelum.evento.domain.Evento;
 import br.com.caelum.evento.tx.Transactional;
 import br.com.caelum.evento.util.JSFUtil;
@@ -18,13 +19,16 @@ import br.com.caelum.evento.util.JSFUtil;
 @ViewModel
 public class EventoBean implements Serializable {
 
-	private static final long serialVersionUID = -4000163531787453239L;
+	private static final long serialVersionUID = 2930413650383933489L;
 
 	@Inject
 	private UsuarioLogadoBean usuarioLogado;
 
 	@Inject
 	private EventoDAO eventoDAO;
+
+	@Inject
+	private DataModelEvento dataModel;
 
 	private Evento evento = new Evento();
 	private List<Evento> eventos;
@@ -42,6 +46,10 @@ public class EventoBean implements Serializable {
 			this.eventos = this.eventoDAO.lista();
 		}
 		return this.eventos;
+	}
+
+	public DataModelEvento getDataModel() {
+		return dataModel;
 	}
 
 	public List<Evento> busca(String texto) {
