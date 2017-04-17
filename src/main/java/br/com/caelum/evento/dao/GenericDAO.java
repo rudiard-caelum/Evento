@@ -77,4 +77,18 @@ public abstract class GenericDAO<T> {
 		}
 	}
 
+	public int contaRegistros() {
+		long resultado = (Long) this.manager.createQuery("select count(x) from " + this.clazz.getName() + " x")
+				.getSingleResult();
+		return (int) resultado;
+	}
+
+	public List<T> listaPaginada(int firstResult, int maxResults) {
+		CriteriaQuery<T> query = this.manager.getCriteriaBuilder().createQuery(this.clazz);
+		query.select(query.from(this.clazz));
+		List<T> lista = manager.createQuery(query).setFirstResult(firstResult).setMaxResults(maxResults)
+				.getResultList();
+		return lista;
+	}
+
 }
